@@ -1,0 +1,28 @@
+{
+  "rituals": [
+    {
+      "id": "daily-standup",
+      "name": "Daily Standup",
+      "description": "Review active tasks, blocked items, and what needs human input",
+      "agent": "taskmaster",
+      "outputs": ["outputs/rituals/standup-{date}.md"],
+      "last_run": null
+    },
+    {
+      "id": "weekly-review",
+      "name": "Weekly Review",
+      "description": "What shipped, what's stuck, patterns observed, next week priorities",
+      "agent": "taskmaster",
+      "outputs": ["outputs/rituals/weekly-{date}.md"],
+      "last_run": null
+    },
+    {
+      "id": "project-health",
+      "name": "Project Health Check",
+      "description": "Status of all active projects, stale tasks, blocked items",
+      "agent": "taskmaster",
+      "outputs": ["outputs/rituals/health-{date}.md"],
+      "last_run": null
+    }
+  ]
+}

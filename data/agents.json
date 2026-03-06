@@ -1,0 +1,77 @@
+{
+  "agents": [
+    {
+      "id": "taskmaster",
+      "name": "Taskmaster",
+      "description": "Orchestrates all task flow. Creates tasks, reviews completed work, decides what's next, routes to appropriate agents.",
+      "can_create_tasks": true,
+      "can_route_to_human": true,
+      "verification_required": {
+        "type": "none"
+      },
+      "learning_enabled": false,
+      "status": "active"
+    },
+    {
+      "id": "ingestion",
+      "name": "Ingestion Agent",
+      "description": "Processes brain dumps. Categorizes input, extracts key info, creates initial task structure for Taskmaster.",
+      "can_create_tasks": false,
+      "can_route_to_human": false,
+      "verification_required": {
+        "type": "none"
+      },
+      "learning_enabled": false,
+      "status": "active"
+    },
+    {
+      "id": "planner",
+      "name": "Planner",
+      "description": "Chats with human about project vision. Creates project scaffolding, CLAUDE.md, initial structure.",
+      "can_create_tasks": false,
+      "can_route_to_human": true,
+      "verification_required": {
+        "type": "file_exists"
+      },
+      "learning_enabled": false,
+      "status": "active"
+    },
+    {
+      "id": "researcher",
+      "name": "Researcher",
+      "description": "Investigates topics in parallel. Market research, UI inspiration, architecture options, competitive analysis.",
+      "can_create_tasks": false,
+      "can_route_to_human": false,
+      "verification_required": {
+        "type": "file_exists"
+      },
+      "learning_enabled": false,
+      "status": "active"
+    },
+    {
+      "id": "coder",
+      "name": "Coder",
+      "description": "Writes code, runs tests, verifies implementation. Must pass tests before task is complete.",
+      "can_create_tasks": false,
+      "can_route_to_human": false,
+      "verification_required": {
+        "type": "test_pass",
+        "default_command": "pnpm test"
+      },
+      "learning_enabled": false,
+      "status": "active"
+    },
+    {
+      "id": "ai-matt",
+      "name": "AI-Matt",
+      "description": "Simulates human (Matt) decisions. Trained on decision history from activity log. Use for autonomous project execution.",
+      "can_create_tasks": false,
+      "can_route_to_human": false,
+      "verification_required": {
+        "type": "none"
+      },
+      "learning_enabled": true,
+      "status": "inactive"
+    }
+  ]
+}
