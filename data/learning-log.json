@@ -83,8 +83,7 @@
         "moderate": 2
       }
     }
-  }
-],
+  },
   {
     "session_id": "tui_feature_parity_2026-03-07",
     "timestamp": "2026-03-07T12:00:00Z",
@@ -116,6 +115,44 @@
       "category_counts": {
         "premature_completion_claim": 1,
         "semantic_confusion": 1
+      },
+      "severity_counts": {
+        "significant": 1,
+        "moderate": 1
+      }
+    }
+  },
+  {
+    "session_id": "notifai_orchestration_2026-03-07",
+    "timestamp": "2026-03-07T14:30:00Z",
+    "issues": [
+      {
+        "task_id": "sprint_notifai_carousel",
+        "stage": "orchestration",
+        "severity": "significant",
+        "category": "workflow_gap",
+        "description": "Tasks created programmatically (via jq/JSON manipulation) cannot be orchestrated because they lack context bundles. The `gc orc` command requires a context bundle built by `gc create`. When attempting to run `gc orc 12`, sanity check failed with 'task has no context bundle'.",
+        "impact": "Unable to orchestrate external project (NotifAI) tasks that were created from a designer's task document. The workflow assumed tasks could be created from external specs and immediately orchestrated, but the pipeline has a hidden dependency on context bundle files.",
+        "suggestion": "Either: 1) Add a `gc prepare` or `gc bundle` command to build context bundles for existing tasks, 2) Make context bundles optional in sanity check with a --skip-sanity flag, 3) Allow the pipeline to build context bundles as its first step, or 4) Document that all tasks MUST be created via `gc create` to be orchestrable."
+      },
+      {
+        "task_id": "sprint_notifai_carousel",
+        "stage": "orchestration",
+        "severity": "moderate",
+        "category": "documentation_gap",
+        "description": "The workflow for using Ground Control on external projects is not documented. Questions unanswered: How do you import tasks from another project's task document? How do you set up context bundles for a different codebase? How does the coder stage know which project to work in?",
+        "impact": "Blocked from testing Ground Control's ability to orchestrate work on external projects (a key use case). The system appears designed only for tasks within the ground-control repository itself.",
+        "suggestion": "Document the full workflow for: 1) Creating tasks from external specs, 2) Building context bundles for external projects, 3) Configuring pipeline stages to work in different directories. Consider adding a --project flag to commands."
+      }
+    ],
+    "summary": {
+      "total_tasks": 1,
+      "completed_tasks": 0,
+      "failed_tasks": 0,
+      "escalated_tasks": 1,
+      "category_counts": {
+        "workflow_gap": 1,
+        "documentation_gap": 1
       },
       "severity_counts": {
         "significant": 1,
