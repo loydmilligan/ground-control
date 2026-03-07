@@ -1,0 +1,53 @@
+name: feature_ideas
+description: Capture feature brainstorming session
+document: |
+  # Feature Ideas: {{topic}}
+
+  ## Problem Statement
+  {{problem_statement}}
+
+  ## Target Users
+  {{target_users}}
+
+  ## Ideas
+  {{ideas}}
+
+  ## Constraints
+  {{constraints}}
+
+  ## Next Steps
+  {{next_steps}}
+
+variables:
+  - name: topic
+    type: string
+    description: What area are we brainstorming?
+    required: true
+  - name: problem_statement
+    type: string
+    description: What problem are we solving?
+    required: true
+  - name: target_users
+    type: string
+    description: Who benefits from these features?
+    required: true
+  - name: ideas
+    type: string
+    description: List of ideas (markdown list)
+    required: true
+  - name: constraints
+    type: string
+    description: Limitations or requirements
+    required: false
+  - name: next_steps
+    type: string
+    description: Action items
+    required: false
+
+guidance:
+  topic: "What area or feature set are we exploring?"
+  problem_statement: "What's the gap or pain point we're addressing?"
+  target_users: "Who will use these features? What's their workflow?"
+  ideas: "Let's generate ideas freely. What could we build?"
+  constraints: "Any technical, time, or resource constraints?"
+  next_steps: "Which ideas should become tasks?"

@@ -1,0 +1,13 @@
+name: create_app
+description: End-to-end pipeline from idea to app scaffold
+stages:
+  - name: artifact_generation
+    template: project_plan
+  - name: artifact_generation
+    template: tasks
+    requires: [project_plan]
+  - name: sanity
+  - name: coder
+    loops_with: [reviewer]
+  - name: reviewer
+  - name: commit

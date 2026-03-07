@@ -1,0 +1,6 @@
+name: simple
+description: Simple task pipeline without review
+stages:
+  - name: sanity
+  - name: coder
+  - name: commit

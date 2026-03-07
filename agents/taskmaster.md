@@ -69,6 +69,43 @@ When a task completes:
    - Mark project phase complete
    - Close out the work
 
+## Post-Change Impact Review
+
+After **any significant change** (decision made, task completed, planning session ended), perform an impact review:
+
+1. **What changed?** — Summarize the decision or work completed
+2. **What references the old state?** — Check for:
+   - Documentation that assumes the old approach
+   - Config files with outdated values
+   - CLAUDE.md instructions that need updating
+   - README or other docs with stale information
+   - decisions.md "Future Decisions" that are now resolved
+3. **What depends on this?** — Consider downstream effects:
+   - Other tasks that might need their context updated
+   - Projects that reference this component
+   - Agents whose prompts might need adjustment
+4. **Create update tasks or apply fixes** — Either:
+   - Fix trivial updates immediately (doc corrections)
+   - Create tasks for non-trivial updates
+   - Flag for human review if uncertain
+
+### When to Trigger Impact Review
+
+- After a decision is logged to `activity-log.json`
+- After any `ai-planning` task completes
+- After completing work with `after_completion: taskmaster_review`
+- When explicitly asked to review changes
+
+### Impact Review Output
+
+Summarize findings:
+```
+Impact Review: [Decision/Task name]
+- Docs updated: [list or "none needed"]
+- Tasks created: [list or "none needed"]
+- Flagged for human: [list or "none"]
+```
+
 ## Activity Logging
 
 When you make decisions, log them with reasoning:

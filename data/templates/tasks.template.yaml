@@ -1,0 +1,35 @@
+name: tasks
+description: Generate tasks from project plan
+document: |
+  # Tasks for {{project_name}}
+
+  ## Phase 1: Setup
+  {{setup_tasks}}
+
+  ## Phase 2: Core Features
+  {{core_tasks}}
+
+  ## Phase 3: Polish
+  {{polish_tasks}}
+
+variables:
+  - name: project_name
+    type: string
+    required: true
+  - name: setup_tasks
+    type: string
+    required: true
+  - name: core_tasks
+    type: string
+    required: true
+  - name: polish_tasks
+    type: string
+    required: false
+
+requires:
+  - project_plan
+
+guidance:
+  setup_tasks: "What needs to happen first? Project scaffold, dependencies, config?"
+  core_tasks: "What are the main features to build?"
+  polish_tasks: "Nice-to-haves for later?"

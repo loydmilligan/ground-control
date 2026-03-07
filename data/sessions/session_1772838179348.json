@@ -1,0 +1,38 @@
+{
+  "id": "session_1772838179348",
+  "status": "running",
+  "task_ids": [
+    "task_1772836871871"
+  ],
+  "started_at": "2026-03-06T15:02:59.348794558-08:00",
+  "updated_at": "2026-03-06T15:02:59.362365362-08:00",
+  "current_task_id": "task_1772836871871",
+  "current_stage": "coder",
+  "current_iteration": 1,
+  "task_progress": {
+    "task_1772836871871": {
+      "task_id": "task_1772836871871",
+      "status": "failed",
+      "started_at": "2026-03-06T15:02:59.34924444-08:00",
+      "completed_at": "2026-03-06T15:02:59.362365258-08:00",
+      "stages": {
+        "coder": {
+          "stage": "coder",
+          "status": "failed",
+          "iterations": 1,
+          "started_at": "2026-03-06T15:02:59.35076848-08:00",
+          "completed_at": "2026-03-06T15:02:59.36215634-08:00",
+          "error": "claude CLI failed: failed to start claude: context deadline exceeded"
+        },
+        "sanity": {
+          "stage": "sanity",
+          "status": "completed",
+          "iterations": 1,
+          "started_at": "2026-03-06T15:02:59.349519932-08:00",
+          "completed_at": "2026-03-06T15:02:59.350646499-08:00"
+        }
+      },
+      "error": "coder failed: claude CLI failed: failed to start claude: context deadline exceeded"
+    }
+  }
+}

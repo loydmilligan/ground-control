@@ -1,0 +1,6 @@
+name: research
+description: Research task pipeline
+stages:
+  - name: sanity
+  - name: researcher
+  - name: summary

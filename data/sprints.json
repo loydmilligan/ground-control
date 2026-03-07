@@ -1,0 +1,58 @@
+{
+  "sprints": [
+    {
+      "id": "sprint_1772859699845",
+      "name": "Pipeline v2",
+      "description": "",
+      "goal": "Implement composable pipeline architecture with task type routing",
+      "task_ids": [
+        "task_1741276000001",
+        "task_1772859729351",
+        "task_1772859729353",
+        "task_1772859729363",
+        "task_1772859729365",
+        "task_1772859729368"
+      ],
+      "status": "completed",
+      "created_at": "2026-03-06T21:01:39.845064902-08:00",
+      "completed_at": "2026-03-06T23:19:38.243182797-08:00"
+    },
+    {
+      "id": "sprint_1772871772552",
+      "name": "TUI Feature Parity",
+      "description": "",
+      "goal": "Close the feature gap between TUI and CLI",
+      "task_ids": [
+        "task_1741275000003",
+        "task_1772871773492",
+        "task_1772871773493",
+        "task_1772871773494",
+        "task_1772871773495",
+        "task_1772873285681"
+      ],
+      "status": "completed",
+      "created_at": "2026-03-07T00:22:52.552577046-08:00",
+      "completed_at": "2026-03-07T01:07:41.800588722-08:00"
+    },
+    {
+      "id": "sprint_1772875897850",
+      "name": "NotifAI Carousel UI Phase 1-2",
+      "description": "",
+      "goal": "Build carousel foundation and blocked channels stage",
+      "task_ids": [
+        "task_1772875931817_11Create",
+        "task_1772875931821_12Create",
+        "task_1772875931821_13Naviga",
+        "task_1772875931821_14Scroll",
+        "task_1772875931821_15Integr",
+        "task_1772875931821_21Create",
+        "task_1772875931821_22BlockU",
+        "task_1772875931821_23PeekIn",
+        "task_1772875931821_24Channe",
+        "task_1772876500001_13bHeader"
+      ],
+      "status": "active",
+      "created_at": "2026-03-07T01:31:37.850503424-08:00"
+    }
+  ]
+}

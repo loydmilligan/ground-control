@@ -1,0 +1,34 @@
+{
+  "id": "session_1772842352969",
+  "status": "running",
+  "task_ids": [
+    "task_1772836871871"
+  ],
+  "started_at": "2026-03-06T16:12:32.969516399-08:00",
+  "updated_at": "2026-03-06T16:12:33.004097479-08:00",
+  "current_task_id": "task_1772836871871",
+  "current_stage": "coder",
+  "current_iteration": 1,
+  "task_progress": {
+    "task_1772836871871": {
+      "task_id": "task_1772836871871",
+      "status": "running",
+      "started_at": "2026-03-06T16:12:32.969939675-08:00",
+      "stages": {
+        "coder": {
+          "stage": "coder",
+          "status": "running",
+          "iterations": 1,
+          "started_at": "2026-03-06T16:12:33.004097376-08:00"
+        },
+        "sanity": {
+          "stage": "sanity",
+          "status": "completed",
+          "iterations": 1,
+          "started_at": "2026-03-06T16:12:32.983167606-08:00",
+          "completed_at": "2026-03-06T16:12:33.003982358-08:00"
+        }
+      }
+    }
+  }
+}

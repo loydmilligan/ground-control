@@ -1,0 +1,4 @@
+parallelization:
+  enabled: true
+  max_concurrent_agents: 3
+  max_concurrent_tasks: 5

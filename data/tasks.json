@@ -1,3 +1,3195 @@
 {
-  "tasks": []
+  "tasks": [
+    {
+      "id": "task_1741268460000",
+      "title": "Scaffold Ground Control CLI/TUI with Go + Bubble Tea",
+      "description": "Initialize the Go project structure for Ground Control.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "go.mod",
+          "description": "Go module definition",
+          "exists": true
+        },
+        {
+          "path": "cmd/gc/main.go",
+          "description": "CLI entry point",
+          "exists": true
+        },
+        {
+          "path": "internal/data/data.go",
+          "description": "JSON data layer",
+          "exists": true
+        },
+        {
+          "path": "internal/tui/tui.go",
+          "description": "Bubble Tea TUI",
+          "exists": true
+        },
+        {
+          "path": "internal/types/types.go",
+          "description": "Type structs",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./cmd/gc && ./gc tasks"
+      },
+      "project_id": null,
+      "tags": [
+        "infrastructure",
+        "cli",
+        "tui",
+        "go"
+      ],
+      "created_at": "2026-03-06T12:01:00Z",
+      "updated_at": "2026-03-06T12:05:00Z",
+      "completed_at": "2026-03-06T12:05:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741268580000",
+      "title": "Investigate and resolve 'gc' command name conflict",
+      "description": "Resolved by remapping git aliases to gt* prefix.",
+      "type": "research",
+      "agent": "researcher",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 2,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "~/.zshrc",
+          "description": "Updated with git alias remapping",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "infrastructure",
+        "cli",
+        "naming"
+      ],
+      "created_at": "2026-03-06T12:06:00Z",
+      "updated_at": "2026-03-06T12:10:00Z",
+      "completed_at": "2026-03-06T12:10:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741268640000",
+      "title": "Implement standup command with Taskmaster integration",
+      "description": "Daily standup ritual command.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/cmd/standup.go",
+          "description": "Standup command",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./cmd/gc && ./gc standup"
+      },
+      "project_id": null,
+      "tags": [
+        "cli",
+        "rituals"
+      ],
+      "created_at": "2026-03-06T12:07:00Z",
+      "updated_at": "2026-03-06T01:44:33Z",
+      "completed_at": "2026-03-06T01:44:33Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741268700000",
+      "title": "Expand TUI with task detail view and keyboard navigation",
+      "description": "Enhanced TUI with detail view, state changes, help.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/tui/tui.go",
+          "description": "Enhanced TUI",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "tui",
+        "ux"
+      ],
+      "created_at": "2026-03-06T12:07:00Z",
+      "updated_at": "2026-03-06T12:15:00Z",
+      "completed_at": "2026-03-06T12:15:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741268760000",
+      "title": "Implement verification system for task completion",
+      "description": "Verification before marking tasks done.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/verify/verify.go",
+          "description": "Verification system",
+          "exists": true
+        },
+        {
+          "path": "internal/cmd/complete.go",
+          "description": "Complete command",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./cmd/gc && ./gc complete --help"
+      },
+      "project_id": null,
+      "tags": [
+        "cli",
+        "verification",
+        "core"
+      ],
+      "created_at": "2026-03-06T12:07:00Z",
+      "updated_at": "2026-03-06T01:42:10Z",
+      "completed_at": "2026-03-06T01:42:10Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741271000000",
+      "title": "Design Ground Control command surface and workflow",
+      "description": "Holistic design of the remaining CLI commands and their interactions. This planning task covers: gc create, gc process, gc taskmaster, gc start, gc orchestrate, and how they work together with the TUI.",
+      "type": "ai-planning",
+      "agent": "planner",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 5,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Ground Control has basic CLI infrastructure (tasks, dump, complete, standup, tui). Now we need to design the remaining commands that complete the workflow: task creation, brain dump processing, taskmaster orchestration, and Claude Code integration (single + parallel execution). These commands are interconnected and should be designed together.",
+        "requirements": [
+          "Design gc create — interactive task creation",
+          "Design gc process — brain dump → task conversion",
+          "Design gc taskmaster — state review and recommendations",
+          "Design gc start — single task → Claude Code handoff",
+          "Design gc orchestrate — multi-task parallel execution",
+          "Design gc tasks improvements — indexes, hide completed, filters",
+          "Design TUI enhancements — multi-select mode for orchestrate",
+          "Design config system — max_parallel_agents, default settings",
+          "Design Claude Code integration pattern (works for start AND orchestrate)",
+          "Define the complete user journey from idea → execution",
+          "Ensure consistency across CLI and TUI interfaces"
+        ],
+        "constraints": [
+          "Use Claude Code CLI (not SDK) to leverage subscription",
+          "Keep commands composable and Unix-philosophy aligned",
+          "TUI and CLI should offer equivalent functionality",
+          "Design for extensibility (future: projects, weekly ritual, ai-matt)"
+        ],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [
+        "What's the ideal user journey from brain dump to completed task?",
+        "How should gc start and gc orchestrate share Claude Code integration?",
+        "What's the right abstraction for parallel task execution?",
+        "How do we handle task dependencies in orchestration?",
+        "What config options are needed and where do they live?"
+      ],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "docs/command-design.md",
+          "description": "Complete command surface design document",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "spawn_tasks",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "planning",
+        "architecture",
+        "cli",
+        "workflow",
+        "claude-integration"
+      ],
+      "created_at": "2026-03-06T02:05:00Z",
+      "updated_at": "2026-03-06T14:35:00Z",
+      "completed_at": "2026-03-06T14:35:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741272000001",
+      "title": "Enhance gc tasks with indexes, filtering, and hide completed",
+      "description": "Upgrade the gc tasks command to show dynamic indexes (1-based, assigned at display time), filter by state/tag/project, and hide completed tasks by default.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Current gc tasks shows all tasks without indexes. Per docs/command-design.md, we need dynamic indexes for use with gc orc, filtering options, and completed tasks hidden by default.",
+        "requirements": [
+          "Add 1-based dynamic indexes to task list output",
+          "Hide completed tasks by default (add --all flag to show them)",
+          "Add --state=<state> filter",
+          "Add --tag=<tag> filter",
+          "Add --project=<project> filter",
+          "Add --json flag for scripting",
+          "Update output format per design doc"
+        ],
+        "constraints": [
+          "Indexes are ephemeral, recalculated each run",
+          "Maintain backward compatibility with existing output for scripts"
+        ],
+        "related_tasks": [
+          "task_1741271000000"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/cmd/tasks.go",
+          "description": "Enhanced tasks command",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./cmd/gc && ./gc tasks && ./gc tasks --all && ./gc tasks --state=created"
+      },
+      "project_id": null,
+      "tags": [
+        "cli",
+        "phase2"
+      ],
+      "created_at": "2026-03-06T14:40:00Z",
+      "updated_at": "2026-03-06T14:50:00Z",
+      "completed_at": "2026-03-06T14:50:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741272000002",
+      "title": "Create Context Manager agent and context bundle system",
+      "description": "Define the Context Manager agent and implement the context bundle creation system. This agent is called by Taskmaster during task creation to build comprehensive context bundles.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Per docs/command-design.md, every task needs a context bundle built at creation time. The Context Manager agent gathers relevant code snippets, project patterns, past decisions, and conversation context.",
+        "requirements": [
+          "Create agents/context-manager.md with agent prompt",
+          "Add context_bundle field to Task type",
+          "Implement context bundle directory structure (task_<id>/context/)",
+          "Create requirements.md generator from task description",
+          "Create relevant_code extractor (find affected files, extract snippets)",
+          "Create patterns.md extractor from project docs",
+          "Create decisions.md extractor from activity-log.json",
+          "Create test_hints.md generator",
+          "Integrate with Taskmaster flow"
+        ],
+        "constraints": [
+          "Extract code snippets, not full files",
+          "Decisions should be relevant to the task, not all decisions",
+          "Context bundle should be self-contained for agent consumption"
+        ],
+        "related_tasks": [
+          "task_1741271000000"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "agents/context-manager.md",
+          "description": "Context Manager agent prompt",
+          "exists": true
+        },
+        {
+          "path": "internal/context/context.go",
+          "description": "Context bundle creation logic",
+          "exists": true
+        },
+        {
+          "path": "internal/types/types.go",
+          "description": "Updated with context_bundle field",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./cmd/gc"
+      },
+      "project_id": null,
+      "tags": [
+        "agents",
+        "context",
+        "core",
+        "phase2"
+      ],
+      "created_at": "2026-03-06T14:40:00Z",
+      "updated_at": "2026-03-06T15:00:00Z",
+      "completed_at": "2026-03-06T15:00:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741272000003",
+      "title": "Implement gc create command with Context Manager integration",
+      "description": "Interactive task creation command that guides users through task creation and calls Context Manager to build the context bundle.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Per docs/command-design.md, gc create is an interactive command for task creation. It collects task details and calls Context Manager to build the context bundle.",
+        "requirements": [
+          "Implement interactive prompts: title, description, type, complexity, importance, tags, project, blocked_by, verification",
+          "Add --quick flag for minimal prompts (title + type)",
+          "Call Context Manager after task skeleton is created",
+          "Save task with context bundle to tasks.json",
+          "Log task creation to activity-log.json"
+        ],
+        "constraints": [
+          "Use bubbletea or simple stdin prompts for interactivity",
+          "Provide sensible defaults where possible",
+          "Validate inputs before saving"
+        ],
+        "related_tasks": [
+          "task_1741271000000",
+          "task_1741272000002"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [
+        "task_1741272000002"
+      ],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/cmd/create.go",
+          "description": "Create command implementation",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./cmd/gc && ./gc create --help"
+      },
+      "project_id": null,
+      "tags": [
+        "cli",
+        "phase2"
+      ],
+      "created_at": "2026-03-06T14:40:00Z",
+      "updated_at": "2026-03-06T15:10:00Z",
+      "completed_at": "2026-03-06T15:10:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741272000004",
+      "title": "Implement gc process command for brain dump conversion",
+      "description": "Command to process brain dump entries into tasks using Taskmaster analysis and Context Manager for context bundles.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Per docs/command-design.md, gc process converts brain dump entries to tasks. Taskmaster analyzes entries to determine task type, complexity, and requirements, then calls Context Manager to build context bundles.",
+        "requirements": [
+          "Process all unprocessed entries from brain-dump.json",
+          "Add --dry-run flag to show what would be created",
+          "Add --interactive flag to approve each conversion",
+          "Analyze entry content for task type signals",
+          "Extract urgency hints",
+          "Identify related existing tasks",
+          "Call Context Manager for each created task",
+          "Update brain-dump.json with processed status and converted_to"
+        ],
+        "constraints": [
+          "Should work without Claude Code for now (rule-based analysis)",
+          "Later: integrate with actual Taskmaster agent via Claude Code"
+        ],
+        "related_tasks": [
+          "task_1741271000000",
+          "task_1741272000002"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [
+        "task_1741272000002"
+      ],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/cmd/process.go",
+          "description": "Process command implementation",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./cmd/gc && ./gc process --help && ./gc process --dry-run"
+      },
+      "project_id": null,
+      "tags": [
+        "cli",
+        "phase2"
+      ],
+      "created_at": "2026-03-06T14:40:00Z",
+      "updated_at": "2026-03-06T15:20:00Z",
+      "completed_at": "2026-03-06T15:20:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741273000001",
+      "title": "Implement gc orc command with session management",
+      "description": "Create the gc orc command that orchestrates task execution. This is the entry point that accepts task indexes/IDs, creates a work session, and kicks off the pipeline.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Per docs/command-design.md, gc orc is the core orchestration command. It accepts task indexes (from gc tasks) or task IDs, creates a work session for tracking, and executes tasks through the pipeline.",
+        "requirements": [
+          "Accept task indexes (gc orc 1 3 5) or task IDs",
+          "Resolve indexes to task IDs using current gc tasks output",
+          "Create work session in data/sessions/session_<timestamp>.json",
+          "Add --dry-run flag to show execution plan without running",
+          "Add --verbose flag for detailed output",
+          "Track session state (started, running, completed, failed)",
+          "Wire up to pipeline executor (task_1741273000002)"
+        ],
+        "constraints": [
+          "Single task execution for Phase 3 (parallel comes in Phase 5)",
+          "Session must persist across potential crashes for resumption"
+        ],
+        "related_tasks": [
+          "task_1741271000000",
+          "task_1741272000001"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/cmd/orc.go",
+          "description": "Orchestrate command",
+          "exists": true
+        },
+        {
+          "path": "internal/session/session.go",
+          "description": "Session management",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./cmd/gc && ./gc orc --help"
+      },
+      "project_id": null,
+      "tags": [
+        "cli",
+        "orchestration",
+        "phase3"
+      ],
+      "created_at": "2026-03-06T15:30:00Z",
+      "updated_at": "2026-03-06T15:40:00Z",
+      "completed_at": "2026-03-06T15:40:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741273000002",
+      "title": "Create pipeline executor with stage framework",
+      "description": "Build the pipeline executor that runs tasks through stages: Sanity Check → Coder → Reviewer → Tester → Repo Update. Each stage has a defined interface.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "The pipeline executor manages stage transitions, handles feedback loops, and tracks progress. Each stage implements a common interface for execution.",
+        "requirements": [
+          "Define Stage interface: Execute(task, context) -> StageResult",
+          "StageResult contains: status (success/needs_revision/escalate), output files, issues[]",
+          "Implement pipeline runner that executes stages in order",
+          "Handle stage transitions and state updates",
+          "Implement Sanity Check stage (verify deps met, context exists)",
+          "Track stage outputs in session",
+          "Support stage skipping via config"
+        ],
+        "constraints": [
+          "Stages must be independently testable",
+          "Pipeline state must be recoverable for --continue support"
+        ],
+        "related_tasks": [
+          "task_1741271000000",
+          "task_1741273000001"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [
+        "task_1741273000001"
+      ],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/pipeline/pipeline.go",
+          "description": "Pipeline executor",
+          "exists": true
+        },
+        {
+          "path": "internal/pipeline/stage.go",
+          "description": "Stage interface and types",
+          "exists": true
+        },
+        {
+          "path": "internal/pipeline/sanity.go",
+          "description": "Sanity check stage",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./..."
+      },
+      "project_id": null,
+      "tags": [
+        "pipeline",
+        "core",
+        "phase3"
+      ],
+      "created_at": "2026-03-06T15:30:00Z",
+      "updated_at": "2026-03-06T15:50:00Z",
+      "completed_at": "2026-03-06T15:50:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741273000003",
+      "title": "Implement Coder stage with Claude Code CLI integration",
+      "description": "Create the Coder stage that invokes Claude Code CLI to implement task requirements using the context bundle.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "The Coder stage uses Claude Code CLI (not SDK) to implement code changes. It passes the context bundle and receives implementation output.",
+        "requirements": [
+          "Implement Coder stage following Stage interface",
+          "Build Claude Code CLI invocation with context bundle",
+          "Pass requirements.md, patterns.md, relevant_code as context",
+          "Capture implementation output and changed files",
+          "Generate implementation_notes.md from Claude output",
+          "Handle Claude Code CLI errors gracefully",
+          "Support --verbose flag for streaming output"
+        ],
+        "constraints": [
+          "Use claude CLI command, not SDK API",
+          "Respect config timeout settings",
+          "Must work in git worktree (preparation for Phase 5)"
+        ],
+        "related_tasks": [
+          "task_1741271000000",
+          "task_1741273000002"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [
+        "task_1741273000002"
+      ],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/pipeline/coder.go",
+          "description": "Coder stage implementation",
+          "exists": true
+        },
+        {
+          "path": "internal/claude/claude.go",
+          "description": "Claude Code CLI wrapper",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./..."
+      },
+      "project_id": null,
+      "tags": [
+        "pipeline",
+        "claude",
+        "phase3"
+      ],
+      "created_at": "2026-03-06T15:30:00Z",
+      "updated_at": "2026-03-06T16:00:00Z",
+      "completed_at": "2026-03-06T16:00:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741273000004",
+      "title": "Implement Code Reviewer stage with feedback generation",
+      "description": "Create the Code Reviewer stage that reviews Coder output and generates structured feedback for revision loops.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "The Reviewer stage examines code changes against requirements and patterns, producing either approval or specific feedback for the Coder to address.",
+        "requirements": [
+          "Implement Reviewer stage following Stage interface",
+          "Invoke Claude Code CLI with review prompt",
+          "Pass code changes, requirements, patterns as context",
+          "Generate structured review_feedback.md",
+          "Return decision: approved | needs_revision | escalate",
+          "Track review iteration count",
+          "Include issues[] in output for self-learning"
+        ],
+        "constraints": [
+          "Review prompt must produce actionable feedback",
+          "Must not approve code that doesn't meet requirements"
+        ],
+        "related_tasks": [
+          "task_1741271000000",
+          "task_1741273000003"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [
+        "task_1741273000003"
+      ],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/pipeline/reviewer.go",
+          "description": "Code Reviewer stage",
+          "exists": true
+        },
+        {
+          "path": "agents/reviewer.md",
+          "description": "Reviewer agent prompt",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./..."
+      },
+      "project_id": null,
+      "tags": [
+        "pipeline",
+        "review",
+        "phase3"
+      ],
+      "created_at": "2026-03-06T15:30:00Z",
+      "updated_at": "2026-03-06T16:10:00Z",
+      "completed_at": "2026-03-06T16:10:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741273000005",
+      "title": "Implement feedback loop and escalation handling",
+      "description": "Add feedback loop logic between Coder and Reviewer stages with escalation to human after max iterations.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Per docs/command-design.md, feedback loops allow revision cycles between stages. After 3 failed iterations, the system escalates to human decision.",
+        "requirements": [
+          "Track iteration count per feedback loop",
+          "Pass review feedback to Coder on needs_revision",
+          "Implement max iteration check (default 3, configurable)",
+          "On escalation: set task state to waiting",
+          "On escalation: generate escalation summary with all attempts",
+          "Implement gc orc --continue to resume after human input",
+          "Log all iterations for self-learning system"
+        ],
+        "constraints": [
+          "Must preserve full feedback history for human review",
+          "Escalation should not lose work done so far"
+        ],
+        "related_tasks": [
+          "task_1741271000000",
+          "task_1741273000004"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [
+        "task_1741273000004"
+      ],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/pipeline/feedback.go",
+          "description": "Feedback loop logic",
+          "exists": true
+        },
+        {
+          "path": "internal/pipeline/escalation.go",
+          "description": "Escalation handling",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./... && ./gc orc --help"
+      },
+      "project_id": null,
+      "tags": [
+        "pipeline",
+        "feedback",
+        "phase3"
+      ],
+      "created_at": "2026-03-06T15:30:00Z",
+      "updated_at": "2026-03-06T16:20:00Z",
+      "completed_at": "2026-03-06T16:20:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741274000001",
+      "title": "Implement Tester stage with test execution",
+      "description": "Create the Tester stage that runs existing tests, writes new tests based on test_hints.md, and provides feedback for test failures.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "The Tester stage runs after code review approval. It executes existing tests, can write new tests based on test_hints.md, and triggers a feedback loop with Coder if tests fail.",
+        "requirements": [
+          "Implement Tester stage following Stage interface",
+          "Run existing test suite (go test ./...)",
+          "Parse test output for pass/fail status",
+          "Generate test_results.md with summary",
+          "Support feedback loop to Coder on test failures",
+          "Use test_hints.md from context bundle for guidance",
+          "Include issues[] for self-learning on test failures"
+        ],
+        "constraints": [
+          "Must handle different test frameworks (go test for now)",
+          "Test failures should produce actionable feedback for Coder"
+        ],
+        "related_tasks": [
+          "task_1741273000002",
+          "task_1741273000005"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/pipeline/tester.go",
+          "description": "Tester stage implementation",
+          "exists": false
+        },
+        {
+          "path": "agents/tester.md",
+          "description": "Tester agent prompt",
+          "exists": false
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./..."
+      },
+      "project_id": null,
+      "tags": [
+        "pipeline",
+        "testing",
+        "phase4"
+      ],
+      "created_at": "2026-03-06T16:30:00Z",
+      "updated_at": "2026-03-06T16:30:00Z",
+      "completed_at": "2026-03-06T17:15:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741274000002",
+      "title": "Implement Repo Update stage (docs + commit + deploy)",
+      "description": "Create the combined Repo Update stage that updates documentation, creates commits, and optionally deploys.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "The Repo Update stage is the final pipeline stage. It updates affected documentation, creates a git commit with proper message, and optionally triggers deployment.",
+        "requirements": [
+          "Implement RepoUpdate stage following Stage interface",
+          "Update inline comments and docs based on changes",
+          "Generate commit message from implementation_notes.md",
+          "Stage and commit changes with proper message",
+          "Run pre-commit hooks and handle failures",
+          "Support optional deployment trigger (if task.deploy_target set)",
+          "Include Co-Authored-By for AI attribution"
+        ],
+        "constraints": [
+          "Never force push or destructive git operations",
+          "Commit message should follow project conventions",
+          "Deployment is optional and configurable"
+        ],
+        "related_tasks": [
+          "task_1741274000001"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [
+        "task_1741274000001"
+      ],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/pipeline/repo_update.go",
+          "description": "Repo Update stage",
+          "exists": false
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./..."
+      },
+      "project_id": null,
+      "tags": [
+        "pipeline",
+        "git",
+        "phase4"
+      ],
+      "created_at": "2026-03-06T16:30:00Z",
+      "updated_at": "2026-03-06T16:30:00Z",
+      "completed_at": "2026-03-06T17:15:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741274000003",
+      "title": "Implement Taskmaster session review step",
+      "description": "Add end-of-session review by Taskmaster that validates agent-reported issues and identifies systemic patterns for self-learning.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Per docs/command-design.md, after each work session completes, Taskmaster performs a deep review of all issues reported by agents, validates they are real problems, and logs them for self-learning.",
+        "requirements": [
+          "Add session review step after all tasks complete in gc orc",
+          "Collect all issues from session",
+          "Validate issues are real (not box-filling)",
+          "Identify systemic issues across the session",
+          "Log validated issues to data/learning-log.json",
+          "Generate session summary with issue counts"
+        ],
+        "constraints": [
+          "Review should happen automatically at session end",
+          "Must distinguish real issues from noise"
+        ],
+        "related_tasks": [
+          "task_1741271000000",
+          "task_1741273000001"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [
+        "task_1741274000002"
+      ],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/pipeline/session_review.go",
+          "description": "Session review logic",
+          "exists": false
+        },
+        {
+          "path": "data/learning-log.json",
+          "description": "Learning log file",
+          "exists": false
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./..."
+      },
+      "project_id": null,
+      "tags": [
+        "pipeline",
+        "learning",
+        "phase4"
+      ],
+      "created_at": "2026-03-06T16:30:00Z",
+      "updated_at": "2026-03-06T16:30:00Z",
+      "completed_at": "2026-03-06T17:25:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741274000004",
+      "title": "Wire up complete pipeline in gc orc",
+      "description": "Integrate all pipeline stages into gc orc command with proper stage transitions and configuration.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "With all stages implemented, wire them together in gc orc so it runs the full pipeline: Sanity → Coder → Reviewer → Tester → Repo Update → Session Review.",
+        "requirements": [
+          "Update gc orc to use pipeline executor with all stages",
+          "Add Coder and Reviewer stages with feedback loop",
+          "Add Tester stage with test feedback loop",
+          "Add Repo Update stage",
+          "Add Session Review at end",
+          "Support --skip-review, --skip-test flags",
+          "Update task state throughout pipeline"
+        ],
+        "constraints": [
+          "Maintain backward compatibility with existing gc orc flags",
+          "Pipeline should be configurable via data/config.json"
+        ],
+        "related_tasks": [
+          "task_1741273000001",
+          "task_1741274000003"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [
+        "task_1741274000003"
+      ],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/cmd/orc.go",
+          "description": "Updated orc command",
+          "exists": true
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./cmd/gc && ./gc orc --help"
+      },
+      "project_id": null,
+      "tags": [
+        "cli",
+        "pipeline",
+        "phase4"
+      ],
+      "created_at": "2026-03-06T16:30:00Z",
+      "updated_at": "2026-03-06T16:30:00Z",
+      "completed_at": "2026-03-06T17:25:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741275000001",
+      "title": "Design and run manual integration tests for Ground Control",
+      "description": "Create a manual test plan to validate the end-to-end flow of Ground Control. This should verify that all commands work correctly and that the overall UX is coherent and intuitive. The goal is to experience the system as a user would - from brain dump to task completion.",
+      "type": "human-input",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "supervised",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "We've implemented the core Ground Control pipeline: brain dump processing, task creation, and the orchestration pipeline (Sanity → Coder → Reviewer → Tester → Repo Update). Now we need to validate it all works together and provides a good user experience.",
+        "requirements": [
+          "Test gc dump - can capture ideas quickly",
+          "Test gc process - converts brain dumps to tasks with context bundles",
+          "Test gc create - interactive task creation works",
+          "Test gc tasks - shows tasks with proper filtering and indexes",
+          "Test gc orc - runs pipeline stages correctly",
+          "Test gc orc --continue - resumes paused sessions",
+          "Test gc orc --dry-run - shows plan without executing",
+          "Verify error messages are helpful and actionable",
+          "Verify the flow from idea to completion feels natural",
+          "Document any UX friction points or confusing behaviors"
+        ],
+        "constraints": [
+          "Focus on user experience, not just functionality",
+          "Test with realistic scenarios, not contrived examples"
+        ],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "docs/manual-test-plan.md",
+          "description": "Test plan with scenarios and expected outcomes",
+          "exists": false
+        },
+        {
+          "path": "docs/test-results.md",
+          "description": "Results from running the tests with observations",
+          "exists": false
+        }
+      ],
+      "suggested_next_steps": [
+        "Run through each command in sequence",
+        "Note any friction or confusion",
+        "Fix critical issues before broader testing"
+      ],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "testing",
+        "ux",
+        "validation"
+      ],
+      "created_at": "2026-03-06T17:30:00Z",
+      "updated_at": "2026-03-06T17:30:00Z",
+      "completed_at": "2026-03-06T19:55:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741275000002",
+      "title": "Implement gc self-learn command",
+      "description": "Build the self-learning command that analyzes learning-log.json, identifies patterns in issues, and proposes improvements. This completes the learning loop - we already collect issues during gc orc, but have no way to analyze or act on them.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "ai-matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "The self-learning system is designed in docs/command-design.md (lines 820-1243). Infrastructure exists: SessionIssue struct, session_review.go writes to learning-log.json, issues are collected during gc orc. What's missing is the command to analyze and propose improvements.",
+        "requirements": [
+          "Create internal/cmd/selflearn.go with gc self-learn command",
+          "Load and parse learning-log.json",
+          "Group issues by category and identify frequency patterns",
+          "Generate human-readable proposals for improvements",
+          "Support --apply flag to apply approved changes",
+          "Track applied improvements in data/improvements-applied.json"
+        ],
+        "constraints": [
+          "Follow design in docs/command-design.md",
+          "Proposals must be specific and actionable",
+          "Human approval required before applying changes"
+        ],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [
+        {
+          "path": "internal/cmd/selflearn.go",
+          "description": "Self-learn command implementation",
+          "exists": false
+        }
+      ],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./..."
+      },
+      "project_id": null,
+      "tags": [
+        "self-learning",
+        "core",
+        "high-priority"
+      ],
+      "created_at": "2026-03-06T17:45:00Z",
+      "updated_at": "2026-03-06T17:45:00Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741275000003",
+      "title": "Enhance TUI with orchestration progress and task creation",
+      "description": "Add missing TUI features: orchestration progress view to watch pipeline execution, and task creation flow without leaving TUI.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "ai-matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "TUI exists (internal/tui/tui.go) with list, detail, state-change, and help views. Planned but not implemented: multi-select, orchestration progress, brain dump processing, task creation.",
+        "requirements": [
+          "Add orchestration progress view - watch gc orc pipeline stages in real-time",
+          "Add task creation view - interactive form to create tasks without leaving TUI",
+          "Consider brain dump quick-capture from TUI"
+        ],
+        "constraints": [
+          "Maintain existing TUI patterns and styling",
+          "Keep keyboard navigation consistent"
+        ],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./..."
+      },
+      "project_id": null,
+      "tags": [
+        "tui",
+        "ui",
+        "enhancement"
+      ],
+      "created_at": "2026-03-06T17:45:00Z",
+      "updated_at": "2026-03-07T01:07:38.087698122-08:00",
+      "completed_at": "2026-03-07T01:07:38.087698122-08:00",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772836871871",
+      "title": "Add a gc status command that shows current session state ...",
+      "description": "Add a gc status command that shows current session state and recent activity",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 2,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772836022303",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "cli",
+        "ux",
+        "status"
+      ],
+      "created_at": "2026-03-06T14:41:11.871528689-08:00",
+      "updated_at": "2026-03-06T14:41:11.871528689-08:00",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T14:41:11.88378785-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772836871871",
+        "files": {
+          "requirements": "data/context/task_1772836871871/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772836871871/project_context.md",
+          "patterns": "data/context/task_1772836871871/patterns.md",
+          "decisions": "data/context/task_1772836871871/decisions.md",
+          "test_hints": "data/context/task_1772836871871/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772837331252",
+      "title": "update ground control deployment so that gc command works...",
+      "description": "update ground control deployment so that gc command works from anywhere on teh command line",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 2,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772836078254",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "cli"
+      ],
+      "created_at": "2026-03-06T14:48:51.252149862-08:00",
+      "updated_at": "2026-03-06T14:48:51.252149862-08:00",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T14:48:51.252606883-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772837331252",
+        "files": {
+          "requirements": "data/context/task_1772837331252/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772837331252/project_context.md",
+          "patterns": "data/context/task_1772837331252/patterns.md",
+          "decisions": "data/context/task_1772837331252/decisions.md",
+          "test_hints": "data/context/task_1772837331252/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772837331253",
+      "title": "design a basic AI matt agent that we can start to use for...",
+      "description": "design a basic AI matt agent that we can start to use for filling in for me in tasks. it doesnt not need to be complex or have detialed learning as part of it for htis first interation. it can literally be a static prompt to start with, that includes a coupel of template fields with info we can later develop further. basically get soemthing going we can start to use adn see how it does, i think it shoudl inlcude some explnation of its devision making and assumptions as part of its final output - but that is bascialy it -think about  rubrik that is simpe, but that is strucutured in aw ay that we can improve alter on",
+      "type": "ai-planning",
+      "agent": "planner",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 5,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772837320049",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "planning"
+      ],
+      "created_at": "2026-03-06T14:48:51.253728559-08:00",
+      "updated_at": "2026-03-06T14:48:51.253728559-08:00",
+      "completed_at": "2026-03-06T18:45:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T14:48:51.254459194-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772837331253",
+        "files": {
+          "requirements": "data/context/task_1772837331253/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772837331253/project_context.md",
+          "patterns": "data/context/task_1772837331253/patterns.md",
+          "decisions": "data/context/task_1772837331253/decisions.md",
+          "test_hints": "data/context/task_1772837331253/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1741276000001",
+      "title": "Add task type routing to gc orc pipeline",
+      "description": "Currently gc orc runs the same coding pipeline (Sanity → Coder → Reviewer → Tester → Repo Update) for ALL task types. This is incorrect - planning tasks, research tasks, and human-input tasks should have different workflows. Add type-based routing to select appropriate pipeline.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "ai-matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Task types are defined in types.go (simple, ai-planning, research, coding, human-input) but gc orc ignores them. The CLAUDE.md agent roster suggests different agents for different task types (planner, researcher, coder) but this routing doesn't exist.",
+        "requirements": [
+          "Check task.Type before selecting pipeline",
+          "coding tasks: current pipeline (Sanity → Coder → Reviewer → Tester → Repo Update)",
+          "ai-planning tasks: Sanity → Planner → Human Review",
+          "research tasks: Sanity → Researcher → Summary",
+          "human-input tasks: Notify and wait, no automated pipeline",
+          "simple tasks: Quick execution, maybe skip review/test?",
+          "Warn user if task type doesn't match available pipeline"
+        ],
+        "constraints": [
+          "Don't break existing coding pipeline",
+          "Gracefully handle missing agent implementations"
+        ],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./..."
+      },
+      "project_id": null,
+      "tags": [
+        "pipeline",
+        "routing",
+        "architecture"
+      ],
+      "created_at": "2026-03-06T18:00:00Z",
+      "updated_at": "2026-03-06T18:00:00Z",
+      "completed_at": "2026-03-06T21:15:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1741277000001",
+      "title": "Implement proper permission handling for Claude CLI",
+      "description": "Replace --dangerously-skip-permissions with proper permission mode handling. Consider pre-granting permissions or using --permission-mode with appropriate settings for headless execution.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "ai-matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 2,
+      "importance": "low",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Currently using --dangerously-skip-permissions for headless Claude CLI execution. This works but bypasses all safety checks. Should implement proper permission handling using --permission-mode or pre-granted permissions.",
+        "requirements": [
+          "Research Claude CLI permission modes (default, acceptEdits, bypassPermissions, plan, etc.)",
+          "Determine appropriate mode for automated pipeline execution",
+          "Consider allowing configuration of permission mode",
+          "Update internal/claude/claude.go to use proper permissions",
+          "Document security implications"
+        ],
+        "constraints": [
+          "Must work in headless/non-interactive mode",
+          "Should not require manual permission grants during execution"
+        ],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": null,
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "test_pass",
+        "command": "go build ./..."
+      },
+      "project_id": null,
+      "tags": [
+        "security",
+        "permissions",
+        "claude-cli"
+      ],
+      "created_at": "2026-03-06T18:20:00Z",
+      "updated_at": "2026-03-06T18:20:00Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772853940321",
+      "title": "Test idea: add gc history command to view past orchestrat...",
+      "description": "Test idea: add gc history command to view past orchestration sessions",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 2,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772853909302",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "cli",
+        "history",
+        "ux"
+      ],
+      "created_at": "2026-03-06T19:25:40.321866814-08:00",
+      "updated_at": "2026-03-06T19:25:40.321866814-08:00",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T19:25:40.326314027-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772853940321",
+        "files": {
+          "requirements": "data/context/task_1772853940321/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772853940321/project_context.md",
+          "patterns": "data/context/task_1772853940321/patterns.md",
+          "decisions": "data/context/task_1772853940321/decisions.md",
+          "test_hints": "data/context/task_1772853940321/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772856072451",
+      "title": "create a config and separate claude dir for ai_matt so th...",
+      "description": "create a config and separate claude dir for ai_matt so that we can tightly control the agent file that he uses, hooks that are assigned to his claude code isntance, tools that he has avialale, security settings to limit his ability to go rougue. oh also - making sure that you and he do not get in an infitire loop of doomm, usng a sandbox more stringently if possible, havign a rollback point gnerated before he is called or maybe doing his work ina  separate branch",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772855937195",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "ai-matt",
+        "config",
+        "security"
+      ],
+      "created_at": "2026-03-06T20:01:12.451694279-08:00",
+      "updated_at": "2026-03-06T20:01:12.451694279-08:00",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T20:01:12.45245295-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772856072451",
+        "files": {
+          "requirements": "data/context/task_1772856072451/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772856072451/project_context.md",
+          "patterns": "data/context/task_1772856072451/patterns.md",
+          "decisions": "data/context/task_1772856072451/decisions.md",
+          "test_hints": "data/context/task_1772856072451/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772856072453",
+      "title": "claude code log ingestion to provide ai_matt personalit y...",
+      "description": "claude code log ingestion to provide ai_matt personalit yadjustments based on my actual sessions",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 2,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772856027248",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "ai-matt",
+        "learning",
+        "personality"
+      ],
+      "created_at": "2026-03-06T20:01:12.453587043-08:00",
+      "updated_at": "2026-03-06T20:01:12.453587043-08:00",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T20:01:12.454195443-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772856072453",
+        "files": {
+          "requirements": "data/context/task_1772856072453/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772856072453/project_context.md",
+          "patterns": "data/context/task_1772856072453/patterns.md",
+          "decisions": "data/context/task_1772856072453/decisions.md",
+          "test_hints": "data/context/task_1772856072453/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772856072455",
+      "title": "Fix duplicate error messages in CLI - all errors appear t...",
+      "description": "Fix duplicate error messages in CLI - all errors appear twice (once in Error: line, once at bottom). Cobra framework pattern issue. Fix by adding cmd.SilenceErrors = true to root command or remove manual error printing. Moderate priority.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772856066691",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "cli",
+        "bugfix",
+        "ux"
+      ],
+      "created_at": "2026-03-06T20:01:12.455168038-08:00",
+      "updated_at": "2026-03-06T20:01:12.455168038-08:00",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T20:01:12.455896428-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772856072455",
+        "files": {
+          "requirements": "data/context/task_1772856072455/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772856072455/project_context.md",
+          "patterns": "data/context/task_1772856072455/patterns.md",
+          "decisions": "data/context/task_1772856072455/decisions.md",
+          "test_hints": "data/context/task_1772856072455/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772856072470",
+      "title": "Add session management commands - gc sessions --list, --c...",
+      "description": "Add session management commands - gc sessions --list, --cleanup, --cancel. Currently 7 sessions stuck in 'running' state with no way to clean them up from CLI. Also add stale session detection (if >1 hour old with no updates, mark as stale). Moderate priority.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772856066855",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "cli",
+        "sessions",
+        "ux"
+      ],
+      "created_at": "2026-03-06T20:01:12.470145773-08:00",
+      "updated_at": "2026-03-06T20:01:12.470145773-08:00",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T20:01:12.470947497-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772856072470",
+        "files": {
+          "requirements": "data/context/task_1772856072470/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772856072470/project_context.md",
+          "patterns": "data/context/task_1772856072470/patterns.md",
+          "decisions": "data/context/task_1772856072470/decisions.md",
+          "test_hints": "data/context/task_1772856072470/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772856072472",
+      "title": "Add gc process --list flag to show unprocessed brain dump...",
+      "description": "Add gc process --list flag to show unprocessed brain dumps without processing them. Currently have to use --dry-run which is less intuitive. Minor priority.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772856067251",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "cli",
+        "process",
+        "ux"
+      ],
+      "created_at": "2026-03-06T20:01:12.472257817-08:00",
+      "updated_at": "2026-03-06T20:01:12.472257817-08:00",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T20:01:12.472977761-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772856072472",
+        "files": {
+          "requirements": "data/context/task_1772856072472/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772856072472/project_context.md",
+          "patterns": "data/context/task_1772856072472/patterns.md",
+          "decisions": "data/context/task_1772856072472/decisions.md",
+          "test_hints": "data/context/task_1772856072472/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772856072478",
+      "title": "Fix context bundle path in docs - docs say data/context_b...",
+      "description": "Fix context bundle path in docs - docs say data/context_bundles/ but actual path is data/context/. Update CLAUDE.md and any other docs. Minor priority.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772856067481",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "docs",
+        "bugfix"
+      ],
+      "created_at": "2026-03-06T20:01:12.478346448-08:00",
+      "updated_at": "2026-03-06T20:01:12.478346448-08:00",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T20:01:12.478873377-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772856072478",
+        "files": {
+          "requirements": "data/context/task_1772856072478/requirements.md",
+          "relevant_code": [
+            "data/context/task_1772856072478/relevant_code/CLAUDE.md_1_50.txt"
+          ],
+          "project_context": "data/context/task_1772856072478/project_context.md",
+          "patterns": "data/context/task_1772856072478/patterns.md",
+          "decisions": "data/context/task_1772856072478/decisions.md",
+          "test_hints": "data/context/task_1772856072478/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772858973321",
+      "title": "Add Sprint entity to Ground Control",
+      "description": "Add Sprint entity to Ground Control. Sprint is a lightweight grouping of related tasks toward a goal or work session. Schema: id, name, description, goal, tasks[] (task IDs), status (active/completed/paused), created_at, completed_at. Add to data/sprints.json. Commands: gc sprint create, gc sprint list, gc sprint add-task <sprint> <task>, gc sprint status. Keep it simple - not full project management, just work session grouping. Should be able to run gc orc on a sprint to execute all its tasks.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772858967710",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "feature",
+        "cli"
+      ],
+      "created_at": "2026-03-06T20:49:33.321905241-08:00",
+      "updated_at": "2026-03-06T20:49:33.321905241-08:00",
+      "completed_at": "2026-03-06T21:05:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T20:49:33.322598537-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772858973321",
+        "files": {
+          "requirements": "data/context/task_1772858973321/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772858973321/project_context.md",
+          "patterns": "data/context/task_1772858973321/patterns.md",
+          "decisions": "data/context/task_1772858973321/decisions.md",
+          "test_hints": "data/context/task_1772858973321/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772859729351",
+      "title": "Phase 2: Implement new pipeline stages - researcher (inve...",
+      "description": "Phase 2: Implement new pipeline stages - researcher (investigate topics, gather info), summary (synthesize findings), planner_chat (chat loop for template population), artifact_output (generate from template), notify/wait_human/capture_response (human input protocol). Each stage has defined inputs/outputs per pipeline-architecture.md.",
+      "type": "research",
+      "agent": "researcher",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772859723041",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "research"
+      ],
+      "created_at": "2026-03-06T21:02:09.351715664-08:00",
+      "updated_at": "2026-03-06T21:02:09.351715664-08:00",
+      "completed_at": "2026-03-06T21:25:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T21:02:09.352345942-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772859729351",
+        "files": {
+          "requirements": "data/context/task_1772859729351/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772859729351/project_context.md",
+          "patterns": "data/context/task_1772859729351/patterns.md",
+          "decisions": "data/context/task_1772859729351/decisions.md",
+          "test_hints": "data/context/task_1772859729351/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772859729353",
+      "title": "Phase 3: Implement composable pipelines - Add pipeline YA...",
+      "description": "Phase 3: Implement composable pipelines - Add pipeline YAML definition files in config/pipelines/. Support sub-pipeline invocation. Add foreach construct for task lists. Pipelines can call other pipelines as stages.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772859723196",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "feature"
+      ],
+      "created_at": "2026-03-06T21:02:09.353886899-08:00",
+      "updated_at": "2026-03-06T21:02:09.353886899-08:00",
+      "completed_at": "2026-03-06T21:30:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T21:02:09.354867056-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772859729353",
+        "files": {
+          "requirements": "data/context/task_1772859729353/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772859729353/project_context.md",
+          "patterns": "data/context/task_1772859729353/patterns.md",
+          "decisions": "data/context/task_1772859729353/decisions.md",
+          "test_hints": "data/context/task_1772859729353/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772859729363",
+      "title": "Phase 4: Implement artifact generation system - Template ...",
+      "description": "Phase 4: Implement artifact generation system - Template file format with document + variables + planning guidance sections. Chat loop for populating variables. Teaching mode for uninformed users. Artifact dependencies (one artifact can require others as input).",
+      "type": "ai-planning",
+      "agent": "planner",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772859723343",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "planning",
+        "ui",
+        "documentation"
+      ],
+      "created_at": "2026-03-06T21:02:09.363421427-08:00",
+      "updated_at": "2026-03-06T21:02:09.363421427-08:00",
+      "completed_at": "2026-03-06T21:35:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T21:02:09.364076867-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772859729363",
+        "files": {
+          "requirements": "data/context/task_1772859729363/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772859729363/project_context.md",
+          "patterns": "data/context/task_1772859729363/patterns.md",
+          "decisions": "data/context/task_1772859729363/decisions.md",
+          "test_hints": "data/context/task_1772859729363/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772859729365",
+      "title": "Phase 5: Implement parallelization - Taskmaster evaluates...",
+      "description": "Phase 5: Implement parallelization - Taskmaster evaluates parallelization opportunity at stage start. Max N concurrent agents (configurable). Dependency-aware scheduling. Stage can ignore recommendation.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772859723599",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "feature"
+      ],
+      "created_at": "2026-03-06T21:02:09.365302012-08:00",
+      "updated_at": "2026-03-06T21:02:09.365302012-08:00",
+      "completed_at": "2026-03-06T21:40:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T21:02:09.365934258-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772859729365",
+        "files": {
+          "requirements": "data/context/task_1772859729365/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772859729365/project_context.md",
+          "patterns": "data/context/task_1772859729365/patterns.md",
+          "decisions": "data/context/task_1772859729365/decisions.md",
+          "test_hints": "data/context/task_1772859729365/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772859729368",
+      "title": "Phase 6: Create the CreateAppPipeline - End-to-end pipeli...",
+      "description": "Phase 6: Create the CreateAppPipeline - End-to-end pipeline from idea to deployed app. Composes artifact_generation, coding pipeline, integration, deploy. The capstone that demonstrates the full system.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772859723787",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "feature"
+      ],
+      "created_at": "2026-03-06T21:02:09.368258843-08:00",
+      "updated_at": "2026-03-06T21:02:09.368258843-08:00",
+      "completed_at": "2026-03-06T21:45:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-06T21:02:09.368898441-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772859729368",
+        "files": {
+          "requirements": "data/context/task_1772859729368/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772859729368/project_context.md",
+          "patterns": "data/context/task_1772859729368/patterns.md",
+          "decisions": "data/context/task_1772859729368/decisions.md",
+          "test_hints": "data/context/task_1772859729368/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772871455822",
+      "title": "Create brainstorm pipeline and gc brainstorm command",
+      "description": "Create brainstorm pipeline and gc brainstorm command. Pipeline: ideate → evaluate → prioritize → capture. Command should support chat-style ideation with Claude, capture ideas in structured format, and output to brain-dump or directly create tasks. Include feature_ideas.template.yaml with: problem_statement, target_users, ideas[], constraints, next_steps. First use case: brainstorm TUI features to close feature gap with CLI.",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772871455071",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "pipeline",
+        "brainstorm",
+        "ideation",
+        "high-priority"
+      ],
+      "created_at": "2026-03-07T00:17:35.82209244-08:00",
+      "updated_at": "2026-03-07T00:17:35.82209244-08:00",
+      "completed_at": "2026-03-07T00:20:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-07T00:17:35.842214256-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772871455822",
+        "files": {
+          "requirements": "data/context/task_1772871455822/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772871455822/project_context.md",
+          "patterns": "data/context/task_1772871455822/patterns.md",
+          "decisions": "data/context/task_1772871455822/decisions.md",
+          "test_hints": "data/context/task_1772871455822/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772871773492",
+      "title": "TUI: Add brain dump capture (press 'd') - Quick capture i...",
+      "description": "TUI: Add brain dump capture (press 'd') - Quick capture ideas without leaving TUI, saves to brain-dump.json",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 1,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772871772807",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "tui",
+        "ui",
+        "brain-dump"
+      ],
+      "created_at": "2026-03-07T00:22:53.492369116-08:00",
+      "updated_at": "2026-03-07T00:58:03.932135653-08:00",
+      "completed_at": "2026-03-07T00:58:03.932135653-08:00",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-07T00:22:53.492931494-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772871773492",
+        "files": {
+          "requirements": "data/context/task_1772871773492/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772871773492/project_context.md",
+          "patterns": "data/context/task_1772871773492/patterns.md",
+          "decisions": "data/context/task_1772871773492/decisions.md",
+          "test_hints": "data/context/task_1772871773492/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772871773493",
+      "title": "TUI: Add task creation (press 'c') - Guided task creation...",
+      "description": "TUI: Add task creation (press 'c') - Guided task creation with prompts for title, type, description, requirements",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 2,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772871773179",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "tui",
+        "ui",
+        "task-creation"
+      ],
+      "created_at": "2026-03-07T00:22:53.493704403-08:00",
+      "updated_at": "2026-03-07T01:00:56.538088889-08:00",
+      "completed_at": "2026-03-07T01:00:56.538088889-08:00",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-07T00:22:53.494129071-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772871773493",
+        "files": {
+          "requirements": "data/context/task_1772871773493/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772871773493/project_context.md",
+          "patterns": "data/context/task_1772871773493/patterns.md",
+          "decisions": "data/context/task_1772871773493/decisions.md",
+          "test_hints": "data/context/task_1772871773493/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772871773494",
+      "title": "TUI: Add sprint view - Tab to switch views, show sprint l...",
+      "description": "TUI: Add sprint view - Tab to switch views, show sprint list, sprint details with task progress, add/remove tasks from sprint",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772871773303",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "tui",
+        "ui",
+        "sprint"
+      ],
+      "created_at": "2026-03-07T00:22:53.494730589-08:00",
+      "updated_at": "2026-03-07T01:04:00.449049677-08:00",
+      "completed_at": "2026-03-07T01:04:00.449049677-08:00",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-07T00:22:53.495102211-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772871773494",
+        "files": {
+          "requirements": "data/context/task_1772871773494/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772871773494/project_context.md",
+          "patterns": "data/context/task_1772871773494/patterns.md",
+          "decisions": "data/context/task_1772871773494/decisions.md",
+          "test_hints": "data/context/task_1772871773494/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772871773495",
+      "title": "TUI: Add orchestration progress view - Real-time pipeline...",
+      "description": "TUI: Add orchestration progress view - Real-time pipeline execution status, show current stage, iteration count, streaming output",
+      "type": "coding",
+      "agent": "coder",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 2,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772871773404",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "tui",
+        "ui",
+        "orchestration"
+      ],
+      "created_at": "2026-03-07T00:22:53.495651715-08:00",
+      "updated_at": "2026-03-07T01:07:07.134363489-08:00",
+      "completed_at": "2026-03-07T01:07:07.134363489-08:00",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-07T00:22:53.496807577-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772871773495",
+        "files": {
+          "requirements": "data/context/task_1772871773495/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772871773495/project_context.md",
+          "patterns": "data/context/task_1772871773495/patterns.md",
+          "decisions": "data/context/task_1772871773495/decisions.md",
+          "test_hints": "data/context/task_1772871773495/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772873285681",
+      "title": "TUI: Add guided Q&A component for human-AI interaction",
+      "description": "TUI: Add guided Q&A component for human-AI interaction. AI presents questions with multiple choice options (A/B/C/D + Other). User selects option or chooses Other to provide custom input with explanation. Use Bubble Tea list/input components. Should be reusable for: artifact generation, brainstorming, task creation, decision points. Display question, options with descriptions, selected answer, and capture reasoning. This is a TUI-only feature that provides richer interaction than CLI.",
+      "type": "ai-planning",
+      "agent": "planner",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "Created from brain dump: dump_1772873285572",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "tui",
+        "ui",
+        "interaction",
+        "qa-component",
+        "tui-only"
+      ],
+      "created_at": "2026-03-07T00:48:05.681882544-08:00",
+      "updated_at": "2026-03-07T00:48:05.681882544-08:00",
+      "completed_at": "2026-03-07T00:55:00Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-07T00:48:05.682307248-08:00",
+        "built_by": "context-manager",
+        "bundle_path": "data/context/task_1772873285681",
+        "files": {
+          "requirements": "data/context/task_1772873285681/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772873285681/project_context.md",
+          "patterns": "data/context/task_1772873285681/patterns.md",
+          "decisions": "data/context/task_1772873285681/decisions.md",
+          "test_hints": "data/context/task_1772873285681/test_hints.md"
+        }
+      }
+    },
+    {
+      "id": "task_1772875931817_11Create",
+      "title": "1.1 Create Carousel Container (FeedCarousel.tsx)",
+      "description": "Create FeedCarousel.tsx with horizontal scroll (CSS scroll-snap-type: x mandatory), snap points, touch swipe and mouse drag. Track current stage in state, persist to localStorage key notifai-carousel-stage. Expose goToStage(n) method. Include scroll position management per stage using refs. IMPORTANT: Detect when touch starts on a notification card and do NOT initiate carousel swipe - prevent swipe conflict with card actions.",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 1. Files: Dashboard.tsx, NotificationCardExpandable.tsx (swipe reference), lib/utils.ts (cn() for classNames). Patterns: localStorage prefix notifai-, swipe threshold 80px.",
+        "requirements": [
+          "Horizontal scroll with snap",
+          "Touch swipe works (no jank)",
+          "Mouse drag works",
+          "goToStage(n) scrolls smoothly",
+          "Persist stage to notifai-carousel-stage",
+          "Restore stage on load",
+          "Track scroll position per stage with refs"
+        ],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-1",
+        "carousel"
+      ],
+      "created_at": "2026-03-07T09:32:11Z",
+      "updated_at": "2026-03-07T09:32:11Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772875931821_12Create",
+      "title": "1.2 Create Stage Wrapper (CarouselStage.tsx)",
+      "description": "Create CarouselStage.tsx accepting stage prop (0-3). Apply stage-specific backgrounds (VERY subtle 5-10% opacity tints). Display stage titles (Blocked Channels, Channel Rules, AI Rules, Focused). Show peek (~20-40px thin sliver) of adjacent stages - peek must be tappable to navigate.",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 1. Dark theme: bg-slate-900 base, bg-slate-800 cards. Peek = thin vertical sliver showing edge of adjacent stage, NOT a preview card.",
+        "requirements": [
+          "Each stage fills viewport width minus peek space",
+          "Stage titles visible at top",
+          "Background tint subtle but perceptible",
+          "Peek shows 20-40px of adjacent stages",
+          "Peek is tappable to navigate"
+        ],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-1",
+        "carousel"
+      ],
+      "created_at": "2026-03-07T09:32:11Z",
+      "updated_at": "2026-03-07T09:32:11Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772875931821_13Naviga",
+      "title": "1.3a Navigation Controls (Arrows & Keyboard)",
+      "description": "Left/right arrow buttons (desktop only, hidden on mobile), keyboard navigation (only when carousel focused, not globally). Reference NotificationCardExpandable.tsx for swipe patterns.",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 1. Files: Dashboard.tsx (754 lines), NotificationCardExpandable.tsx (swipe patterns). Patterns: 80px swipe threshold, 300ms animations. Constraints: min 44px touch targets, dark theme (bg-slate-900 base).",
+        "requirements": [
+          "Arrow buttons visible on desktop only",
+          "Arrow click navigates one stage",
+          "Arrow keys work only when carousel focused",
+          "Hidden on mobile"
+        ],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-1",
+        "carousel"
+      ],
+      "created_at": "2026-03-07T09:32:11Z",
+      "updated_at": "2026-03-07T09:32:11Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772875931821_14Scroll",
+      "title": "1.4 Scroll Position Management (merged into 1.1)",
+      "description": "MERGED INTO TASK 1.1 - Scroll position management is now part of the carousel container task.",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI Redesign - Phase 1 & 2",
+        "requirements": [],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-1",
+        "carousel"
+      ],
+      "created_at": "2026-03-07T09:32:11Z",
+      "updated_at": "2026-03-07T09:32:11Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772875931821_15Integr",
+      "title": "1.5 Integrate Carousel with Dashboard",
+      "description": "Replace ViewSwitcher with FeedCarousel in Dashboard. Remove old RawInfoView, CleanView usage. Keep old components until carousel stable, then remove. Update routing if needed.",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 1. WARNING: Dashboard.tsx is 754 lines with complex state - careful execution needed. Files to remove: ViewSwitcher.tsx usage.",
+        "requirements": [
+          "ViewSwitcher removed from Dashboard",
+          "Carousel renders in Dashboard",
+          "No TypeScript errors",
+          "App builds and runs"
+        ],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-1",
+        "carousel"
+      ],
+      "created_at": "2026-03-07T09:32:11Z",
+      "updated_at": "2026-03-07T09:32:11Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772875931821_21Create",
+      "title": "2.1 Create ChannelBlockList Component",
+      "description": "Create ChannelBlockList.tsx displaying ALL channels (not just those with notifications) as vertical scrollable list. Each row: icon, name, notification count (show 0 for empty), block toggle. Blocked (enabled=false) channels have muted styling (opacity 0.5-0.7). Match notification card styling (rounded corners, dark bg).",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 2. Files: lib/api.ts (Channel interface). Use existing enabled field for blocking. Show ALL channels so users can preemptively block.",
+        "requirements": [
+          "Vertical scrollable list (NOT grid)",
+          "Each row: icon, name, count, toggle",
+          "Blocked channels visually muted",
+          "Styling matches notification cards",
+          "Show ALL channels including those with 0 notifications"
+        ],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-2",
+        "blocked-channels"
+      ],
+      "created_at": "2026-03-07T09:32:11Z",
+      "updated_at": "2026-03-07T09:32:11Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772875931821_22BlockU",
+      "title": "2.2 Block/Unblock Interaction",
+      "description": "Tap toggles blocked state (using existing enabled field, NOT is_blocked). Blocked channels move to bottom or separate section. Show toast via sonner: toast.success(\"Gmail blocked - X notifications hidden\"). API: PATCH /api/channels/{id} with {enabled: false}. Apply filter optimistically before API response.",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 2. Use existing enabled field - no migration needed. Toast: import { toast } from sonner. Optimistic UI update. Toast library: import { toast } from \"sonner\".",
+        "requirements": [
+          "Tap toggles blocked state",
+          "Uses enabled field (NOT is_blocked)",
+          "Blocked channels move to bottom",
+          "Toast shows channel name and impact count",
+          "API call PATCH /api/channels/{id}",
+          "Optimistic UI update"
+        ],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-2",
+        "blocked-channels"
+      ],
+      "created_at": "2026-03-07T09:32:11Z",
+      "updated_at": "2026-03-07T09:32:11Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772875931821_23PeekIn",
+      "title": "2.3 Peek Integration for Blocked Channels",
+      "description": "Right edge shows peek (~20-40px sliver) of Channel Rules stage (Stage 1) with notification count badge. Tapping peek navigates to Stage 1. Peek is thin sliver of actual content, NOT a preview card.",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 2. Peek = thin vertical sliver, not minimap or preview.",
+        "requirements": [
+          "Peek shows 20-40px of Stage 1",
+          "Notification count visible",
+          "Tapping peek navigates to Stage 1"
+        ],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-2",
+        "blocked-channels"
+      ],
+      "created_at": "2026-03-07T09:32:11Z",
+      "updated_at": "2026-03-07T09:32:11Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772875931821_24Channe",
+      "title": "2.4 Channel Search/Filter UI",
+      "description": "Search input at top of channel list. Filters by name (case-insensitive). Optional: filter dropdown by channel_type (email, chat, system). No backend changes needed - filter client-side.",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 2. Pure frontend task - filter existing channel data client-side.",
+        "requirements": [
+          "Search input at top",
+          "Filters by name case-insensitive",
+          "Optional: filter by channel_type",
+          "UI does not block content"
+        ],
+        "constraints": [],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-2",
+        "blocked-channels"
+      ],
+      "created_at": "2026-03-07T09:32:11Z",
+      "updated_at": "2026-03-07T09:32:11Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772876500001_13bHeader",
+      "title": "1.3b Header Position Dots",
+      "description": "Add position indicator dots to Header.tsx component. Current stage dot highlighted. Dots are tappable to navigate. Integrate with FeedCarousel goToStage() method.",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 2,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 1. Files: Header.tsx (dots go here), FeedCarousel.tsx (goToStage method). Dots must be IN the header component, not standalone.",
+        "requirements": [
+          "Dots in header component",
+          "Current stage highlighted",
+          "Dots tappable",
+          "Calls goToStage()"
+        ],
+        "constraints": [],
+        "related_tasks": [
+          "task_1772875931821_13Naviga"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [
+        "task_1772875931817_11Create"
+      ],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-1",
+        "carousel"
+      ],
+      "created_at": "2026-03-07T10:07:09Z",
+      "updated_at": "2026-03-07T10:07:09Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    }
+  ]
 }

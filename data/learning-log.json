@@ -1,0 +1,126 @@
+[
+  {
+    "session_id": "manual_2026-03-06",
+    "timestamp": "2026-03-06T17:45:00Z",
+    "issues": [
+      {
+        "task_id": "task_1741275000001",
+        "stage": "planning",
+        "severity": "significant",
+        "category": "context_awareness",
+        "description": "Agent was unaware of existing TUI (`gc tui`) when creating manual test plan. Created CLI-only test scenarios, missing a major feature. Only discovered when user asked about TUI testing.",
+        "impact": "Test plan was incomplete. Could have made architectural decisions without considering TUI implications. Demonstrates gap in codebase awareness during planning tasks.",
+        "suggestion": "Before creating test plans or making design decisions, agent should explicitly scan for all registered commands (check main.go) and major subsystems (check internal/ directories). Consider adding a 'codebase inventory' step to context bundle building."
+      },
+      {
+        "task_id": "task_1741275000001",
+        "stage": "planning",
+        "severity": "moderate",
+        "category": "feature_gap_tracking",
+        "description": "Self-learning command (`gc self-learn`) is designed in docs/command-design.md but not implemented. Issue collection infrastructure exists but no way to analyze or act on collected issues.",
+        "impact": "Learning loop is incomplete - data is captured but never reviewed. System cannot improve from its mistakes automatically.",
+        "suggestion": "Implement gc self-learn as Phase 7 priority. Should analyze learning-log.json, identify patterns, propose improvements."
+      },
+      {
+        "task_id": "task_1741275000001",
+        "stage": "planning",
+        "severity": "minor",
+        "category": "feature_gap_tracking",
+        "description": "TUI has planned features not yet implemented: multi-select, orchestration progress view, brain dump processing, task creation from TUI.",
+        "impact": "TUI is functional for viewing/state-changes but limited. Users may expect more interactive capabilities.",
+        "suggestion": "Phase 6 work - prioritize based on user feedback during testing."
+      }
+    ],
+    "summary": {
+      "total_tasks": 1,
+      "completed_tasks": 0,
+      "failed_tasks": 0,
+      "escalated_tasks": 0,
+      "category_counts": {
+        "context_awareness": 1,
+        "feature_gap_tracking": 2
+      },
+      "severity_counts": {
+        "significant": 1,
+        "moderate": 1,
+        "minor": 1
+      }
+    }
+  },
+  {
+    "session_id": "manual_testing_2026-03-06",
+    "timestamp": "2026-03-06T17:55:00Z",
+    "issues": [
+      {
+        "task_id": "task_1741275000001",
+        "stage": "testing",
+        "severity": "moderate",
+        "category": "test_plan_accuracy",
+        "description": "Test plan included 'gc process --list' command that doesn't exist. Agent wrote test scenarios based on assumed functionality without verifying the actual CLI flags.",
+        "impact": "Test plan was incorrect, causing confusion during testing. User had to discover the error themselves.",
+        "suggestion": "Before writing test plans, agent should run '--help' on each command to verify actual flags and options. Never assume functionality exists - verify first."
+      },
+      {
+        "task_id": "task_1741275000001",
+        "stage": "analysis",
+        "severity": "moderate",
+        "category": "incomplete_analysis",
+        "description": "Agent dismissed deployment brain dump as 'not testable' without thinking through verification. User pointed out that 'gc --version' from home directory would verify successful deployment.",
+        "impact": "Agent provided incomplete analysis of task testability. Could lead to incorrectly categorizing tasks as untestable when they have clear verification paths.",
+        "suggestion": "When evaluating if a task is testable, explicitly think through: 'What would prove this task is complete?' Even infrastructure/deployment tasks usually have a verification command or state check."
+      }
+    ],
+    "summary": {
+      "total_tasks": 1,
+      "completed_tasks": 0,
+      "failed_tasks": 0,
+      "escalated_tasks": 0,
+      "category_counts": {
+        "test_plan_accuracy": 1,
+        "incomplete_analysis": 1
+      },
+      "severity_counts": {
+        "moderate": 2
+      }
+    }
+  }
+],
+  {
+    "session_id": "tui_feature_parity_2026-03-07",
+    "timestamp": "2026-03-07T12:00:00Z",
+    "issues": [
+      {
+        "task_id": "sprint_tui_feature_parity",
+        "stage": "completion",
+        "severity": "significant",
+        "category": "premature_completion_claim",
+        "description": "Agent claimed 'TUI Feature Parity Sprint Complete' after implementing view-only features (brain dump, task creation, sprint view, orchestration VIEW). However, the core workflow - actually STARTING orchestration from TUI - was missing. User had to point out the gap by asking 'how would I use TUI to accomplish this task?'",
+        "impact": "User trusted the 'feature parity' claim and could have discovered the gap at a critical moment (e.g., on a deadline) causing significant disruption. False confidence in system capabilities.",
+        "suggestion": "Before claiming feature parity or completion of a 'parity' sprint: 1) List ALL commands/features from the reference system (CLI), 2) Map each to its TUI equivalent, 3) Verify each mapping includes the FULL workflow not just viewing. Ask: 'Can a user complete the entire workflow without leaving TUI?' For orchestration, viewing progress ≠ starting orchestration."
+      },
+      {
+        "task_id": "sprint_tui_feature_parity",
+        "stage": "completion",
+        "severity": "moderate",
+        "category": "semantic_confusion",
+        "description": "Conflated 'orchestration progress VIEW' with 'orchestration capability'. The brainstorm document said 'Orchestration progress view - Real-time view of pipeline execution' which was implemented correctly, but this is not the same as being able to START orchestration.",
+        "impact": "The task was technically completed as specified, but the sprint goal ('feature parity') was not achieved. Task completion ≠ goal completion.",
+        "suggestion": "When working on 'parity' or 'equivalence' goals, the acceptance criteria should be 'can do everything X can do' not 'implemented the listed tasks'. Validate against the goal, not just the task list."
+      }
+    ],
+    "summary": {
+      "total_tasks": 1,
+      "completed_tasks": 1,
+      "failed_tasks": 0,
+      "escalated_tasks": 0,
+      "category_counts": {
+        "premature_completion_claim": 1,
+        "semantic_confusion": 1
+      },
+      "severity_counts": {
+        "significant": 1,
+        "moderate": 1
+      }
+    }
+  }
+]

@@ -1,0 +1,12 @@
+name: coding
+description: Standard code implementation pipeline
+stages:
+  - name: sanity
+  - name: coder
+    loops_with:
+      - reviewer
+      - tester
+  - name: reviewer
+  - name: tester
+    skip_if: no_tests
+  - name: commit

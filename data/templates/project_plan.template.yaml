@@ -1,0 +1,37 @@
+name: project_plan
+description: Project planning document
+document: |
+  # Project: {{project_name}}
+
+  ## Goal
+  {{project_goal}}
+
+  ## Tech Stack
+  {{tech_stack}}
+
+  ## Requirements
+  {{requirements}}
+
+variables:
+  - name: project_name
+    type: string
+    description: Short project identifier
+    required: true
+  - name: project_goal
+    type: string
+    description: One sentence goal
+    required: true
+  - name: tech_stack
+    type: list
+    description: Technologies to use
+    required: false
+  - name: requirements
+    type: string
+    description: Key requirements
+    required: true
+
+guidance:
+  project_name: "What should we call this? Something short you'll type often."
+  project_goal: "If this succeeds, what's different? Complete: 'Users can ___'"
+  tech_stack: "What languages/frameworks? I can suggest based on project type."
+  requirements: "What are the must-haves?"

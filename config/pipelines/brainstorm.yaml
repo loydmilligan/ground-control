@@ -1,0 +1,7 @@
+name: brainstorm
+description: Explore ideas and generate feature concepts
+stages:
+  - name: ideate
+  - name: evaluate
+  - name: prioritize
+  - name: capture
