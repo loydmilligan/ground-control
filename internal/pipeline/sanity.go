@@ -1,11 +1,15 @@
 package pipeline
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
 	"github.com/mmariani/ground-control/internal/types"
 )
+
+// ErrNoContextBundle is returned when a task has no context bundle.
+var ErrNoContextBundle = errors.New("task has no context bundle")
 
 // SanityStage verifies a task is ready for execution.
 type SanityStage struct {
@@ -53,7 +57,7 @@ func (s *SanityStage) Execute(ctx *StageContext) *StageResult {
 	if task.ContextBundle == nil {
 		return &StageResult{
 			Status: StageStatusFailed,
-			Error:  fmt.Errorf("task has no context bundle - run 'gc create' or rebuild context"),
+			Error:  ErrNoContextBundle,
 			Notes:  "Context bundle is required for pipeline execution",
 		}
 	}

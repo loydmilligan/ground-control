@@ -159,5 +159,43 @@
         "moderate": 1
       }
     }
+  },
+  {
+    "session_id": "context_engineer_flow_2026-03-07",
+    "timestamp": "2026-03-07T16:30:00Z",
+    "issues": [
+      {
+        "task_id": "context_bundle_stage",
+        "stage": "design",
+        "severity": "moderate",
+        "category": "requirements_misinterpretation",
+        "description": "User described a conditional flow: 'sanity check fails, send tasks to context engineer.' Agent interpreted this as: 'Add Context Bundle stage BEFORE Sanity stage.' This is wrong - the correct flow is: 1) Sanity runs first, 2) If sanity fails specifically for missing context bundle, THEN route to Context Engineer, 3) After CE builds bundle, retry Sanity. Agent proposed the wrong architecture and started implementing before user caught the error.",
+        "impact": "Would have implemented inefficient architecture where Context Bundle stage runs on EVERY task, even those that already have bundles. The correct conditional routing only invokes Context Engineer when actually needed. User had to interrupt and correct.",
+        "suggestion": "When user describes conditional/branching logic, explicitly restate the flow back to them BEFORE implementing. Use a diagram or numbered steps: '1. X runs, 2. IF condition THEN Y, 3. ELSE Z'. Pay attention to words like 'if', 'when', 'fails' that indicate conditional behavior, not sequential stages. The phrase 'sanity check fails, send to CE' clearly means sanity runs FIRST, not after."
+      },
+      {
+        "task_id": "context_bundle_stage",
+        "stage": "design",
+        "severity": "minor",
+        "category": "premature_implementation",
+        "description": "Agent started delegating implementation to builder subagent before confirming the architecture was correct. User had to interrupt the Task tool execution.",
+        "impact": "Wasted a subagent invocation. If the builder had completed, would have needed to redo the work.",
+        "suggestion": "For architectural changes, confirm the design with user BEFORE delegating to builder. Say: 'Here is the flow I will implement: [steps]. Correct?' Only after confirmation, proceed with implementation."
+      }
+    ],
+    "summary": {
+      "total_tasks": 1,
+      "completed_tasks": 0,
+      "failed_tasks": 0,
+      "escalated_tasks": 0,
+      "category_counts": {
+        "requirements_misinterpretation": 1,
+        "premature_implementation": 1
+      },
+      "severity_counts": {
+        "moderate": 1,
+        "minor": 1
+      }
+    }
   }
 ]

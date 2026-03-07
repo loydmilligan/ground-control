@@ -54,7 +54,7 @@
       "after_completion": "taskmaster_review",
       "verification": {
         "type": "test_pass",
-        "command": "go build ./cmd/gc && ./gc tasks"
+        "command": "go build ./cmd/gc \u0026\u0026 ./gc tasks"
       },
       "project_id": null,
       "tags": [
@@ -152,7 +152,7 @@
       "after_completion": "taskmaster_review",
       "verification": {
         "type": "test_pass",
-        "command": "go build ./cmd/gc && ./gc standup"
+        "command": "go build ./cmd/gc \u0026\u0026 ./gc standup"
       },
       "project_id": null,
       "tags": [
@@ -252,7 +252,7 @@
       "after_completion": "taskmaster_review",
       "verification": {
         "type": "test_pass",
-        "command": "go build ./cmd/gc && ./gc complete --help"
+        "command": "go build ./cmd/gc \u0026\u0026 ./gc complete --help"
       },
       "project_id": null,
       "tags": [
@@ -357,9 +357,9 @@
         "requirements": [
           "Add 1-based dynamic indexes to task list output",
           "Hide completed tasks by default (add --all flag to show them)",
-          "Add --state=<state> filter",
-          "Add --tag=<tag> filter",
-          "Add --project=<project> filter",
+          "Add --state=\u003cstate\u003e filter",
+          "Add --tag=\u003ctag\u003e filter",
+          "Add --project=\u003cproject\u003e filter",
           "Add --json flag for scripting",
           "Update output format per design doc"
         ],
@@ -387,7 +387,7 @@
       "after_completion": "taskmaster_review",
       "verification": {
         "type": "test_pass",
-        "command": "go build ./cmd/gc && ./gc tasks && ./gc tasks --all && ./gc tasks --state=created"
+        "command": "go build ./cmd/gc \u0026\u0026 ./gc tasks \u0026\u0026 ./gc tasks --all \u0026\u0026 ./gc tasks --state=created"
       },
       "project_id": null,
       "tags": [
@@ -418,7 +418,7 @@
         "requirements": [
           "Create agents/context-manager.md with agent prompt",
           "Add context_bundle field to Task type",
-          "Implement context bundle directory structure (task_<id>/context/)",
+          "Implement context bundle directory structure (task_\u003cid\u003e/context/)",
           "Create requirements.md generator from task description",
           "Create relevant_code extractor (find affected files, extract snippets)",
           "Create patterns.md extractor from project docs",
@@ -526,7 +526,7 @@
       "after_completion": "taskmaster_review",
       "verification": {
         "type": "test_pass",
-        "command": "go build ./cmd/gc && ./gc create --help"
+        "command": "go build ./cmd/gc \u0026\u0026 ./gc create --help"
       },
       "project_id": null,
       "tags": [
@@ -591,7 +591,7 @@
       "after_completion": "taskmaster_review",
       "verification": {
         "type": "test_pass",
-        "command": "go build ./cmd/gc && ./gc process --help && ./gc process --dry-run"
+        "command": "go build ./cmd/gc \u0026\u0026 ./gc process --help \u0026\u0026 ./gc process --dry-run"
       },
       "project_id": null,
       "tags": [
@@ -622,7 +622,7 @@
         "requirements": [
           "Accept task indexes (gc orc 1 3 5) or task IDs",
           "Resolve indexes to task IDs using current gc tasks output",
-          "Create work session in data/sessions/session_<timestamp>.json",
+          "Create work session in data/sessions/session_\u003ctimestamp\u003e.json",
           "Add --dry-run flag to show execution plan without running",
           "Add --verbose flag for detailed output",
           "Track session state (started, running, completed, failed)",
@@ -658,7 +658,7 @@
       "after_completion": "taskmaster_review",
       "verification": {
         "type": "test_pass",
-        "command": "go build ./cmd/gc && ./gc orc --help"
+        "command": "go build ./cmd/gc \u0026\u0026 ./gc orc --help"
       },
       "project_id": null,
       "tags": [
@@ -688,7 +688,7 @@
       "context": {
         "background": "The pipeline executor manages stage transitions, handles feedback loops, and tracks progress. Each stage implements a common interface for execution.",
         "requirements": [
-          "Define Stage interface: Execute(task, context) -> StageResult",
+          "Define Stage interface: Execute(task, context) -\u003e StageResult",
           "StageResult contains: status (success/needs_revision/escalate), output files, issues[]",
           "Implement pipeline runner that executes stages in order",
           "Handle stage transitions and state updates",
@@ -944,7 +944,7 @@
       "after_completion": "taskmaster_review",
       "verification": {
         "type": "test_pass",
-        "command": "go build ./... && ./gc orc --help"
+        "command": "go build ./... \u0026\u0026 ./gc orc --help"
       },
       "project_id": null,
       "tags": [
@@ -1211,7 +1211,7 @@
       "after_completion": "taskmaster_review",
       "verification": {
         "type": "test_pass",
-        "command": "go build ./cmd/gc && ./gc orc --help"
+        "command": "go build ./cmd/gc \u0026\u0026 ./gc orc --help"
       },
       "project_id": null,
       "tags": [
@@ -1899,7 +1899,7 @@
     {
       "id": "task_1772856072470",
       "title": "Add session management commands - gc sessions --list, --c...",
-      "description": "Add session management commands - gc sessions --list, --cleanup, --cancel. Currently 7 sessions stuck in 'running' state with no way to clean them up from CLI. Also add stale session detection (if >1 hour old with no updates, mark as stale). Moderate priority.",
+      "description": "Add session management commands - gc sessions --list, --cleanup, --cancel. Currently 7 sessions stuck in 'running' state with no way to clean them up from CLI. Also add stale session detection (if \u003e1 hour old with no updates, mark as stale). Moderate priority.",
       "type": "coding",
       "agent": "coder",
       "assigned_human": "matt",
@@ -2065,7 +2065,7 @@
     {
       "id": "task_1772858973321",
       "title": "Add Sprint entity to Ground Control",
-      "description": "Add Sprint entity to Ground Control. Sprint is a lightweight grouping of related tasks toward a goal or work session. Schema: id, name, description, goal, tasks[] (task IDs), status (active/completed/paused), created_at, completed_at. Add to data/sprints.json. Commands: gc sprint create, gc sprint list, gc sprint add-task <sprint> <task>, gc sprint status. Keep it simple - not full project management, just work session grouping. Should be able to run gc orc on a sprint to execute all its tasks.",
+      "description": "Add Sprint entity to Ground Control. Sprint is a lightweight grouping of related tasks toward a goal or work session. Schema: id, name, description, goal, tasks[] (task IDs), status (active/completed/paused), created_at, completed_at. Add to data/sprints.json. Commands: gc sprint create, gc sprint list, gc sprint add-task \u003csprint\u003e \u003ctask\u003e, gc sprint status. Keep it simple - not full project management, just work session grouping. Should be able to run gc orc on a sprint to execute all its tasks.",
       "type": "coding",
       "agent": "coder",
       "assigned_human": "matt",
@@ -2661,8 +2661,8 @@
     },
     {
       "id": "task_1772873285681",
-      "title": "TUI: Add guided Q&A component for human-AI interaction",
-      "description": "TUI: Add guided Q&A component for human-AI interaction. AI presents questions with multiple choice options (A/B/C/D + Other). User selects option or chooses Other to provide custom input with explanation. Use Bubble Tea list/input components. Should be reusable for: artifact generation, brainstorming, task creation, decision points. Display question, options with descriptions, selected answer, and capture reasoning. This is a TUI-only feature that provides richer interaction than CLI.",
+      "title": "TUI: Add guided Q\u0026A component for human-AI interaction",
+      "description": "TUI: Add guided Q\u0026A component for human-AI interaction. AI presents questions with multiple choice options (A/B/C/D + Other). User selects option or chooses Other to provide custom input with explanation. Use Bubble Tea list/input components. Should be reusable for: artifact generation, brainstorming, task creation, decision points. Display question, options with descriptions, selected answer, and capture reasoning. This is a TUI-only feature that provides richer interaction than CLI.",
       "type": "ai-planning",
       "agent": "planner",
       "assigned_human": "matt",
@@ -2721,7 +2721,7 @@
       "title": "1.1 Create Carousel Container (FeedCarousel.tsx)",
       "description": "Create FeedCarousel.tsx with horizontal scroll (CSS scroll-snap-type: x mandatory), snap points, touch swipe and mouse drag. Track current stage in state, persist to localStorage key notifai-carousel-stage. Expose goToStage(n) method. Include scroll position management per stage using refs. IMPORTANT: Detect when touch starts on a notification card and do NOT initiate carousel swipe - prevent swipe conflict with card actions.",
       "type": "coding",
-      "agent": null,
+      "agent": "external-notifai-claude",
       "assigned_human": "matt",
       "autonomy_level": "checkpoints",
       "complexity": 3,
@@ -2729,7 +2729,7 @@
       "due_date": null,
       "due_urgency": "none",
       "context": {
-        "background": "NotifAI Carousel UI - Phase 1. Files: Dashboard.tsx, NotificationCardExpandable.tsx (swipe reference), lib/utils.ts (cn() for classNames). Patterns: localStorage prefix notifai-, swipe threshold 80px.",
+        "background": "NotifAI Carousel UI - Phase 1. Files: Dashboard.tsx, NotificationCardExpandable.tsx (swipe reference), lib/utils.ts (cn() for classNames). Patterns: localStorage prefix notifai-, swipe threshold 80px. [IN PROGRESS BY EXTERNAL AGENT: NotifAI Claude is implementing Phase 1 directly]",
         "requirements": [
           "Horizontal scroll with snap",
           "Touch swipe works (no jank)",
@@ -2744,7 +2744,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -2761,7 +2761,7 @@
       ],
       "created_at": "2026-03-07T09:32:11Z",
       "updated_at": "2026-03-07T09:32:11Z",
-      "completed_at": null,
+      "completed_at": "2026-03-07T10:30:20Z",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null
@@ -2771,7 +2771,7 @@
       "title": "1.2 Create Stage Wrapper (CarouselStage.tsx)",
       "description": "Create CarouselStage.tsx accepting stage prop (0-3). Apply stage-specific backgrounds (VERY subtle 5-10% opacity tints). Display stage titles (Blocked Channels, Channel Rules, AI Rules, Focused). Show peek (~20-40px thin sliver) of adjacent stages - peek must be tappable to navigate.",
       "type": "coding",
-      "agent": null,
+      "agent": "external-notifai-claude",
       "assigned_human": "matt",
       "autonomy_level": "checkpoints",
       "complexity": 3,
@@ -2779,7 +2779,7 @@
       "due_date": null,
       "due_urgency": "none",
       "context": {
-        "background": "NotifAI Carousel UI - Phase 1. Dark theme: bg-slate-900 base, bg-slate-800 cards. Peek = thin vertical sliver showing edge of adjacent stage, NOT a preview card.",
+        "background": "NotifAI Carousel UI - Phase 1. Dark theme: bg-slate-900 base, bg-slate-800 cards. Peek = thin vertical sliver showing edge of adjacent stage, NOT a preview card. [IN PROGRESS BY EXTERNAL AGENT: NotifAI Claude is implementing Phase 1 directly]",
         "requirements": [
           "Each stage fills viewport width minus peek space",
           "Stage titles visible at top",
@@ -2792,7 +2792,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -2809,17 +2809,17 @@
       ],
       "created_at": "2026-03-07T09:32:11Z",
       "updated_at": "2026-03-07T09:32:11Z",
-      "completed_at": null,
+      "completed_at": "2026-03-07T10:30:20Z",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null
     },
     {
       "id": "task_1772875931821_13Naviga",
-      "title": "1.3a Navigation Controls (Arrows & Keyboard)",
+      "title": "1.3a Navigation Controls (Arrows \u0026 Keyboard)",
       "description": "Left/right arrow buttons (desktop only, hidden on mobile), keyboard navigation (only when carousel focused, not globally). Reference NotificationCardExpandable.tsx for swipe patterns.",
       "type": "coding",
-      "agent": null,
+      "agent": "external-notifai-claude",
       "assigned_human": "matt",
       "autonomy_level": "checkpoints",
       "complexity": 3,
@@ -2827,7 +2827,7 @@
       "due_date": null,
       "due_urgency": "none",
       "context": {
-        "background": "NotifAI Carousel UI - Phase 1. Files: Dashboard.tsx (754 lines), NotificationCardExpandable.tsx (swipe patterns). Patterns: 80px swipe threshold, 300ms animations. Constraints: min 44px touch targets, dark theme (bg-slate-900 base).",
+        "background": "NotifAI Carousel UI - Phase 1. Files: Dashboard.tsx (754 lines), NotificationCardExpandable.tsx (swipe patterns). Patterns: 80px swipe threshold, 300ms animations. Constraints: min 44px touch targets, dark theme (bg-slate-900 base). [IN PROGRESS BY EXTERNAL AGENT: NotifAI Claude is implementing Phase 1 directly]",
         "requirements": [
           "Arrow buttons visible on desktop only",
           "Arrow click navigates one stage",
@@ -2839,7 +2839,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -2856,7 +2856,7 @@
       ],
       "created_at": "2026-03-07T09:32:11Z",
       "updated_at": "2026-03-07T09:32:11Z",
-      "completed_at": null,
+      "completed_at": "2026-03-07T10:30:20Z",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null
@@ -2866,7 +2866,7 @@
       "title": "1.4 Scroll Position Management (merged into 1.1)",
       "description": "MERGED INTO TASK 1.1 - Scroll position management is now part of the carousel container task.",
       "type": "coding",
-      "agent": null,
+      "agent": "external-notifai-claude",
       "assigned_human": "matt",
       "autonomy_level": "checkpoints",
       "complexity": 3,
@@ -2874,7 +2874,7 @@
       "due_date": null,
       "due_urgency": "none",
       "context": {
-        "background": "NotifAI Carousel UI Redesign - Phase 1 & 2",
+        "background": "NotifAI Carousel UI Redesign - Phase 1 \u0026 2 [IN PROGRESS BY EXTERNAL AGENT: NotifAI Claude is implementing Phase 1 directly]",
         "requirements": [],
         "constraints": [],
         "related_tasks": [],
@@ -2898,7 +2898,7 @@
       ],
       "created_at": "2026-03-07T09:32:11Z",
       "updated_at": "2026-03-07T09:32:11Z",
-      "completed_at": null,
+      "completed_at": "2026-03-07T10:30:20Z",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null
@@ -2908,7 +2908,7 @@
       "title": "1.5 Integrate Carousel with Dashboard",
       "description": "Replace ViewSwitcher with FeedCarousel in Dashboard. Remove old RawInfoView, CleanView usage. Keep old components until carousel stable, then remove. Update routing if needed.",
       "type": "coding",
-      "agent": null,
+      "agent": "external-notifai-claude",
       "assigned_human": "matt",
       "autonomy_level": "checkpoints",
       "complexity": 3,
@@ -2916,7 +2916,7 @@
       "due_date": null,
       "due_urgency": "none",
       "context": {
-        "background": "NotifAI Carousel UI - Phase 1. WARNING: Dashboard.tsx is 754 lines with complex state - careful execution needed. Files to remove: ViewSwitcher.tsx usage.",
+        "background": "NotifAI Carousel UI - Phase 1. WARNING: Dashboard.tsx is 754 lines with complex state - careful execution needed. Files to remove: ViewSwitcher.tsx usage. [IN PROGRESS BY EXTERNAL AGENT: NotifAI Claude is implementing Phase 1 directly]",
         "requirements": [
           "ViewSwitcher removed from Dashboard",
           "Carousel renders in Dashboard",
@@ -2928,7 +2928,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -2945,7 +2945,7 @@
       ],
       "created_at": "2026-03-07T09:32:11Z",
       "updated_at": "2026-03-07T09:32:11Z",
-      "completed_at": null,
+      "completed_at": "2026-03-07T10:30:20Z",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null
@@ -3145,7 +3145,7 @@
       "title": "1.3b Header Position Dots",
       "description": "Add position indicator dots to Header.tsx component. Current stage dot highlighted. Dots are tappable to navigate. Integrate with FeedCarousel goToStage() method.",
       "type": "coding",
-      "agent": null,
+      "agent": "external-notifai-claude",
       "assigned_human": "matt",
       "autonomy_level": "checkpoints",
       "complexity": 2,
@@ -3153,7 +3153,7 @@
       "due_date": null,
       "due_urgency": "none",
       "context": {
-        "background": "NotifAI Carousel UI - Phase 1. Files: Header.tsx (dots go here), FeedCarousel.tsx (goToStage method). Dots must be IN the header component, not standalone.",
+        "background": "NotifAI Carousel UI - Phase 1. Files: Header.tsx (dots go here), FeedCarousel.tsx (goToStage method). Dots must be IN the header component, not standalone. [IN PROGRESS BY EXTERNAL AGENT: NotifAI Claude is implementing Phase 1 directly]",
         "requirements": [
           "Dots in header component",
           "Current stage highlighted",
@@ -3167,7 +3167,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [
         "task_1772875931817_11Create"
       ],
@@ -3186,7 +3186,287 @@
       ],
       "created_at": "2026-03-07T10:07:09Z",
       "updated_at": "2026-03-07T10:07:09Z",
+      "completed_at": "2026-03-07T10:30:20Z",
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772880001_51FocusedFeed",
+      "title": "5.1 Create FocusedFeed Component",
+      "description": "Create FocusedFeed.tsx as THIN WRAPPER around existing NotificationFeed with mode=focus. Do NOT create new component - reuse NotificationFeed.tsx patterns. Accept notifications and onAction props.",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 3,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 5 (Focused Stage). Files: FeedCarousel.tsx (carousel container), NotificationCardExpandable.tsx (card patterns). This is the clean final output stage.",
+        "requirements": [
+          "Shows only notifications passing all filters",
+          "No RuleBar or filter controls",
+          "Clean notification cards with actions",
+          "Integrates as Stage 3 in carousel"
+        ],
+        "constraints": [
+          "Dark theme: bg-slate-900 base",
+          "Min 44px touch targets"
+        ],
+        "related_tasks": [],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-5",
+        "carousel",
+        "focused-stage"
+      ],
+      "created_at": "2026-03-07T10:23:47Z",
+      "updated_at": "2026-03-07T10:23:47Z",
       "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-07T03:19:04.821491509-08:00",
+        "built_by": "context-engineer",
+        "bundle_path": "data/context/task_1772880001_51FocusedFeed",
+        "files": {
+          "requirements": "data/context/task_1772880001_51FocusedFeed/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772880001_51FocusedFeed/project_context.md",
+          "patterns": "data/context/task_1772880001_51FocusedFeed/patterns.md",
+          "decisions": "data/context/task_1772880001_51FocusedFeed/decisions.md",
+          "test_hints": "data/context/task_1772880001_51FocusedFeed/test_hints.md"
+        },
+        "notes": "Built by context-engineer agent"
+      }
+    },
+    {
+      "id": "task_1772880002_52Cards",
+      "title": "5.2 Notification Cards in Focused Mode",
+      "description": "REUSE existing NotificationCardExpandable.tsx with swipeEnabled={true}. Minimal metadata means hide debug info, processing logs, raw JSON. Actions: Archive, Mark Important (existing). Skip Reply/Snooze for Phase 5 (future enhancement).",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 2,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 5. Reference: NotificationCardExpandable.tsx for existing card patterns. Cards should be minimal but functional.",
+        "requirements": [
+          "Use existing NotificationCardExpandable",
+          "swipeEnabled={true}",
+          "Actions: Archive, Mark Important",
+          "Reply/Snooze: skip for Phase 5"
+        ],
+        "constraints": [
+          "Follow existing card styling patterns",
+          "Dark theme"
+        ],
+        "related_tasks": [
+          "task_1772880001_51FocusedFeed"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-5",
+        "carousel",
+        "focused-stage"
+      ],
+      "created_at": "2026-03-07T10:23:47Z",
+      "updated_at": "2026-03-07T10:23:47Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772880003_53AutoRead",
+      "title": "5.3 Auto-Read Implementation",
+      "description": "Copy IntersectionObserver pattern from CleanView.tsx. Add tier-adjustment formula. Only activate when Stage 3 is visible. Note: ai_tier field may not exist - use 0 as fallback. Check localStorage for notifai-auto-read-delay setting (default 5000ms).",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 4,
+      "importance": "high",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 5. Auto-read marks notifications as read after time in viewport. Tier-adjusted means important notifications get more reading time.",
+        "requirements": [
+          "Base time from settings (3s/5s/10s/15s)",
+          "+3s if tier == CRITICAL",
+          "+2s if tier == HIGH",
+          "+2s if ai_tier == 1",
+          "+1s if ai_tier == 2",
+          "-2s if is_user_important == true",
+          "-1s if ai_tier == 4-5",
+          "Minimum 2s",
+          "Use IntersectionObserver",
+          "Only active in Focused stage"
+        ],
+        "constraints": [
+          "Must not trigger in other stages",
+          "Existing IntersectionObserver logic may exist to reference"
+        ],
+        "related_tasks": [
+          "task_1772880001_51FocusedFeed"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-5",
+        "carousel",
+        "focused-stage"
+      ],
+      "created_at": "2026-03-07T10:23:47Z",
+      "updated_at": "2026-03-07T10:23:47Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772880004_54EmptyState",
+      "title": "5.4 Empty State for Focused Feed",
+      "description": "Simple centered message: All caught up, No unread notifications. Add Adjust filters button that calls goToStage(1). Do not overcomplicate.",
+      "type": "coding",
+      "agent": null,
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 1,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 5. Empty state provides positive feedback when inbox is clear.",
+        "requirements": [
+          "Friendly empty message",
+          "\"All caught up\" or similar",
+          "Link to adjust filters if too aggressive"
+        ],
+        "constraints": [
+          "Should feel encouraging, not broken"
+        ],
+        "related_tasks": [
+          "task_1772880001_51FocusedFeed"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "created",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-5",
+        "carousel",
+        "focused-stage"
+      ],
+      "created_at": "2026-03-07T10:23:47Z",
+      "updated_at": "2026-03-07T10:23:47Z",
+      "completed_at": null,
+      "actual_minutes": null,
+      "tokens_used": null,
+      "lines_changed": null
+    },
+    {
+      "id": "task_1772880005_55Peek",
+      "title": "5.5 Peek Integration for Focused Stage",
+      "description": "ALREADY COMPLETE via Phase 1. CarouselStage already shows peek views with vertical labels. Just verify peek works for Stage 3. X notifications hidden count is nice-to-have, not blocking.",
+      "type": "coding",
+      "agent": "external-notifai-claude",
+      "assigned_human": "matt",
+      "autonomy_level": "checkpoints",
+      "complexity": 2,
+      "importance": "medium",
+      "due_date": null,
+      "due_urgency": "none",
+      "context": {
+        "background": "NotifAI Carousel UI - Phase 5. Peek = thin sliver NOT preview card. Final stage so only left peek exists.",
+        "requirements": [
+          "Left edge peek of Stage 2 (AI Rules)",
+          "No right edge (final stage)",
+          "Show hidden notification count in peek"
+        ],
+        "constraints": [
+          "Peek is 20-40px thin sliver",
+          "Must be tappable to navigate"
+        ],
+        "related_tasks": [
+          "task_1772880001_51FocusedFeed"
+        ],
+        "project_id": null
+      },
+      "topics": [],
+      "state": "completed",
+      "blocked_by": [],
+      "conversation_id": null,
+      "outputs": [],
+      "suggested_next_steps": [],
+      "after_completion": "taskmaster_review",
+      "verification": {
+        "type": "human_approval"
+      },
+      "project_id": null,
+      "tags": [
+        "notifai",
+        "phase-5",
+        "carousel",
+        "focused-stage"
+      ],
+      "created_at": "2026-03-07T10:23:47Z",
+      "updated_at": "2026-03-07T10:23:47Z",
+      "completed_at": "2026-03-07T10:39:20Z",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null

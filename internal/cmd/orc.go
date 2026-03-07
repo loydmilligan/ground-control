@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -624,12 +625,76 @@ func runSanityStage(store *data.Store, sess *session.Session, sessionMgr *sessio
 	ctx.Iteration = 1
 	result := sanityStage.Execute(ctx)
 	if result.Status != pipeline.StageStatusSuccess {
-		sess.FailStage(pipeline.StageNameSanity, result.Error.Error())
-		sessionMgr.Save(sess)
-		return fmt.Errorf("sanity check failed: %w", result.Error)
+		// Check if this is a missing context bundle error
+		if errors.Is(result.Error, pipeline.ErrNoContextBundle) {
+			fmt.Printf("    %s No context bundle found, building...\n", orcWarningStyle.Render("⚠"))
+
+			// Run Context Bundle stage to build the bundle
+			if err := runContextBundleStage(store, sess, sessionMgr, ctx); err != nil {
+				return err
+			}
+
+			// Retry sanity check
+			fmt.Printf("  %s Sanity Check (retry)...\n", orcProgressStyle.Render("→"))
+			sess.SetCurrentStage(pipeline.StageNameSanity, 2)
+			sessionMgr.Save(sess)
+
+			ctx.Iteration = 2
+			result = sanityStage.Execute(ctx)
+			if result.Status != pipeline.StageStatusSuccess {
+				sess.FailStage(pipeline.StageNameSanity, result.Error.Error())
+				sessionMgr.Save(sess)
+				return fmt.Errorf("sanity check failed after building context: %w", result.Error)
+			}
+		} else {
+			// Other sanity check failure
+			sess.FailStage(pipeline.StageNameSanity, result.Error.Error())
+			sessionMgr.Save(sess)
+			return fmt.Errorf("sanity check failed: %w", result.Error)
+		}
 	}
 	sess.CompleteStage(pipeline.StageNameSanity, result.OutputFiles)
 	fmt.Printf("    %s\n", orcSuccessStyle.Render("✓ Passed"))
+	return nil
+}
+
+// runContextBundleStage runs the context bundle building stage.
+func runContextBundleStage(store *data.Store, sess *session.Session, sessionMgr *session.Manager, ctx *pipeline.StageContext) error {
+	fmt.Printf("  %s Context Engineer...\n", orcProgressStyle.Render("→"))
+	contextStage := pipeline.NewContextBundleStage(store, ctx.Verbose)
+	sess.SetCurrentStage("context_bundle", 1)
+	sessionMgr.Save(sess)
+
+	ctx.Iteration = 1
+	result := contextStage.Execute(ctx)
+
+	// Collect issues
+	for _, issue := range result.Issues {
+		sess.AddIssue(issue)
+	}
+
+	if result.Status != pipeline.StageStatusSuccess {
+		sess.FailStage("context_bundle", result.Error.Error())
+		sessionMgr.Save(sess)
+		return fmt.Errorf("context bundle creation failed: %w", result.Error)
+	}
+
+	sess.CompleteStage("context_bundle", result.OutputFiles)
+	fmt.Printf("    %s %s\n", orcSuccessStyle.Render("✓"), result.Notes)
+	sessionMgr.Save(sess)
+
+	// Reload the task from store to get the updated context bundle
+	allTasks, err := store.LoadTasks()
+	if err != nil {
+		return fmt.Errorf("failed to reload task: %w", err)
+	}
+	for _, t := range allTasks {
+		if t.ID == ctx.Task.ID {
+			ctx.Task = &t
+			break
+		}
+	}
+
 	return nil
 }
 

@@ -1,0 +1,14 @@
+{
+  "user": "human_matt",
+  "interaction_mode": "interactions",
+  "mode_count": 3,
+  "target_tasks": null,
+  "completed_tasks": [],
+  "status": "cancelled",
+  "started_at": "2026-03-06T19:24:58-08:00",
+  "last_handoff_at": "2026-03-06T19:44:24-08:00",
+  "handoff_count": 9,
+  "tmux_session": "gc",
+  "claude_pane": "0:0.0",
+  "ai_matt_pane": "0:0.1"
+}

@@ -1,3 +1,71 @@
 {
-  "events": []
+  "events": [
+    {
+      "id": "event_1741268460000",
+      "type": "decision_made",
+      "actor": "matt",
+      "task_id": null,
+      "project_id": null,
+      "summary": "Chose Go + Bubble Tea for CLI/TUI tech stack",
+      "reasoning": "TUI and CLI will be built together. Go + Bubble Tea offers best-in-class TUI experience, single binary distribution, and the Charm ecosystem is actively thriving. Accepted tradeoff of more verbose JSON handling and separate language from potential future web UI.",
+      "alternatives_considered": [
+        "TypeScript + Node + Ink: Native JSON, React mental model, same language as future web UI, but requires Node runtime",
+        "Deno + TypeScript: Modern TS with better distribution, but immature TUI ecosystem",
+        "Go + Bubble Tea: Best TUI, single binary, but more verbose JSON and different language than web"
+      ],
+      "decision_factors": [
+        "TUI quality is a priority — building TUI and CLI simultaneously",
+        "Single binary distribution preferred",
+        "Charm ecosystem (Bubble Tea, Lip Gloss, Huh) is actively developed",
+        "Willing to accept Go's verbose JSON handling",
+        "Web UI is future/optional, can be separate codebase"
+      ],
+      "human_feedback": null,
+      "timestamp": "2026-03-06T12:01:00Z"
+    },
+    {
+      "id": "event_1741268520000",
+      "type": "decision_made",
+      "actor": "matt",
+      "task_id": null,
+      "project_id": null,
+      "summary": "Added Post-Change Impact Review to Taskmaster workflow",
+      "reasoning": "After making the tech stack decision, we created a task but failed to check if any documentation needed updating. User had to manually ask 'do we need to update the docs?' This revealed a gap in the Taskmaster review process — it focused on task outputs but not on ripple effects of decisions.",
+      "alternatives_considered": [
+        "Add a specific 'doc check' step — too narrow, misses other ripple effects",
+        "Add general 'impact review' step — catches docs, config, related tasks, downstream effects",
+        "Leave it to human to remember — defeats the purpose of Taskmaster orchestration"
+      ],
+      "decision_factors": [
+        "Decisions often have effects beyond their immediate outputs",
+        "Docs frequently reference assumptions that change",
+        "Taskmaster should think deeply about what else might need updating",
+        "Early in project — better to establish the pattern now"
+      ],
+      "human_feedback": null,
+      "timestamp": "2026-03-06T12:02:00Z"
+    },
+    {
+      "id": "event_1741268820000",
+      "type": "decision_made",
+      "actor": "matt",
+      "task_id": "task_1741268580000",
+      "project_id": null,
+      "summary": "Resolved 'gc' command conflict by remapping oh-my-zsh git aliases to gt* prefix",
+      "reasoning": "The 'gc' alias was used by oh-my-zsh git plugin for 'git commit --verbose'. Rather than renaming Ground Control CLI or fighting the alias, user chose to remap the git aliases to use 'gt' prefix (gtc, gta, etc.) since they rarely use the short git aliases anyway. This frees 'gc' for Ground Control.",
+      "alternatives_considered": [
+        "Rename Ground Control CLI to gctl, ground, or gnd",
+        "Override just the gc alias and keep other git aliases",
+        "Remap all common git aliases to gt* prefix and free the g* namespace"
+      ],
+      "decision_factors": [
+        "User doesn't frequently use the oh-my-zsh git aliases",
+        "Keeping 'gc' for Ground Control is more intuitive",
+        "gt* prefix is still short and memorable for git commands",
+        "Solution is clean — added to end of .zshrc, overrides plugin defaults"
+      ],
+      "human_feedback": null,
+      "timestamp": "2026-03-06T12:10:00Z"
+    }
+  ]
 }

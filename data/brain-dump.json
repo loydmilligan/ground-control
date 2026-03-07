@@ -1,3 +1,268 @@
 {
-  "entries": []
+  "entries": [
+    {
+      "id": "dump_1741268400000",
+      "content": "Build the Ground Control CLI. Need to scaffold the core CLI infrastructure that lets us run commands like `gc dump`, `gc tasks`, `gc taskmaster`, etc. This is the foundation everything else builds on. Before implementing, I want to discuss architecture options - not just TypeScript/Node but at least two other viable approaches. Looking for a planning conversation to weigh tradeoffs: developer experience, ecosystem, how well it integrates with Claude Code, maintenance burden, etc. The CLI should handle: reading/writing JSON data files, running agent workflows, verification commands, and eventually ritual triggers.",
+      "processed": true,
+      "category": "idea",
+      "urgency_hint": "normal",
+      "converted_to": "task_1741268460000",
+      "ingestion_notes": "Core infrastructure request: CLI scaffolding for Ground Control. User explicitly wants architecture discussion before implementation — present multiple tech stack options with tradeoffs. This should become a planning task with type 'ai-planning'. Key requirements: JSON file I/O, agent workflow triggers, verification system, CLI UX.",
+      "captured_at": "2026-03-06T12:00:00Z",
+      "processed_at": "2026-03-06T12:01:00Z"
+    },
+    {
+      "id": "dump_1741270500000",
+      "content": "Orchestrate feature: Create gc orchestrate command and TUI mode where users can select multiple tasks and execute them in parallel using Claude Code CLI. gc tasks should show indexes and hide completed by default. gc orchestrate 1 3 6 would run those indexed tasks. TUI should have spacebar multi-select mode. Should figure out dependencies and parallelize where possible, serialize where needed. Config for max parallel agents. Use subscription via claude CLI, not SDK API.",
+      "processed": true,
+      "category": "idea",
+      "urgency_hint": "normal",
+      "converted_to": "task_1741270500000",
+      "ingestion_notes": "Major feature request: Multi-task orchestration with parallel Claude Code execution. Needs planning before implementation. Key components: (1) gc tasks index + hide completed, (2) gc orchestrate CLI, (3) TUI multi-select, (4) dependency resolution, (5) parallel execution, (6) config for limits.",
+      "captured_at": "2026-03-06T01:55:00Z",
+      "processed_at": "2026-03-06T01:55:00Z"
+    },
+    {
+      "id": "dump_1772836022303",
+      "content": "Add a gc status command that shows current session state and recent activity",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772836871871",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T14:27:02.303180906-08:00",
+      "processed_at": "2026-03-06T14:41:18.68047348-08:00"
+    },
+    {
+      "id": "dump_1772836078254",
+      "content": "update ground control deployment so that gc command works from anywhere on teh command line",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772837331252",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T14:27:58.254825702-08:00",
+      "processed_at": "2026-03-06T14:48:51.259774472-08:00"
+    },
+    {
+      "id": "dump_1772837320049",
+      "content": "design a basic AI matt agent that we can start to use for filling in for me in tasks. it doesnt not need to be complex or have detialed learning as part of it for htis first interation. it can literally be a static prompt to start with, that includes a coupel of template fields with info we can later develop further. basically get soemthing going we can start to use adn see how it does, i think it shoudl inlcude some explnation of its devision making and assumptions as part of its final output - but that is bascialy it -think about  rubrik that is simpe, but that is strucutured in aw ay that we can improve alter on",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772837331253",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T14:48:40.049646736-08:00",
+      "processed_at": "2026-03-06T14:48:51.259774472-08:00"
+    },
+    {
+      "id": "dump_1772853909302",
+      "content": "Test idea: add gc history command to view past orchestration sessions",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772853940321",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T19:25:09.302285549-08:00",
+      "processed_at": "2026-03-06T19:25:40.363114362-08:00"
+    },
+    {
+      "id": "dump_1772855937195",
+      "content": "create a config and separate claude dir for ai_matt so that we can tightly control the agent file that he uses, hooks that are assigned to his claude code isntance, tools that he has avialale, security settings to limit his ability to go rougue. oh also - making sure that you and he do not get in an infitire loop of doomm, usng a sandbox more stringently if possible, havign a rollback point gnerated before he is called or maybe doing his work ina  separate branch",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772856072451",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T19:58:57.195579798-08:00",
+      "processed_at": "2026-03-06T20:01:12.489919431-08:00"
+    },
+    {
+      "id": "dump_1772856027248",
+      "content": "claude code log ingestion to provide ai_matt personalit yadjustments based on my actual sessions",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772856072453",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T20:00:27.248652404-08:00",
+      "processed_at": "2026-03-06T20:01:12.489919431-08:00"
+    },
+    {
+      "id": "dump_1772856066691",
+      "content": "Fix duplicate error messages in CLI - all errors appear twice (once in Error: line, once at bottom). Cobra framework pattern issue. Fix by adding cmd.SilenceErrors = true to root command or remove manual error printing. Moderate priority.",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772856072455",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T20:01:06.691890344-08:00",
+      "processed_at": "2026-03-06T20:01:12.489919431-08:00"
+    },
+    {
+      "id": "dump_1772856066855",
+      "content": "Add session management commands - gc sessions --list, --cleanup, --cancel. Currently 7 sessions stuck in 'running' state with no way to clean them up from CLI. Also add stale session detection (if \u003e1 hour old with no updates, mark as stale). Moderate priority.",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772856072470",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T20:01:06.85560754-08:00",
+      "processed_at": "2026-03-06T20:01:12.489919431-08:00"
+    },
+    {
+      "id": "dump_1772856067251",
+      "content": "Add gc process --list flag to show unprocessed brain dumps without processing them. Currently have to use --dry-run which is less intuitive. Minor priority.",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772856072472",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T20:01:07.251705504-08:00",
+      "processed_at": "2026-03-06T20:01:12.489919431-08:00"
+    },
+    {
+      "id": "dump_1772856067481",
+      "content": "Fix context bundle path in docs - docs say data/context_bundles/ but actual path is data/context/. Update CLAUDE.md and any other docs. Minor priority.",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772856072478",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T20:01:07.481914712-08:00",
+      "processed_at": "2026-03-06T20:01:12.489919431-08:00"
+    },
+    {
+      "id": "dump_1772858967710",
+      "content": "Add Sprint entity to Ground Control. Sprint is a lightweight grouping of related tasks toward a goal or work session. Schema: id, name, description, goal, tasks[] (task IDs), status (active/completed/paused), created_at, completed_at. Add to data/sprints.json. Commands: gc sprint create, gc sprint list, gc sprint add-task \u003csprint\u003e \u003ctask\u003e, gc sprint status. Keep it simple - not full project management, just work session grouping. Should be able to run gc orc on a sprint to execute all its tasks.",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772858973321",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T20:49:27.71055428-08:00",
+      "processed_at": "2026-03-06T20:49:33.328881338-08:00"
+    },
+    {
+      "id": "dump_1772859723041",
+      "content": "Phase 2: Implement new pipeline stages - researcher (investigate topics, gather info), summary (synthesize findings), planner_chat (chat loop for template population), artifact_output (generate from template), notify/wait_human/capture_response (human input protocol). Each stage has defined inputs/outputs per pipeline-architecture.md.",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772859729351",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T21:02:03.041183539-08:00",
+      "processed_at": "2026-03-06T21:02:09.374382184-08:00"
+    },
+    {
+      "id": "dump_1772859723196",
+      "content": "Phase 3: Implement composable pipelines - Add pipeline YAML definition files in config/pipelines/. Support sub-pipeline invocation. Add foreach construct for task lists. Pipelines can call other pipelines as stages.",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772859729353",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T21:02:03.19623539-08:00",
+      "processed_at": "2026-03-06T21:02:09.374382184-08:00"
+    },
+    {
+      "id": "dump_1772859723343",
+      "content": "Phase 4: Implement artifact generation system - Template file format with document + variables + planning guidance sections. Chat loop for populating variables. Teaching mode for uninformed users. Artifact dependencies (one artifact can require others as input).",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772859729363",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T21:02:03.343899984-08:00",
+      "processed_at": "2026-03-06T21:02:09.374382184-08:00"
+    },
+    {
+      "id": "dump_1772859723599",
+      "content": "Phase 5: Implement parallelization - Taskmaster evaluates parallelization opportunity at stage start. Max N concurrent agents (configurable). Dependency-aware scheduling. Stage can ignore recommendation.",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772859729365",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T21:02:03.599823678-08:00",
+      "processed_at": "2026-03-06T21:02:09.374382184-08:00"
+    },
+    {
+      "id": "dump_1772859723787",
+      "content": "Phase 6: Create the CreateAppPipeline - End-to-end pipeline from idea to deployed app. Composes artifact_generation, coding pipeline, integration, deploy. The capstone that demonstrates the full system.",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772859729368",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-06T21:02:03.787145757-08:00",
+      "processed_at": "2026-03-06T21:02:09.374382184-08:00"
+    },
+    {
+      "id": "dump_1772871455071",
+      "content": "Create brainstorm pipeline and gc brainstorm command. Pipeline: ideate → evaluate → prioritize → capture. Command should support chat-style ideation with Claude, capture ideas in structured format, and output to brain-dump or directly create tasks. Include feature_ideas.template.yaml with: problem_statement, target_users, ideas[], constraints, next_steps. First use case: brainstorm TUI features to close feature gap with CLI.",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772871455822",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-07T00:17:35.071789209-08:00",
+      "processed_at": "2026-03-07T00:17:35.910684266-08:00"
+    },
+    {
+      "id": "dump_1772871772807",
+      "content": "TUI: Add brain dump capture (press 'd') - Quick capture ideas without leaving TUI, saves to brain-dump.json",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772871773492",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-07T00:22:52.807920385-08:00",
+      "processed_at": "2026-03-07T00:22:53.502529001-08:00"
+    },
+    {
+      "id": "dump_1772871773179",
+      "content": "TUI: Add task creation (press 'c') - Guided task creation with prompts for title, type, description, requirements",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772871773493",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-07T00:22:53.179702353-08:00",
+      "processed_at": "2026-03-07T00:22:53.502529001-08:00"
+    },
+    {
+      "id": "dump_1772871773303",
+      "content": "TUI: Add sprint view - Tab to switch views, show sprint list, sprint details with task progress, add/remove tasks from sprint",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772871773494",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-07T00:22:53.303232304-08:00",
+      "processed_at": "2026-03-07T00:22:53.502529001-08:00"
+    },
+    {
+      "id": "dump_1772871773404",
+      "content": "TUI: Add orchestration progress view - Real-time pipeline execution status, show current stage, iteration count, streaming output",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772871773495",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-07T00:22:53.40480345-08:00",
+      "processed_at": "2026-03-07T00:22:53.502529001-08:00"
+    },
+    {
+      "id": "dump_1772873285572",
+      "content": "TUI: Add guided Q\u0026A component for human-AI interaction. AI presents questions with multiple choice options (A/B/C/D + Other). User selects option or chooses Other to provide custom input with explanation. Use Bubble Tea list/input components. Should be reusable for: artifact generation, brainstorming, task creation, decision points. Display question, options with descriptions, selected answer, and capture reasoning. This is a TUI-only feature that provides richer interaction than CLI.",
+      "processed": true,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": "task_1772873285681",
+      "ingestion_notes": null,
+      "captured_at": "2026-03-07T00:48:05.572301826-08:00",
+      "processed_at": "2026-03-07T00:48:05.685639024-08:00"
+    }
+  ]
 }

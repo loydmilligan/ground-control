@@ -272,9 +272,29 @@ This document captures the key design decisions made during Ground Control plann
 
 ---
 
+## Decision 16: Go + Bubble Tea for CLI/TUI
+
+**Decision**: Use Go with Cobra (CLI) and Bubble Tea (TUI) from the Charm ecosystem.
+
+**Alternatives considered**:
+- TypeScript + Node + Ink: Native JSON handling, React mental model, same language as potential web UI
+- Deno + TypeScript: Modern TS with single binary compile, but immature TUI ecosystem
+- Go + Bubble Tea: Best-in-class TUI, single binary distribution, thriving Charm ecosystem
+
+**Decision factors**:
+- TUI and CLI will be built simultaneously — TUI quality is a priority
+- Single binary distribution preferred over runtime dependency
+- Charm ecosystem (Bubble Tea, Lip Gloss, Huh) is actively developed and well-documented
+- Accepted tradeoff: More verbose JSON struct handling
+- Accepted tradeoff: Separate language from potential future web UI
+
+**Date**: 2026-03-06
+
+---
+
 ## Future Decisions (To Be Made)
 
-- [ ] Tech stack for CLI (Node/TypeScript? Python? Rust?)
+- [x] ~~Tech stack for CLI~~ → Decision 16
 - [ ] Storage format (JSON files vs. SQLite)
 - [ ] Chat interface implementation
 - [ ] How AI-Matt training actually works

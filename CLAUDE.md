@@ -216,12 +216,14 @@ gc weekly                   # Weekly review ritual
 gc taskmaster               # Run Taskmaster
 ```
 
-## Tech Stack (TBD)
+## Tech Stack
 
-- Language: TBD (Node/TypeScript likely)
-- Storage: JSON files
-- Interface: CLI + Claude Code
-- UI: Optional, later
+- **Language**: Go
+- **CLI Framework**: Cobra
+- **TUI Framework**: Bubble Tea (Charm ecosystem)
+- **Styling**: Lip Gloss
+- **Storage**: JSON files
+- **Interface**: CLI + TUI + Claude Code
 
 ## Key Design Principles
 

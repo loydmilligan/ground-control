@@ -1,0 +1,53 @@
+// From: /home/mmariani/Projects/ground-control/CLAUDE.md:1-50
+// Why: Referenced in requirements
+
+# Ground Control — AI Agent Instructions
+
+## What is Ground Control?
+
+Ground Control is a vibe coding project management system where AI agents orchestrate task flow. The Taskmaster agent manages priorities and routing, specialized agents execute work, and humans make decisions at checkpoints.
+
+## Quick Context
+
+```
+Brain Dump → Ingestion Agent → Taskmaster → Agent Execution → Verification → Loop
+```
+
+**Key insight**: Unlike traditional task managers, Ground Control verifies work is actually done before marking complete. No more "it's production ready" when nothing works.
+
+## Core Files
+
+| File | Purpose |
+|------|---------|
+| `data/tasks.json` | All tasks with full context |
+| `data/projects.json` | Project definitions |
+| `data/brain-dump.json` | Raw ideas awaiting processing |
+| `data/activity-log.json` | Audit trail + AI-Matt training data |
+| `data/agents.json` | Agent definitions |
+| `data/rituals.json` | On-demand rituals (standup, weekly) |
+| `agents/*.md` | Agent instruction prompts |
+
+## Data Schemas
+
+### Task Schema
+```typescript
+interface Task {
+  id: string;                    // "task_{timestamp}"
+  title: string;
+  description: string;
+  type: "simple" | "ai-planning" | "research" | "coding" | "human-input";
+
+  // Assignment
+  agent: string | null;
+  assigned_human: "matt" | "ai-matt";
+  autonomy_level: "full" | "checkpoints" | "supervised";
+
+  // Priority (complexity is AI-facing, hides time translation)
+  complexity: 1 | 2 | 3 | 4 | 5;   // 1=trivial, 5=substantial
+  importance: "high" | "medium" | "low";
+  due_date: string | null;
+  due_urgency: "hard" | "soft" | "none";
+
+  // Context for executing agent
+  context: {
+    background: string;

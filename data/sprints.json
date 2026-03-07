@@ -36,9 +36,9 @@
     },
     {
       "id": "sprint_1772875897850",
-      "name": "NotifAI Carousel UI Phase 1-2",
+      "name": "NotifAI Carousel UI Phases 1-2-5",
       "description": "",
-      "goal": "Build carousel foundation and blocked channels stage",
+      "goal": "Build carousel foundation, blocked channels, and focused stage",
       "task_ids": [
         "task_1772875931817_11Create",
         "task_1772875931821_12Create",
@@ -49,7 +49,12 @@
         "task_1772875931821_22BlockU",
         "task_1772875931821_23PeekIn",
         "task_1772875931821_24Channe",
-        "task_1772876500001_13bHeader"
+        "task_1772876500001_13bHeader",
+        "task_1772880001_51FocusedFeed",
+        "task_1772880002_52Cards",
+        "task_1772880003_53AutoRead",
+        "task_1772880004_54EmptyState",
+        "task_1772880005_55Peek"
       ],
       "status": "active",
       "created_at": "2026-03-07T01:31:37.850503424-08:00"
