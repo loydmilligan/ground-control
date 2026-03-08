@@ -399,16 +399,35 @@ func NewDumpCmd(store *data.Store) *cobra.Command {
 
 // GetDataDir finds the data directory, checking current dir and parent dirs.
 func GetDataDir() string {
-	// Check current directory
+	// 1. Check GC_DATA_DIR environment variable (explicit override)
+	if envDir := os.Getenv("GC_DATA_DIR"); envDir != "" {
+		return envDir
+	}
+
+	// 2. Check GC_PROJECT_DIR environment variable
+	if projectDir := os.Getenv("GC_PROJECT_DIR"); projectDir != "" {
+		dataDir := projectDir + "/data"
+		if _, err := os.Stat(dataDir + "/tasks.json"); err == nil {
+			return dataDir
+		}
+	}
+
+	// 3. Check current directory
 	if _, err := os.Stat("data/tasks.json"); err == nil {
 		return "data"
 	}
 
-	// Check if we're in a subdirectory
+	// 4. Check if we're in a subdirectory
 	if _, err := os.Stat("../data/tasks.json"); err == nil {
 		return "../data"
 	}
 
-	// Default to current directory's data folder
+	// 5. Default to known Ground Control project location
+	defaultDir := os.Getenv("HOME") + "/Projects/ground-control/data"
+	if _, err := os.Stat(defaultDir + "/tasks.json"); err == nil {
+		return defaultDir
+	}
+
+	// Fall back to current directory's data folder
 	return "data"
 }

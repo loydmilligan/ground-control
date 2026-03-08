@@ -53,11 +53,18 @@ func (s *CoderStage) Execute(ctx *StageContext) *StageResult {
 		contextFiles = claude.GetContextFiles(task.ContextBundle.BundlePath)
 	}
 
+	// Get working directory from task context
+	workingDir := ""
+	if task.Context.WorkingDirectory != nil {
+		workingDir = *task.Context.WorkingDirectory
+	}
+
 	// Execute Claude
 	var output string
 	req := &claude.Request{
-		Prompt:       prompt,
-		ContextFiles: contextFiles,
+		Prompt:           prompt,
+		ContextFiles:     contextFiles,
+		WorkingDirectory: workingDir,
 	}
 
 	if ctx.Verbose {

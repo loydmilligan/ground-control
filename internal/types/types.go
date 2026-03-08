@@ -117,11 +117,12 @@ const (
 
 // TaskContext provides background information for task execution.
 type TaskContext struct {
-	Background   string   `json:"background"`
-	Requirements []string `json:"requirements"`
-	Constraints  []string `json:"constraints"`
-	RelatedTasks []string `json:"related_tasks"`
-	ProjectID    *string  `json:"project_id"`
+	Background       string   `json:"background"`
+	Requirements     []string `json:"requirements"`
+	Constraints      []string `json:"constraints"`
+	RelatedTasks     []string `json:"related_tasks"`
+	ProjectID        *string  `json:"project_id"`
+	WorkingDirectory *string  `json:"working_directory,omitempty"`
 }
 
 // TaskOutput defines an expected output artifact.

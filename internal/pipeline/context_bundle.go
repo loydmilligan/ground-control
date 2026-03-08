@@ -131,8 +131,8 @@ func (s *ContextBundleStage) Execute(ctx *StageContext) *StageResult {
 // getWorkingDirectory determines where the task should be executed.
 func (s *ContextBundleStage) getWorkingDirectory(task types.Task) string {
 	// Check for explicit working directory in task context
-	if task.Context.Background != "" {
-		// TODO: Parse working directory from context if specified
+	if task.Context.WorkingDirectory != nil && *task.Context.WorkingDirectory != "" {
+		return *task.Context.WorkingDirectory
 	}
 
 	// Check for project-based working directory

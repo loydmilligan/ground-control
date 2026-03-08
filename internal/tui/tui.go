@@ -29,6 +29,7 @@ const (
 	viewSprintDetail
 	viewOrc
 	viewOrcDetail
+	viewDelegate
 )
 
 // Styles
@@ -127,6 +128,11 @@ type Model struct {
 	sessions        []types.Session
 	sessionCursor   int
 	selectedSession *types.Session
+
+	// Delegation mode fields
+	delegateInteractions int
+	delegateConfirm      bool
+	delegateStatus       string
 
 	// Confirmation mode
 	confirmRun     bool
@@ -271,6 +277,17 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.err = fmt.Errorf("failed to start orchestration: %w", msg.err)
 		}
 		return m, nil
+
+	case delegateResultMsg:
+		if msg.success {
+			m.delegateStatus = "Delegation started! Monitor pane added to your window."
+			m.createSuccess = "Supervised delegation started"
+			m.mode = viewList
+		} else {
+			m.err = fmt.Errorf("failed to start delegation: %w", msg.err)
+			m.mode = viewList
+		}
+		return m, nil
 	}
 
 	if m.mode == viewList {
@@ -336,6 +353,8 @@ func (m Model) handleKeyPress(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		return m.handleOrcKeys(key)
 	case viewOrcDetail:
 		return m.handleOrcDetailKeys(key)
+	case viewDelegate:
+		return m.handleDelegateKeys(key)
 	}
 
 	return m, nil
@@ -418,6 +437,13 @@ func (m Model) handleListKeys(key string, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		m.mode = viewDump
 		m.dumpInput.Focus()
 		return m, textinput.Blink
+	case "D":
+		// Start delegation mode
+		m.mode = viewDelegate
+		m.delegateInteractions = 5 // Default
+		m.delegateConfirm = false
+		m.delegateStatus = ""
+		return m, nil
 	case "c":
 		m.mode = viewCreate
 		m.createStep = 0
@@ -676,6 +702,60 @@ func (m Model) handleOrcDetailKeys(key string) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
+func (m Model) handleDelegateKeys(key string) (tea.Model, tea.Cmd) {
+	if m.delegateConfirm {
+		switch key {
+		case "y":
+			// Start supervised delegation
+			m.delegateConfirm = false
+			m.delegateStatus = "Starting delegation..."
+			return m, m.startDelegation()
+		case "n", "q", "esc":
+			m.delegateConfirm = false
+			m.mode = viewList
+		}
+		return m, nil
+	}
+
+	switch key {
+	case "q", "esc", "b":
+		m.mode = viewList
+	case "up", "k":
+		if m.delegateInteractions < 20 {
+			m.delegateInteractions++
+		}
+	case "down", "j":
+		if m.delegateInteractions > 1 {
+			m.delegateInteractions--
+		}
+	case "enter":
+		m.delegateConfirm = true
+	}
+	return m, nil
+}
+
+func (m *Model) startDelegation() tea.Cmd {
+	return func() tea.Msg {
+		// Run the delegation script
+		projectRoot := m.store.GetDataDir()
+		projectRoot = projectRoot[:len(projectRoot)-5] // Remove "/data"
+		script := projectRoot + "/scripts/start-delegation-session.sh"
+
+		cmd := exec.Command(script, fmt.Sprintf("%d", m.delegateInteractions))
+		cmd.Dir = projectRoot
+
+		if err := cmd.Run(); err != nil {
+			return delegateResultMsg{err: err}
+		}
+		return delegateResultMsg{success: true}
+	}
+}
+
+type delegateResultMsg struct {
+	success bool
+	err     error
+}
+
 func (m *Model) updateTaskState(taskID string, newState types.TaskState) error {
 	tasks, err := m.store.LoadTasks()
 	if err != nil {
@@ -782,6 +862,8 @@ func (m Model) View() string {
 		return m.viewOrc()
 	case viewOrcDetail:
 		return m.viewOrcDetail()
+	case viewDelegate:
+		return m.viewDelegate()
 	default:
 		return m.viewList()
 	}
@@ -797,7 +879,7 @@ func (m Model) viewList() string {
 		return view
 	}
 
-	help := helpStyle.Render("q: quit • /: filter • enter: details • s: change state • r: run (orchestrate) • c: create • d: dump • o: orchestration • tab: sprints • ?: help")
+	help := helpStyle.Render("q: quit • /: filter • enter: details • s: state • r: run • c: create • d: dump • D: delegate • o: orc • tab: sprints • ?: help")
 	view := m.list.View() + "\n" + help
 
 	// Show success message if present
@@ -1508,6 +1590,49 @@ type orchestrationStartedMsg struct {
 }
 
 // startOrchestration starts orchestration for a task in the background.
+func (m Model) viewDelegate() string {
+	var b strings.Builder
+
+	title := titleStyle.Render("═══ AI Matt Delegation ═══")
+	b.WriteString(title)
+	b.WriteString("\n\n")
+
+	if m.delegateStatus != "" {
+		statusStyle := lipgloss.NewStyle().Foreground(successColor)
+		b.WriteString(statusStyle.Render(m.delegateStatus))
+		b.WriteString("\n\n")
+	}
+
+	if m.delegateConfirm {
+		confirmStyle := lipgloss.NewStyle().Foreground(warningColor).Bold(true)
+		b.WriteString(confirmStyle.Render(fmt.Sprintf("Start supervised delegation with %d interactions? (y/n)", m.delegateInteractions)))
+		b.WriteString("\n\n")
+		b.WriteString("This will:\n")
+		b.WriteString("  • Create a dedicated delegation window\n")
+		b.WriteString("  • Start Worker Claude and AI Matt agents\n")
+		b.WriteString("  • Add a monitor pane to your current window\n")
+		b.WriteString("\n")
+	} else {
+		b.WriteString("Supervised delegation runs Worker Claude and AI Matt in a\n")
+		b.WriteString("dedicated window while you continue working.\n\n")
+
+		b.WriteString("A monitor pane shows communications and approval prompts.\n\n")
+
+		interactionsStyle := lipgloss.NewStyle().
+			Foreground(primaryColor).
+			Bold(true).
+			Padding(0, 2)
+
+		b.WriteString("Interactions: ")
+		b.WriteString(interactionsStyle.Render(fmt.Sprintf("◀ %d ▶", m.delegateInteractions)))
+		b.WriteString("\n\n")
+
+		b.WriteString(helpStyle.Render("↑/↓: adjust • enter: start • q/esc: cancel"))
+	}
+
+	return b.String()
+}
+
 func (m Model) startOrchestration(taskID string) tea.Cmd {
 	return func() tea.Msg {
 		// Execute gc orc <task_id> in the background

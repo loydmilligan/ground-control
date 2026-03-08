@@ -12,20 +12,34 @@ import (
 	"time"
 )
 
+// PermissionMode defines how Claude CLI handles permissions.
+type PermissionMode string
+
+const (
+	// PermissionDefault uses Claude's default interactive permission handling.
+	PermissionDefault PermissionMode = "default"
+	// PermissionAcceptEdits auto-accepts file edits but prompts for other actions.
+	PermissionAcceptEdits PermissionMode = "acceptEdits"
+	// PermissionBypass skips all permission checks (for headless/automated use).
+	PermissionBypass PermissionMode = "bypassPermissions"
+)
+
 // Config holds Claude CLI configuration.
 type Config struct {
-	Timeout      time.Duration
-	Model        string
-	WorkDir      string
-	Verbose      bool
+	Timeout        time.Duration
+	Model          string
+	WorkDir        string
+	Verbose        bool
+	PermissionMode PermissionMode
 }
 
 // DefaultConfig returns the default Claude CLI configuration.
 func DefaultConfig() *Config {
 	return &Config{
-		Timeout: 30 * time.Minute,
-		Model:   "", // Use default model
-		WorkDir: "",
+		Timeout:        30 * time.Minute,
+		Model:          "", // Use default model
+		WorkDir:        "",
+		PermissionMode: PermissionBypass, // Default for headless/automated use
 	}
 }
 
@@ -44,9 +58,10 @@ func NewClient(config *Config) *Client {
 
 // Request represents a request to Claude Code CLI.
 type Request struct {
-	Prompt       string
-	ContextFiles []string // Files to include as context
-	SystemPrompt string   // Optional system prompt override
+	Prompt           string
+	ContextFiles     []string // Files to include as context
+	SystemPrompt     string   // Optional system prompt override
+	WorkingDirectory string   // Optional working directory for --add-dir
 }
 
 // Response represents a response from Claude Code CLI.
@@ -62,8 +77,17 @@ func (c *Client) Execute(req *Request) *Response {
 	start := time.Now()
 
 	// Build command arguments - use --print for non-interactive mode
-	// --dangerously-skip-permissions is needed for headless execution
-	args := []string{"--print", "--dangerously-skip-permissions"}
+	args := []string{"--print"}
+
+	// Add permission mode for headless execution
+	if c.config.PermissionMode != "" && c.config.PermissionMode != PermissionDefault {
+		args = append(args, "--permission-mode", string(c.config.PermissionMode))
+	}
+
+	// Add working directory if specified
+	if req.WorkingDirectory != "" {
+		args = append(args, "--add-dir", req.WorkingDirectory)
+	}
 
 	// Build prompt with context file references
 	prompt := buildPromptWithContext(req.Prompt, req.ContextFiles)
@@ -115,8 +139,17 @@ func (c *Client) Execute(req *Request) *Response {
 func (c *Client) ExecuteWithStreaming(req *Request, onOutput func(string)) *Response {
 	start := time.Now()
 
-	// --dangerously-skip-permissions is needed for headless execution
-	args := []string{"--print", "--dangerously-skip-permissions"}
+	args := []string{"--print"}
+
+	// Add permission mode for headless execution
+	if c.config.PermissionMode != "" && c.config.PermissionMode != PermissionDefault {
+		args = append(args, "--permission-mode", string(c.config.PermissionMode))
+	}
+
+	// Add working directory if specified
+	if req.WorkingDirectory != "" {
+		args = append(args, "--add-dir", req.WorkingDirectory)
+	}
 
 	// Build prompt with context file references
 	prompt := buildPromptWithContext(req.Prompt, req.ContextFiles)

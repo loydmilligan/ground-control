@@ -59,10 +59,17 @@ func (s *ReviewerStage) Execute(ctx *StageContext) *StageResult {
 		}
 	}
 
+	// Get working directory from task context
+	workingDir := ""
+	if task.Context.WorkingDirectory != nil {
+		workingDir = *task.Context.WorkingDirectory
+	}
+
 	// Execute Claude for review
 	req := &claude.Request{
-		Prompt:       prompt,
-		ContextFiles: contextFiles,
+		Prompt:           prompt,
+		ContextFiles:     contextFiles,
+		WorkingDirectory: workingDir,
 	}
 
 	var output string
