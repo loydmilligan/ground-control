@@ -1,0 +1,109 @@
+.TH GC 1 "March 2026" "Ground Control 0.1.0" "User Commands"
+.SH NAME
+gc \- AI agent task orchestration for vibe coding
+.SH SYNOPSIS
+.B gc
+[\fIcommand\fR] [\fIflags\fR]
+.SH DESCRIPTION
+.B Ground Control
+is an agent-driven task orchestration system for solo developers who vibe code with AI.
+A Taskmaster agent manages the flow, routing work between specialized agents and you,
+ensuring nothing falls through the cracks.
+.PP
+Tasks have explicit outputs and verification requirements. Work isn't "done" until it's proven done.
+.SH COMMANDS
+.TP
+.B tasks
+List tasks with filtering. Use \fB--all\fR to include completed tasks.
+.TP
+.B dump \fI"idea"\fR
+Capture an idea to the brain dump for later processing.
+.TP
+.B create
+Create a new task with Context Manager guidance.
+.TP
+.B process
+Convert brain dump items into structured tasks.
+.TP
+.B orc \fI[task_id|#index]\fR
+Run the orchestration pipeline on a task.
+.TP
+.B complete \fI<task_id>\fR
+Mark a task as complete with verification.
+.TP
+.B standup
+Run the daily standup ritual.
+.TP
+.B status
+Show current session and pipeline state.
+.TP
+.B sprint
+Manage sprints and sprint tasks.
+.TP
+.B brainstorm
+Run an ideation session with AI assistance.
+.TP
+.B delegate
+Delegate tasks to specialized agents.
+.TP
+.B handoff
+Create handoff documents between agents.
+.TP
+.B consult
+Consult a specialized agent for guidance.
+.TP
+.B tui
+Launch the interactive terminal user interface.
+.SH ENVIRONMENT
+.TP
+.B GC_DATA_DIR
+Override the data directory path directly.
+.TP
+.B GC_PROJECT_DIR
+Set the Ground Control project root (data in $GC_PROJECT_DIR/data).
+.SH FILES
+.TP
+.I data/tasks.json
+All tasks with full context and verification requirements.
+.TP
+.I data/brain-dump.json
+Raw ideas awaiting processing.
+.TP
+.I data/projects.json
+Project definitions.
+.TP
+.I data/activity-log.json
+Audit trail and AI-Matt training data.
+.TP
+.I agents/*.md
+Agent instruction prompts.
+.SH EXAMPLES
+.TP
+Capture an idea:
+.B gc dump "Add dark mode to the app"
+.TP
+List pending tasks:
+.B gc tasks
+.TP
+Run orchestration on task #3:
+.B gc orc 3
+.TP
+Run daily standup:
+.B gc standup
+.TP
+Launch TUI:
+.B gc tui
+.SH ORCHESTRATION PIPELINE
+The \fBgc orc\fR command runs tasks through:
+.PP
+.RS
+Sanity → Coder → Reviewer → Tester → Commit
+.RE
+.PP
+Each stage can pass, fail with retry, or escalate to human review.
+.SH SEE ALSO
+.BR claude (1)
+.SH AUTHOR
+Matt Mariani
+.SH BUGS
+Report bugs at https://github.com/mmariani/ground-control/issues

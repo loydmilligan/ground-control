@@ -234,10 +234,78 @@ gc taskmaster               # Run Taskmaster
 5. **Local-first** — JSON files, no external dependencies
 6. **Learn from decisions** — Activity log trains AI-Matt
 
+## AI Matt Delegation System
+
+When working with AI Matt (another Claude instance acting as Matt's decision-making proxy):
+
+### Key Files
+- `agents/ai-matt.md` — AI Matt's personality and decision guidelines
+- `docs/ai-matt-delegation-system.md` — Full delegation protocol documentation
+- `data/delegation/state.json` — Current delegation state
+- `data/delegation/inbox.md` — Messages TO AI Matt
+- `data/delegation/outbox.md` — Messages FROM AI Matt
+
+### Starting AI Matt in Another Pane
+
+AI Matt must be started with the system prompt:
+```bash
+claude --system-prompt agents/ai-matt.md
+```
+
+Or send initialization to an existing Claude session:
+```bash
+tmux send-keys -t 1 'Please read @agents/ai-matt.md - you are AI Matt for this session. Your job is to make decisions as Matt would. Check data/delegation/inbox.md for tasks.' Enter
+```
+
+### Handoff Protocol
+
+When delegating to AI Matt:
+1. Write task/question to `data/delegation/inbox.md`
+2. Run `gc handoff --to-ai-matt`
+3. AI Matt reads inbox, decides, writes to `data/delegation/outbox.md`
+4. AI Matt runs `gc handoff --to-claude`
+5. Worker reads outbox and continues
+
+### Quick Commands
+```bash
+gc delegate --interactions 5           # Delegate for 5 interactions
+gc delegate --supervised -i 5          # Supervised mode with monitor pane
+gc delegate --supervised -i 5 --no-auth # Skip password for testing
+gc delegate --status                   # Check delegation state
+gc delegate --cancel                   # Take back control
+gc handoff --to-ai-matt                # Signal handoff to AI Matt
+gc handoff --check-inbox               # AI Matt checks for work
+gc handoff --to-claude                 # AI Matt signals response ready
+gc handoff --check-outbox              # Worker checks for response
+```
+
+### Supervised Delegation
+
+In supervised mode (`--supervised`):
+- Dedicated tmux window created for Worker Claude + AI Matt
+- Monitor pane added to your window showing live communication
+- Password-protected approvals (prevents AI from approving on user's behalf)
+
+To enable password protection:
+1. Run `scripts/gc-hash-password.sh` to generate a password hash
+2. Add `GC_APPROVAL_PASSWORD_HASH=<hash>` to `.env`
+3. Monitor will require password for session start and each approval
+
+### AI Matt Restricted Environment
+
+AI Matt runs in a restricted Claude environment (`.claude-ai-matt/`):
+- Read-only: Cannot edit/write files directly
+- Pre-tool hooks block dangerous operations
+- Must request changes via handoff
+
+Setup: `scripts/setup-ai-matt-env.sh`
+
 ## Related Documentation
 
 - [Architecture](docs/architecture.md) — Full system design
 - [Decisions](docs/decisions.md) — Design decision log
+- [AI Matt Delegation](docs/ai-matt-delegation-system.md) — Delegation protocol
+- [Pipeline Architecture](docs/pipeline-architecture.md) — Orchestration details
 
 ## Lineage
 
