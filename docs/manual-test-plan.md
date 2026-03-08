@@ -62,7 +62,7 @@ cat data/brain-dump.json | jq '.[-1]'
 - Interactive prompt asking about the entry
 - AI analysis suggests category, complexity, requirements
 - Option to approve/modify the generated task
-- Context bundle is created in `data/context_bundles/`
+- Context bundle is created in `data/context/`
 - Task added to `data/tasks.json`
 
 **Observe**:
@@ -107,7 +107,7 @@ cat data/brain-dump.json | jq '.[-1]'
 
 ```bash
 ./gc tasks
-ls data/context_bundles/
+ls data/context/
 ```
 
 **Expected**:
@@ -453,7 +453,7 @@ Document any issues discovered during testing:
 | Scenario | Step | Issue | Severity | Notes |
 |----------|------|-------|----------|-------|
 | 1 | 1.2 | `gc process --list` doesn't exist | Minor | Test plan assumed flag existed. Use `--dry-run` instead to preview. Consider adding `--list` flag for convenience. |
-| 1 | 1.3 | Context bundle path inconsistent | Minor | Test plan said `data/context_bundles/` but actual path is `data/context/`. Update test plan and docs to match reality. |
+| 1 | 1.3 | Context bundle path inconsistent | Minor | Test plan said `data/context/` but actual path is `data/context/`. Update test plan and docs to match reality. |
 | 1 | 1.3 | Output doesn't confirm bundle creation | Moderate | User has to manually check if bundle exists. Command should explicitly state "Context bundle created at: data/context/task_xxx/" after task creation. |
 | - | - | Task type ignored by pipeline | **Major** | `gc orc` runs same coding pipeline for ALL task types. Planning, research, human-input tasks incorrectly go through Coder→Reviewer→Tester. Need type-based routing. |
 | 5 | 5.1 | Claude CLI failure message unhelpful | Moderate | "context deadline exceeded" doesn't explain cause. Should suggest: Is Claude CLI installed? Is it in PATH? Is it authenticated? |

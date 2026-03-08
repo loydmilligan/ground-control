@@ -45,7 +45,7 @@
 | Issue | Severity | Description |
 |-------|----------|-------------|
 | `gc process --list` missing | Minor | Test plan assumed flag existed; use `--dry-run` instead |
-| Context bundle path docs | Minor | Docs say `data/context_bundles/` but actual path is `data/context/` |
+| Context bundle path docs | Minor | Docs say `data/context/` but actual path is `data/context/` |
 | Session deduplication | Minor | Same session_1772 appears 7 times in status |
 
 ---
