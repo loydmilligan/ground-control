@@ -1328,14 +1328,14 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [
         {
           "path": "internal/cmd/selflearn.go",
           "description": "Self-learn command implementation",
-          "exists": false
+          "exists": true
         }
       ],
       "suggested_next_steps": [],
@@ -1351,8 +1351,8 @@
         "high-priority"
       ],
       "created_at": "2026-03-06T17:45:00Z",
-      "updated_at": "2026-03-06T17:45:00Z",
-      "completed_at": null,
+      "updated_at": "2026-03-08T03:07:24.659639855-07:00",
+      "completed_at": "2026-03-08T03:07:24.659639855-07:00",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null
@@ -1427,7 +1427,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -1443,8 +1443,8 @@
         "status"
       ],
       "created_at": "2026-03-06T14:41:11.871528689-08:00",
-      "updated_at": "2026-03-06T14:41:11.871528689-08:00",
-      "completed_at": null,
+      "updated_at": "2026-03-08T03:07:31.534882986-07:00",
+      "completed_at": "2026-03-08T03:07:31.534882986-07:00",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null,
@@ -1482,10 +1482,21 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
-      "outputs": [],
+      "outputs": [
+        {
+          "path": "Makefile",
+          "description": "Build and install targets",
+          "exists": true
+        },
+        {
+          "path": "~/.local/bin/gc",
+          "description": "Installed gc binary",
+          "exists": true
+        }
+      ],
       "suggested_next_steps": [],
       "after_completion": "taskmaster_review",
       "verification": {
@@ -1499,7 +1510,7 @@
       ],
       "created_at": "2026-03-06T14:48:51.252149862-08:00",
       "updated_at": "2026-03-06T14:48:51.252149862-08:00",
-      "completed_at": null,
+      "completed_at": "2026-03-07T12:29:57-08:00",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null,
@@ -1653,7 +1664,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -1670,8 +1681,8 @@
         "claude-cli"
       ],
       "created_at": "2026-03-06T18:20:00Z",
-      "updated_at": "2026-03-06T18:20:00Z",
-      "completed_at": null,
+      "updated_at": "2026-03-08T03:08:58.936289622-07:00",
+      "completed_at": "2026-03-08T03:08:58.936289622-07:00",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null
@@ -1696,7 +1707,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -1712,8 +1723,8 @@
         "ux"
       ],
       "created_at": "2026-03-06T19:25:40.321866814-08:00",
-      "updated_at": "2026-03-06T19:25:40.321866814-08:00",
-      "completed_at": null,
+      "updated_at": "2026-03-08T03:07:31.673821316-07:00",
+      "completed_at": "2026-03-08T03:07:31.673821316-07:00",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null,
@@ -1751,7 +1762,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -1767,8 +1778,8 @@
         "security"
       ],
       "created_at": "2026-03-06T20:01:12.451694279-08:00",
-      "updated_at": "2026-03-06T20:01:12.451694279-08:00",
-      "completed_at": null,
+      "updated_at": "2026-03-08T03:13:48.207900675-07:00",
+      "completed_at": "2026-03-08T03:13:48.207900675-07:00",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null,
@@ -1806,7 +1817,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -1822,8 +1833,8 @@
         "personality"
       ],
       "created_at": "2026-03-06T20:01:12.453587043-08:00",
-      "updated_at": "2026-03-06T20:01:12.453587043-08:00",
-      "completed_at": null,
+      "updated_at": "2026-03-08T03:12:14.039037412-07:00",
+      "completed_at": "2026-03-08T03:12:14.039037412-07:00",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null,
@@ -1861,7 +1872,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -1877,8 +1888,8 @@
         "ux"
       ],
       "created_at": "2026-03-06T20:01:12.455168038-08:00",
-      "updated_at": "2026-03-06T20:01:12.455168038-08:00",
-      "completed_at": null,
+      "updated_at": "2026-03-08T03:07:31.823506169-07:00",
+      "completed_at": "2026-03-08T03:07:31.823506169-07:00",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null,
@@ -1916,7 +1927,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -1932,8 +1943,8 @@
         "ux"
       ],
       "created_at": "2026-03-06T20:01:12.470145773-08:00",
-      "updated_at": "2026-03-06T20:01:12.470145773-08:00",
-      "completed_at": null,
+      "updated_at": "2026-03-08T03:07:31.980630029-07:00",
+      "completed_at": "2026-03-08T03:07:31.980630029-07:00",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null,
@@ -1971,7 +1982,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -1987,8 +1998,8 @@
         "ux"
       ],
       "created_at": "2026-03-06T20:01:12.472257817-08:00",
-      "updated_at": "2026-03-06T20:01:12.472257817-08:00",
-      "completed_at": null,
+      "updated_at": "2026-03-08T01:45:06.070982965-08:00",
+      "completed_at": "2026-03-08T01:45:06.070982965-08:00",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null,
@@ -2026,7 +2037,7 @@
         "project_id": null
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -2041,8 +2052,8 @@
         "bugfix"
       ],
       "created_at": "2026-03-06T20:01:12.478346448-08:00",
-      "updated_at": "2026-03-06T20:01:12.478346448-08:00",
-      "completed_at": null,
+      "updated_at": "2026-03-08T01:45:59.273913338-08:00",
+      "completed_at": "2026-03-08T01:45:59.273913338-08:00",
       "actual_minutes": null,
       "tokens_used": null,
       "lines_changed": null,
@@ -2741,7 +2752,8 @@
         ],
         "constraints": [],
         "related_tasks": [],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
       "state": "completed",
@@ -2789,7 +2801,8 @@
         ],
         "constraints": [],
         "related_tasks": [],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
       "state": "completed",
@@ -2836,7 +2849,8 @@
         ],
         "constraints": [],
         "related_tasks": [],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
       "state": "completed",
@@ -2878,7 +2892,8 @@
         "requirements": [],
         "constraints": [],
         "related_tasks": [],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
       "state": "completed",
@@ -2925,7 +2940,8 @@
         ],
         "constraints": [],
         "related_tasks": [],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
       "state": "completed",
@@ -2973,10 +2989,11 @@
         ],
         "constraints": [],
         "related_tasks": [],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -3022,10 +3039,11 @@
         ],
         "constraints": [],
         "related_tasks": [],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -3068,10 +3086,11 @@
         ],
         "constraints": [],
         "related_tasks": [],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -3115,10 +3134,11 @@
         ],
         "constraints": [],
         "related_tasks": [],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -3164,7 +3184,8 @@
         "related_tasks": [
           "task_1772875931821_13Naviga"
         ],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
       "state": "completed",
@@ -3216,10 +3237,11 @@
           "Min 44px touch targets"
         ],
         "related_tasks": [],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -3283,10 +3305,11 @@
         "related_tasks": [
           "task_1772880001_51FocusedFeed"
         ],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -3307,7 +3330,21 @@
       "completed_at": null,
       "actual_minutes": null,
       "tokens_used": null,
-      "lines_changed": null
+      "lines_changed": null,
+      "context_bundle": {
+        "built_at": "2026-03-07T03:39:33.29874693-08:00",
+        "built_by": "context-engineer",
+        "bundle_path": "data/context/task_1772880002_52Cards",
+        "files": {
+          "requirements": "data/context/task_1772880002_52Cards/requirements.md",
+          "relevant_code": null,
+          "project_context": "data/context/task_1772880002_52Cards/project_context.md",
+          "patterns": "data/context/task_1772880002_52Cards/patterns.md",
+          "decisions": "data/context/task_1772880002_52Cards/decisions.md",
+          "test_hints": "data/context/task_1772880002_52Cards/test_hints.md"
+        },
+        "notes": "Built by context-engineer agent"
+      }
     },
     {
       "id": "task_1772880003_53AutoRead",
@@ -3342,10 +3379,11 @@
         "related_tasks": [
           "task_1772880001_51FocusedFeed"
         ],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -3393,10 +3431,11 @@
         "related_tasks": [
           "task_1772880001_51FocusedFeed"
         ],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
-      "state": "created",
+      "state": "completed",
       "blocked_by": [],
       "conversation_id": null,
       "outputs": [],
@@ -3445,7 +3484,8 @@
         "related_tasks": [
           "task_1772880001_51FocusedFeed"
         ],
-        "project_id": null
+        "project_id": null,
+        "working_directory": "/home/mmariani/Projects/android_notify_helper/notifai"
       },
       "topics": [],
       "state": "completed",

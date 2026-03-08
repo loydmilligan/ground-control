@@ -1,14 +1,18 @@
 {
   "user": "human_matt",
   "interaction_mode": "interactions",
-  "mode_count": 3,
+  "mode_count": 0,
   "target_tasks": null,
   "completed_tasks": [],
-  "status": "cancelled",
-  "started_at": "2026-03-06T19:24:58-08:00",
-  "last_handoff_at": "2026-03-06T19:44:24-08:00",
-  "handoff_count": 9,
-  "tmux_session": "gc",
-  "claude_pane": "0:0.0",
-  "ai_matt_pane": "0:0.1"
+  "status": "completed",
+  "started_at": "2026-03-08T01:36:24-08:00",
+  "last_handoff_at": "2026-03-08T01:46:39-08:00",
+  "handoff_count": 3,
+  "tmux_session": "0",
+  "tmux_window": "gc-delegation",
+  "claude_pane": "%23",
+  "ai_matt_pane": "%24",
+  "worker_pane": "%23",
+  "monitor_pane": "%25",
+  "watchdog_pid": 1431282
 }

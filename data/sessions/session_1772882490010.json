@@ -1,45 +1,41 @@
 {
   "id": "session_1772882490010",
-  "status": "running",
+  "status": "completed",
   "task_ids": [
     "task_1772880001_51FocusedFeed"
   ],
   "started_at": "2026-03-07T03:21:30.010795341-08:00",
-  "updated_at": "2026-03-07T03:28:51.068599143-08:00",
+  "updated_at": "2026-03-07T03:28:52.062863049-08:00",
   "current_task_id": "task_1772880001_51FocusedFeed",
   "current_stage": "repo_update",
   "current_iteration": 1,
   "task_progress": {
     "task_1772880001_51FocusedFeed": {
       "task_id": "task_1772880001_51FocusedFeed",
-      "status": "running",
+      "status": "completed",
       "started_at": "2026-03-07T03:21:30.011422275-08:00",
+      "completed_at": "2026-03-07T03:28:52.062621001-08:00",
       "stages": {
         "coder": {
           "stage": "coder",
           "status": "completed",
           "iterations": 2,
           "started_at": "2026-03-07T03:25:08.197960848-08:00",
-          "completed_at": "2026-03-07T03:28:45.410164298-08:00",
-          "output_files": [
-            "data/context/task_1772880001_51FocusedFeed/implementation_notes.md"
-          ]
+          "completed_at": "2026-03-07T03:28:45.410164298-08:00"
         },
         "repo_update": {
           "stage": "repo_update",
-          "status": "running",
+          "status": "completed",
           "iterations": 1,
-          "started_at": "2026-03-07T03:28:51.068598835-08:00"
+          "started_at": "2026-03-07T03:28:51.068598835-08:00",
+          "completed_at": "2026-03-07T03:28:52.062609475-08:00"
         },
         "reviewer": {
           "stage": "reviewer",
           "status": "completed",
           "iterations": 2,
           "started_at": "2026-03-07T03:27:28.373809887-08:00",
-          "completed_at": "2026-03-07T03:28:45.410164709-08:00",
-          "output_files": [
-            "data/context/task_1772880001_51FocusedFeed/review_feedback_2.md"
-          ]
+          "completed_at": "2026-03-07T03:28:45.410164709-08:00"
         },
         "sanity": {
           "stage": "sanity",
@@ -53,10 +49,7 @@
           "status": "completed",
           "iterations": 1,
           "started_at": "2026-03-07T03:28:45.410603534-08:00",
-          "completed_at": "2026-03-07T03:28:51.068587412-08:00",
-          "output_files": [
-            "data/context/task_1772880001_51FocusedFeed/test_results_1.md"
-          ]
+          "completed_at": "2026-03-07T03:28:51.068587412-08:00"
         }
       }
     }

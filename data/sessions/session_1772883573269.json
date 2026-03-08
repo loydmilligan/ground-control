@@ -1,0 +1,62 @@
+{
+  "id": "session_1772883573269",
+  "status": "closed",
+  "task_ids": [
+    "task_1772880002_52Cards",
+    "task_1772880003_53AutoRead",
+    "task_1772880004_54EmptyState"
+  ],
+  "started_at": "2026-03-07T03:39:33.269166417-08:00",
+  "updated_at": "2026-03-07T12:27:41-08:00",
+  "current_task_id": "task_1772880002_52Cards",
+  "current_stage": "reviewer",
+  "current_iteration": 2,
+  "task_progress": {
+    "task_1772880002_52Cards": {
+      "task_id": "task_1772880002_52Cards",
+      "status": "escalated",
+      "started_at": "2026-03-07T03:39:33.269364844-08:00",
+      "stages": {
+        "coder": {
+          "stage": "coder",
+          "status": "running",
+          "iterations": 2,
+          "started_at": "2026-03-07T03:48:01.102881868-08:00"
+        },
+        "context_bundle": {
+          "stage": "context_bundle",
+          "status": "completed",
+          "iterations": 1,
+          "started_at": "2026-03-07T03:39:33.298119455-08:00",
+          "completed_at": "2026-03-07T03:39:33.302276118-08:00"
+        },
+        "reviewer": {
+          "stage": "reviewer",
+          "status": "completed",
+          "iterations": 2,
+          "started_at": "2026-03-07T03:52:05.814041015-08:00",
+          "completed_at": "2026-03-07T03:53:02.607282737-08:00"
+        },
+        "sanity": {
+          "stage": "sanity",
+          "status": "completed",
+          "iterations": 2,
+          "started_at": "2026-03-07T03:39:33.304297822-08:00",
+          "completed_at": "2026-03-07T03:39:33.304434735-08:00"
+        }
+      }
+    },
+    "task_1772880003_53AutoRead": {
+      "task_id": "task_1772880003_53AutoRead",
+      "status": "pending",
+      "started_at": "0001-01-01T00:00:00Z",
+      "stages": {}
+    },
+    "task_1772880004_54EmptyState": {
+      "task_id": "task_1772880004_54EmptyState",
+      "status": "pending",
+      "started_at": "0001-01-01T00:00:00Z",
+      "stages": {}
+    }
+  }
+}

@@ -263,6 +263,17 @@
       "ingestion_notes": null,
       "captured_at": "2026-03-07T00:48:05.572301826-08:00",
       "processed_at": "2026-03-07T00:48:05.685639024-08:00"
+    },
+    {
+      "id": "dump_1772952171513",
+      "content": "test idea from deployment smoke test",
+      "processed": false,
+      "category": null,
+      "urgency_hint": null,
+      "converted_to": null,
+      "ingestion_notes": null,
+      "captured_at": "2026-03-07T22:42:51.513847148-08:00",
+      "processed_at": null
     }
   ]
 }
