@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": {
+      "Read": {},
+      "Glob": {},
+      "Grep": {},
+      "Bash": {
+        "commands": ["gc", "git status", "git diff", "git log", "ls", "cat", "head", "tail"]
+      }
+    },
+    "deny": {
+      "Edit": { "reason": "AI Matt cannot edit files directly" },
+      "Write": { "reason": "AI Matt cannot write files directly" },
+      "NotebookEdit": { "reason": "AI Matt cannot edit notebooks" }
+    }
+  },
+  "hasTrustDialogAccepted": true
+}

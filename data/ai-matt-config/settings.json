@@ -1,0 +1,50 @@
+{
+  "name": "ai-matt",
+  "description": "AI Matt configuration for controlled delegation",
+
+  "security": {
+    "max_interactions": 10,
+    "timeout_minutes": 30,
+    "allowed_tools": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash"
+    ],
+    "blocked_tools": [
+      "Write",
+      "Edit"
+    ],
+    "read_only": true,
+    "sandbox_mode": true,
+    "require_human_approval_for": [
+      "file_write",
+      "file_delete",
+      "git_push",
+      "external_api"
+    ]
+  },
+
+  "infinite_loop_prevention": {
+    "max_consecutive_handoffs": 5,
+    "cooldown_seconds": 30,
+    "detect_patterns": [
+      "repeated_same_question",
+      "circular_delegation"
+    ]
+  },
+
+  "rollback": {
+    "create_branch_before_work": true,
+    "branch_prefix": "ai-matt-work",
+    "auto_stash_uncommitted": true
+  },
+
+  "personality_file": "agents/ai-matt.md",
+  "insights_file": "data/ai-matt-insights.json",
+
+  "hooks": {
+    "pre_action": "scripts/ai-matt-pre-hook.sh",
+    "post_action": "scripts/ai-matt-post-hook.sh"
+  }
+}

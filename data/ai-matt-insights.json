@@ -1,0 +1,40 @@
+{
+  "common_phrases": {},
+  "topic_interests": {
+    "agent": 37,
+    "ai": 117,
+    "api": 6,
+    "bug": 13,
+    "claude": 68,
+    "cli": 36,
+    "config": 10,
+    "database": 1,
+    "delegation": 17,
+    "deploy": 9,
+    "design": 16,
+    "error": 24,
+    "feature": 15,
+    "fix": 21,
+    "handoff": 44,
+    "implement": 31,
+    "refactor": 1,
+    "review": 38,
+    "task": 102,
+    "test": 64,
+    "tui": 25,
+    "ui": 84
+  },
+  "communication_style": {
+    "verbosity": "verbose",
+    "formatting_prefs": "",
+    "tone_patterns": ""
+  },
+  "work_patterns": {
+    "avg_session_length": 0,
+    "common_commands": null,
+    "preferred_times": null
+  },
+  "extracted_at": "2026-03-08T03:12:04.643166174-07:00",
+  "session_count": 31,
+  "message_count": 278
+}
