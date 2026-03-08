@@ -285,6 +285,52 @@ func (s *Store) LoadSessions() ([]types.Session, error) {
 	return sessions, nil
 }
 
+// SaveSessions saves all sessions to individual files in the sessions directory.
+// This replaces all existing session files with the provided sessions.
+func (s *Store) SaveSessions(sessions []types.Session) error {
+	sessionsDir := filepath.Join(s.dataDir, "sessions")
+
+	// Ensure sessions directory exists
+	if err := os.MkdirAll(sessionsDir, 0755); err != nil {
+		return fmt.Errorf("creating sessions directory: %w", err)
+	}
+
+	// Build map of sessions we're keeping
+	keepIDs := make(map[string]bool)
+	for _, session := range sessions {
+		keepIDs[session.ID] = true
+	}
+
+	// Remove session files not in the keep list
+	entries, err := os.ReadDir(sessionsDir)
+	if err == nil {
+		for _, entry := range entries {
+			if entry.IsDir() || !isJSONFile(entry.Name()) {
+				continue
+			}
+			// Extract ID from filename (session_xxx.json -> session_xxx)
+			id := entry.Name()[:len(entry.Name())-5]
+			if !keepIDs[id] {
+				os.Remove(filepath.Join(sessionsDir, entry.Name()))
+			}
+		}
+	}
+
+	// Write each session to its own file
+	for _, session := range sessions {
+		path := filepath.Join(sessionsDir, session.ID+".json")
+		data, err := json.MarshalIndent(session, "", "  ")
+		if err != nil {
+			return fmt.Errorf("marshaling session %s: %w", session.ID, err)
+		}
+		if err := os.WriteFile(path, data, 0644); err != nil {
+			return fmt.Errorf("writing session %s: %w", session.ID, err)
+		}
+	}
+
+	return nil
+}
+
 // isJSONFile checks if a filename ends with .json.
 func isJSONFile(name string) bool {
 	return len(name) > 5 && name[len(name)-5:] == ".json"

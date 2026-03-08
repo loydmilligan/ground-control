@@ -44,7 +44,14 @@ and humans make decisions at checkpoints.`,
 	rootCmd.AddCommand(cmd.NewArtifactCmd(store))
 	rootCmd.AddCommand(cmd.NewAppCmd(store))
 	rootCmd.AddCommand(cmd.NewBrainstormCmd(store))
+	rootCmd.AddCommand(cmd.NewSessionsCmd(store))
+	rootCmd.AddCommand(cmd.NewHistoryCmd(store))
+	rootCmd.AddCommand(cmd.NewSelfLearnCmd(store))
+	rootCmd.AddCommand(cmd.NewIngestCmd(store))
 	rootCmd.AddCommand(newTUICmd(store))
+
+	// Silence Cobra's automatic error printing - we handle it ourselves
+	rootCmd.SilenceErrors = true
 
 	// Execute
 	if err := rootCmd.Execute(); err != nil {
