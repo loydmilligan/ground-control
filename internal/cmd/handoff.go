@@ -23,19 +23,23 @@ var (
 
 // DelegationMode represents the AI Matt delegation state
 type DelegationMode struct {
-	User            string    `json:"user"`             // "human_matt" or "ai_matt"
-	InteractionMode string    `json:"interaction_mode"` // "interactions" or "tasks"
-	ModeCount       int       `json:"mode_count"`       // remaining interactions (decremented after AI Matt response)
-	TargetTasks     []string  `json:"target_tasks"`     // for task mode
-	CompletedTasks  []string  `json:"completed_tasks"`  // tasks completed during delegation
-	Status          string    `json:"status"`           // "idle", "worker_active", "waiting_for_ai_matt", "error"
-	StartedAt       string    `json:"started_at"`       // ISO timestamp
-	LastHandoffAt   string    `json:"last_handoff_at"`  // ISO timestamp
-	HandoffCount    int       `json:"handoff_count"`    // total handoffs this session
-	Error           string    `json:"error,omitempty"`  // error message if any
-	TmuxSession     string    `json:"tmux_session"`     // tmux session name
-	ClaudePane      string    `json:"claude_pane"`      // pane ID for Claude (e.g., "0")
-	AIMattPane      string    `json:"ai_matt_pane"`     // pane ID for AI Matt (e.g., "1")
+	User            string   `json:"user"`                       // "human_matt" or "ai_matt"
+	InteractionMode string   `json:"interaction_mode"`           // "interactions" or "tasks"
+	ModeCount       int      `json:"mode_count"`                 // remaining interactions (decremented after AI Matt response)
+	TargetTasks     []string `json:"target_tasks"`               // for task mode
+	CompletedTasks  []string `json:"completed_tasks"`            // tasks completed during delegation
+	Status          string   `json:"status"`                     // "idle", "worker_active", "waiting_for_ai_matt", "error"
+	StartedAt       string   `json:"started_at"`                 // ISO timestamp
+	LastHandoffAt   string   `json:"last_handoff_at"`            // ISO timestamp
+	HandoffCount    int      `json:"handoff_count"`              // total handoffs this session
+	Error           string   `json:"error,omitempty"`            // error message if any
+	TmuxSession     string   `json:"tmux_session"`               // tmux session name
+	TmuxWindow      string   `json:"tmux_window,omitempty"`      // delegation window name
+	ClaudePane      string   `json:"claude_pane"`                // pane ID for Claude/Worker
+	AIMattPane      string   `json:"ai_matt_pane"`               // pane ID for AI Matt
+	WorkerPane      string   `json:"worker_pane,omitempty"`      // alias for claude_pane in supervised mode
+	MonitorPane     string   `json:"monitor_pane,omitempty"`     // pane ID for monitor (supervised mode)
+	WatchdogPID     int      `json:"watchdog_pid,omitempty"`     // watchdog process ID
 }
 
 // NewHandoffCmd creates the handoff command for inter-agent communication
