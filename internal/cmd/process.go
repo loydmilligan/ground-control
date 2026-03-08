@@ -26,6 +26,7 @@ var (
 func NewProcessCmd(store *data.Store) *cobra.Command {
 	var dryRun bool
 	var interactive bool
+	var listOnly bool
 
 	cmd := &cobra.Command{
 		Use:   "process",
@@ -37,20 +38,22 @@ complexity, and creates tasks with context bundles.
 
 Examples:
   gc process               # Process all unprocessed entries
+  gc process --list        # List unprocessed entries without processing
   gc process --dry-run     # Show what would be created without saving
   gc process --interactive # Approve each conversion`,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return runProcess(store, dryRun, interactive)
+			return runProcess(store, dryRun, interactive, listOnly)
 		},
 	}
 
+	cmd.Flags().BoolVarP(&listOnly, "list", "l", false, "List unprocessed entries without processing")
 	cmd.Flags().BoolVar(&dryRun, "dry-run", false, "Show what would be created without saving")
 	cmd.Flags().BoolVarP(&interactive, "interactive", "i", false, "Approve each conversion")
 
 	return cmd
 }
 
-func runProcess(store *data.Store, dryRun, interactive bool) error {
+func runProcess(store *data.Store, dryRun, interactive, listOnly bool) error {
 	// Load brain dump entries
 	entries, err := store.LoadBrainDump()
 	if err != nil {
@@ -67,6 +70,42 @@ func runProcess(store *data.Store, dryRun, interactive bool) error {
 
 	if len(unprocessed) == 0 {
 		fmt.Println(processDimStyle.Render("No unprocessed brain dump entries."))
+		return nil
+	}
+
+	// List-only mode: just show entries and exit
+	if listOnly {
+		fmt.Println(processHeaderStyle.Render("═══ Unprocessed Brain Dumps ═══"))
+		fmt.Println()
+		fmt.Printf("Found %d unprocessed entries:\n\n", len(unprocessed))
+
+		for i, entry := range unprocessed {
+			// Show entry number and ID
+			fmt.Printf("%s %s\n", processEntryStyle.Render(fmt.Sprintf("#%d", i+1)), processDimStyle.Render(entry.ID))
+
+			// Show captured time
+			fmt.Printf("   %s\n", processDimStyle.Render("Captured: "+entry.CapturedAt.Format("2006-01-02 15:04")))
+
+			// Show content (truncated if long)
+			content := entry.Content
+			if len(content) > 100 {
+				content = content[:97] + "..."
+			}
+			// Indent multiline content
+			content = strings.ReplaceAll(content, "\n", "\n   ")
+			fmt.Printf("   %s\n", content)
+
+			// Show category and urgency if set
+			if entry.Category != nil {
+				fmt.Printf("   %s\n", processDimStyle.Render("Category: "+*entry.Category))
+			}
+			if entry.UrgencyHint != nil {
+				fmt.Printf("   %s\n", processSkipStyle.Render("Urgency: "+*entry.UrgencyHint))
+			}
+			fmt.Println()
+		}
+
+		fmt.Printf("Run %s to convert these to tasks.\n", processSuccessStyle.Render("gc process"))
 		return nil
 	}
 
