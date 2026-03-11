@@ -52,6 +52,11 @@ type ProjectState struct {
 	Approval *Approval    `json:"pending_approval,omitempty"`
 	Activity []Activity   `json:"recent_activity"`
 	Context  ContextInfo  `json:"context"`
+
+	// Flight Deck additions
+	Sprint    *SprintInfo     `json:"sprint,omitempty"`
+	Attention []AttentionFlag `json:"attention,omitempty"`
+	WorkMode  WorkMode        `json:"work_mode,omitempty"`
 }
 
 // SessionInfo tracks the current Claude session
@@ -144,4 +149,118 @@ type Workspace struct {
 type KeyFile struct {
 	Path    string `json:"path"`
 	Purpose string `json:"purpose"`
+}
+
+// ============================================================================
+// Flight Deck Types
+// ============================================================================
+
+// WorkMode defines how work is done on this project
+type WorkMode string
+
+const (
+	WorkModeHuman      WorkMode = "human"      // Human does the work
+	WorkModeAssisted   WorkMode = "assisted"   // AI assists, human drives
+	WorkModeAutonomous WorkMode = "autonomous" // AI drives, human approves
+)
+
+// SprintInfo tracks the current sprint for dashboard display
+type SprintInfo struct {
+	ID             string  `json:"id"`
+	Name           string  `json:"name"`
+	TasksTotal     int     `json:"tasks_total"`
+	TasksCompleted int     `json:"tasks_completed"`
+	CompletionPct  float64 `json:"completion_pct"`
+}
+
+// AttentionFlag indicates something needs user attention
+type AttentionFlag struct {
+	Type     string    `json:"type"`     // blocked, review_needed, stale, deadline, request
+	Priority string    `json:"priority"` // high, medium, low
+	Message  string    `json:"message"`
+	Since    time.Time `json:"since"`
+}
+
+// ============================================================================
+// Issues (.gc/issues.json)
+// ============================================================================
+
+// IssuesFile represents .gc/issues.json
+type IssuesFile struct {
+	Issues []IssueItem `json:"issues"`
+}
+
+// IssueItem represents a single issue/bug
+type IssueItem struct {
+	ID          string    `json:"id"`
+	Title       string    `json:"title"`
+	Description string    `json:"description,omitempty"`
+	Type        string    `json:"type"`     // bug, enhancement, question, task
+	Priority    string    `json:"priority"` // high, medium, low
+	Status      string    `json:"status"`   // open, in_progress, closed
+	Labels      []string  `json:"labels,omitempty"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	ClosedAt    *time.Time `json:"closed_at,omitempty"`
+}
+
+// ============================================================================
+// Roadmap (.gc/roadmap.json)
+// ============================================================================
+
+// RoadmapFile represents .gc/roadmap.json
+type RoadmapFile struct {
+	Features   []RoadmapFeature   `json:"features"`
+	Milestones []RoadmapMilestone `json:"milestones,omitempty"`
+}
+
+// RoadmapFeature represents a planned feature
+type RoadmapFeature struct {
+	ID            string    `json:"id"`
+	Title         string    `json:"title"`
+	Description   string    `json:"description,omitempty"`
+	Status        string    `json:"status"`   // planned, in_progress, completed, cancelled
+	Priority      string    `json:"priority"` // high, medium, low
+	CompletionPct float64   `json:"completion_pct"`
+	MilestoneID   string    `json:"milestone_id,omitempty"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
+}
+
+// RoadmapMilestone represents a release milestone
+type RoadmapMilestone struct {
+	ID         string    `json:"id"`
+	Name       string    `json:"name"`
+	TargetDate string    `json:"target_date,omitempty"`
+	FeatureIDs []string  `json:"feature_ids"`
+	Status     string    `json:"status"` // planned, in_progress, completed
+}
+
+// ============================================================================
+// Learning Log (.gc/learning.jsonl)
+// ============================================================================
+
+// LearningEntry represents a single learning/improvement observation
+type LearningEntry struct {
+	ID        string    `json:"id"`
+	Type      string    `json:"type"`   // friction, process_failure, idea
+	Actor     string    `json:"actor"`  // user, fd_cc, proj_cc
+	Summary   string    `json:"summary"`
+	Detail    string    `json:"detail,omitempty"`
+	Processed bool      `json:"processed"`
+	At        time.Time `json:"at"`
+}
+
+// ============================================================================
+// FD Requests (.gc/requests.jsonl)
+// ============================================================================
+
+// FDRequest represents a request from project to Flight Deck
+type FDRequest struct {
+	ID      string                 `json:"id"`
+	Type    string                 `json:"type"` // commit, review, docs, decision, help
+	Summary string                 `json:"summary"`
+	Payload map[string]interface{} `json:"payload,omitempty"`
+	Status  string                 `json:"status"` // pending, processing, completed
+	At      time.Time              `json:"at"`
 }

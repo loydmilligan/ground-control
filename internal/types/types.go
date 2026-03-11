@@ -179,14 +179,23 @@ const (
 type ProjectPhase string
 
 const (
+	// Core lifecycle phases
 	ProjectPhaseIdea        ProjectPhase = "idea"
+	ProjectPhaseDesign      ProjectPhase = "design"      // NEW: Design phase before building
 	ProjectPhasePlanning    ProjectPhase = "planning"
 	ProjectPhaseResearch    ProjectPhase = "research"
 	ProjectPhaseScaffolding ProjectPhase = "scaffolding"
+	ProjectPhaseMVP         ProjectPhase = "mvp"         // NEW: Building MVP
+	ProjectPhaseBeta        ProjectPhase = "beta"        // NEW: Beta testing
 	ProjectPhaseBuilding    ProjectPhase = "building"
+	ProjectPhaseFeatures    ProjectPhase = "features"    // NEW: Active feature development
 	ProjectPhaseTesting     ProjectPhase = "testing"
 	ProjectPhaseDeployed    ProjectPhase = "deployed"
 	ProjectPhaseMaintenance ProjectPhase = "maintenance"
+
+	// Terminal/paused phases
+	ProjectPhaseAbandoned   ProjectPhase = "abandoned"   // NEW: No longer active
+	ProjectPhasePaused      ProjectPhase = "paused"      // NEW: Temporarily paused
 )
 
 // BrainDumpEntry represents a raw idea or note.
@@ -286,6 +295,7 @@ type Sprint struct {
 	Name        string       `json:"name"`
 	Description string       `json:"description"`
 	Goal        string       `json:"goal"`
+	ProjectIDs  []string     `json:"project_ids,omitempty"` // Optional: associated projects
 	TaskIDs     []string     `json:"task_ids"`
 	Status      SprintStatus `json:"status"`
 	CreatedAt   time.Time    `json:"created_at"`
