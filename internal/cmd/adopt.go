@@ -4,10 +4,12 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/mmariani/ground-control/internal/registry"
@@ -38,6 +40,7 @@ var (
 func NewAdoptCmd() *cobra.Command {
 	var skipAnalysis bool
 	var forceAdopt bool
+	var noBackup bool
 
 	cmd := &cobra.Command{
 		Use:   "adopt <path>",
@@ -53,20 +56,22 @@ Examples:
   gc adopt .                          # Adopt current directory
   gc adopt ~/Projects/my-app          # Adopt specific project
   gc adopt ~/Projects/my-app --force  # Re-adopt (overwrite existing)
-  gc adopt ~/Projects/my-app --skip   # Skip analysis (manual setup)`,
+  gc adopt ~/Projects/my-app --skip   # Skip analysis (manual setup)
+  gc adopt ~/Projects/my-app --no-backup  # Skip backup (testing)`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return runAdopt(args[0], skipAnalysis, forceAdopt)
+			return runAdopt(args[0], skipAnalysis, forceAdopt, noBackup)
 		},
 	}
 
 	cmd.Flags().BoolVar(&skipAnalysis, "skip", false, "Skip Claude analysis (manual setup)")
 	cmd.Flags().BoolVarP(&forceAdopt, "force", "f", false, "Force re-adoption (overwrite existing)")
+	cmd.Flags().BoolVar(&noBackup, "no-backup", false, "Skip backup of existing .gc/ directory")
 
 	return cmd
 }
 
-func runAdopt(path string, skipAnalysis, force bool) error {
+func runAdopt(path string, skipAnalysis, force, noBackup bool) error {
 	// Resolve absolute path
 	absPath, err := filepath.Abs(path)
 	if err != nil {
@@ -90,6 +95,13 @@ func runAdopt(path string, skipAnalysis, force bool) error {
 
 	fmt.Println(adoptHeaderStyle.Render("═══ Flight Deck Adoption ═══"))
 	fmt.Printf("%s\n\n", adoptDimStyle.Render(absPath))
+
+	// Backup existing .gc/ directory if it exists and not skipping
+	if mgr.Exists() && !noBackup {
+		if err := backupGCDir(absPath); err != nil {
+			fmt.Printf("%s\n", adoptWarningStyle.Render("Warning: backup failed: "+err.Error()))
+		}
+	}
 
 	var analysis *sidecar.AnalysisResult
 
@@ -542,4 +554,85 @@ If this workflow causes friction, note it in .gc/learning.jsonl:
 `
 	onboardingPath := filepath.Join(gcPath, "fd-onboarding.md")
 	return os.WriteFile(onboardingPath, []byte(content), 0644)
+}
+
+// backupGCDir creates a backup of the .gc/ directory before modification
+func backupGCDir(projectPath string) error {
+	gcPath := filepath.Join(projectPath, ".gc")
+
+	// Check if .gc/ exists
+	if _, err := os.Stat(gcPath); os.IsNotExist(err) {
+		return nil // Nothing to backup
+	}
+
+	// Create backup directory with timestamp
+	timestamp := time.Now().Format("20060102_150405")
+	backupPath := filepath.Join(gcPath, fmt.Sprintf("backup_%s", timestamp))
+
+	if err := os.MkdirAll(backupPath, 0755); err != nil {
+		return fmt.Errorf("create backup dir: %w", err)
+	}
+
+	// Files to backup
+	filesToBackup := []string{
+		"project.json",
+		"state.json",
+		"CLAUDE.md",
+		"fd-onboarding.md",
+		"issues.json",
+		"roadmap.json",
+		"analysis.json",
+		"learning.jsonl",
+		"requests.jsonl",
+	}
+
+	backedUpCount := 0
+	for _, filename := range filesToBackup {
+		srcPath := filepath.Join(gcPath, filename)
+		dstPath := filepath.Join(backupPath, filename)
+
+		// Skip if file doesn't exist
+		if _, err := os.Stat(srcPath); os.IsNotExist(err) {
+			continue
+		}
+
+		// Copy file
+		if err := copyFile(srcPath, dstPath); err != nil {
+			return fmt.Errorf("copy %s: %w", filename, err)
+		}
+		backedUpCount++
+	}
+
+	if backedUpCount > 0 {
+		relBackupPath := filepath.Join(".gc", fmt.Sprintf("backup_%s", timestamp))
+		fmt.Printf("%s\n", adoptInfoStyle.Render(fmt.Sprintf("Backed up %d files to %s", backedUpCount, relBackupPath)))
+	}
+
+	return nil
+}
+
+// copyFile copies a file from src to dst
+func copyFile(src, dst string) error {
+	srcFile, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer srcFile.Close()
+
+	dstFile, err := os.Create(dst)
+	if err != nil {
+		return err
+	}
+	defer dstFile.Close()
+
+	if _, err := io.Copy(dstFile, srcFile); err != nil {
+		return err
+	}
+
+	// Preserve file permissions
+	srcInfo, err := os.Stat(src)
+	if err != nil {
+		return err
+	}
+	return os.Chmod(dst, srcInfo.Mode())
 }
