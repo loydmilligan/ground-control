@@ -145,10 +145,16 @@ func runAdopt(path string, skipAnalysis, force bool) error {
 
 	// Create initial state
 	state := &sidecar.ProjectState{
-		Session: sidecar.SessionInfo{Status: "idle"},
+		Session:  sidecar.SessionInfo{Status: "idle"},
+		WorkMode: sidecar.WorkModeAssisted, // Default to assisted mode
 	}
 	if err := mgr.SaveState(state); err != nil {
 		return fmt.Errorf("save state: %w", err)
+	}
+
+	// Create Flight Deck onboarding and state files
+	if err := createFDFiles(absPath); err != nil {
+		fmt.Printf("%s\n", adoptWarningStyle.Render("Warning: could not create FD files: "+err.Error()))
 	}
 
 	// Generate CLAUDE.md
@@ -372,4 +378,136 @@ func generateClaudeMd(projectPath string, a *sidecar.AnalysisResult) error {
 
 	claudePath := filepath.Join(projectPath, ".gc", "CLAUDE.md")
 	return os.WriteFile(claudePath, []byte(b.String()), 0644)
+}
+
+// createFDFiles creates Flight Deck onboarding and state files
+func createFDFiles(projectPath string) error {
+	gcPath := filepath.Join(projectPath, ".gc")
+
+	// Create inbox directory
+	inboxPath := filepath.Join(gcPath, "inbox")
+	if err := os.MkdirAll(inboxPath, 0755); err != nil {
+		return fmt.Errorf("create inbox: %w", err)
+	}
+
+	// Copy fd-onboarding.md template
+	// First try to find the template relative to the GC data dir
+	templatePath := findTemplate("fd-onboarding.md")
+	if templatePath != "" {
+		content, err := os.ReadFile(templatePath)
+		if err == nil {
+			onboardingPath := filepath.Join(gcPath, "fd-onboarding.md")
+			if err := os.WriteFile(onboardingPath, content, 0644); err != nil {
+				return fmt.Errorf("write onboarding: %w", err)
+			}
+		}
+	} else {
+		// Generate inline if template not found
+		if err := generateOnboardingInline(gcPath); err != nil {
+			return fmt.Errorf("generate onboarding: %w", err)
+		}
+	}
+
+	// Create empty issues.json
+	issuesPath := filepath.Join(gcPath, "issues.json")
+	issuesContent := `{"issues": []}`
+	if err := os.WriteFile(issuesPath, []byte(issuesContent), 0644); err != nil {
+		return fmt.Errorf("write issues: %w", err)
+	}
+
+	// Create empty roadmap.json
+	roadmapPath := filepath.Join(gcPath, "roadmap.json")
+	roadmapContent := `{"features": [], "milestones": []}`
+	if err := os.WriteFile(roadmapPath, []byte(roadmapContent), 0644); err != nil {
+		return fmt.Errorf("write roadmap: %w", err)
+	}
+
+	// Create empty learning.jsonl
+	learningPath := filepath.Join(gcPath, "learning.jsonl")
+	if err := os.WriteFile(learningPath, []byte(""), 0644); err != nil {
+		return fmt.Errorf("write learning: %w", err)
+	}
+
+	// Create empty requests.jsonl
+	requestsPath := filepath.Join(gcPath, "requests.jsonl")
+	if err := os.WriteFile(requestsPath, []byte(""), 0644); err != nil {
+		return fmt.Errorf("write requests: %w", err)
+	}
+
+	return nil
+}
+
+// findTemplate looks for a template file in known locations
+func findTemplate(name string) string {
+	// Try relative to current working directory (for development)
+	cwd, _ := os.Getwd()
+	paths := []string{
+		filepath.Join(cwd, "templates", name),
+		filepath.Join(GetDataDir(), "..", "templates", name),
+		filepath.Join(os.Getenv("HOME"), "Projects", "ground-control", "templates", name),
+	}
+
+	for _, p := range paths {
+		if _, err := os.Stat(p); err == nil {
+			return p
+		}
+	}
+	return ""
+}
+
+// generateOnboardingInline creates the onboarding file with inline content
+func generateOnboardingInline(gcPath string) error {
+	content := `# Flight Deck Integration
+
+This project is managed by **Flight Deck (FD)**, part of Ground Control (GC).
+
+## What is Flight Deck?
+
+Flight Deck is a central orchestration dashboard that:
+- Manages multiple projects from a single TUI
+- Coordinates non-coding work (docs, commits, reviews, deployments)
+- Tracks issues, roadmaps, and sprints across projects
+- Provides visibility into all project states
+
+## Your Responsibilities (Project Claude)
+
+1. **Coding & Testing** - You handle all code implementation and testing
+2. **Issue Tracking** - Add issues to .gc/issues.json as you find them
+3. **Progress Updates** - Update .gc/state.json with session activity
+4. **Request FD Help** - Use .gc/requests.jsonl when you need:
+   - Documentation written
+   - Code reviewed
+   - Commits made
+   - Design decisions
+
+## FD's Responsibilities
+
+FD handles:
+- Commits and git operations
+- Documentation generation
+- Code reviews
+- Cross-project coordination
+- Sprint/roadmap management
+
+## How to Request FD Work
+
+Append to .gc/requests.jsonl:
+{"type":"commit","summary":"Add feature X","files":["src/x.go"],"at":"...","status":"pending"}
+{"type":"review","summary":"Review implementation","at":"...","status":"pending"}
+
+## Reporting Process Issues
+
+If this workflow causes friction, note it in .gc/learning.jsonl:
+{"type":"friction","actor":"proj_cc","summary":"Process unclear","detail":"...","at":"..."}
+
+## Key Files
+
+- .gc/state.json - Your session state
+- .gc/issues.json - Project issues
+- .gc/roadmap.json - Project roadmap
+- .gc/requests.jsonl - Requests to FD
+- .gc/learning.jsonl - Process improvement notes
+`
+	onboardingPath := filepath.Join(gcPath, "fd-onboarding.md")
+	return os.WriteFile(onboardingPath, []byte(content), 0644)
 }
