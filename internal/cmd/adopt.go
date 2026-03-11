@@ -1,0 +1,375 @@
+package cmd
+
+import (
+	"bufio"
+	"encoding/json"
+	"fmt"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"strings"
+
+	"github.com/charmbracelet/lipgloss"
+	"github.com/mmariani/ground-control/internal/registry"
+	"github.com/mmariani/ground-control/internal/sidecar"
+	"github.com/spf13/cobra"
+)
+
+// Adopt styles
+var (
+	adoptHeaderStyle = lipgloss.NewStyle().
+				Bold(true).
+				Foreground(lipgloss.Color("99"))
+
+	adoptSuccessStyle = lipgloss.NewStyle().
+				Foreground(lipgloss.Color("40"))
+
+	adoptWarningStyle = lipgloss.NewStyle().
+				Foreground(lipgloss.Color("214"))
+
+	adoptInfoStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("39"))
+
+	adoptDimStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("241"))
+)
+
+// NewAdoptCmd creates the adopt command for Flight Deck
+func NewAdoptCmd() *cobra.Command {
+	var skipAnalysis bool
+	var forceAdopt bool
+
+	cmd := &cobra.Command{
+		Use:   "adopt <path>",
+		Short: "Adopt an existing project into Flight Deck",
+		Long: `Adopt a project for Flight Deck management.
+
+This command:
+1. Analyzes the repository using Claude to detect tech stack
+2. Creates a .gc/ sidecar directory with configuration
+3. Registers the project in the global Flight Deck registry
+
+Examples:
+  gc adopt .                          # Adopt current directory
+  gc adopt ~/Projects/my-app          # Adopt specific project
+  gc adopt ~/Projects/my-app --force  # Re-adopt (overwrite existing)
+  gc adopt ~/Projects/my-app --skip   # Skip analysis (manual setup)`,
+		Args: cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return runAdopt(args[0], skipAnalysis, forceAdopt)
+		},
+	}
+
+	cmd.Flags().BoolVar(&skipAnalysis, "skip", false, "Skip Claude analysis (manual setup)")
+	cmd.Flags().BoolVarP(&forceAdopt, "force", "f", false, "Force re-adoption (overwrite existing)")
+
+	return cmd
+}
+
+func runAdopt(path string, skipAnalysis, force bool) error {
+	// Resolve absolute path
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		return fmt.Errorf("invalid path: %w", err)
+	}
+
+	// Check path exists and is a directory
+	info, err := os.Stat(absPath)
+	if err != nil {
+		return fmt.Errorf("path does not exist: %s", absPath)
+	}
+	if !info.IsDir() {
+		return fmt.Errorf("path is not a directory: %s", absPath)
+	}
+
+	// Check if already adopted
+	mgr := sidecar.NewManager(absPath)
+	if mgr.Exists() && !force {
+		return fmt.Errorf("project already adopted (use --force to re-adopt): %s", absPath)
+	}
+
+	fmt.Println(adoptHeaderStyle.Render("═══ Flight Deck Adoption ═══"))
+	fmt.Printf("%s\n\n", adoptDimStyle.Render(absPath))
+
+	var analysis *sidecar.AnalysisResult
+
+	if skipAnalysis {
+		// Create minimal analysis
+		projectName := filepath.Base(absPath)
+		analysis = &sidecar.AnalysisResult{
+			Name:        projectName,
+			Description: "Manually adopted project",
+		}
+		fmt.Println(adoptInfoStyle.Render("Skipping analysis (manual setup mode)"))
+	} else {
+		// Check if analysis.json already exists (reuse if present)
+		existingAnalysis, err := mgr.LoadAnalysis()
+		if err == nil && existingAnalysis.Name != "" {
+			fmt.Println(adoptInfoStyle.Render("Found existing analysis.json, reusing..."))
+			analysis = existingAnalysis
+		} else {
+			// Run Claude analysis
+			fmt.Println(adoptInfoStyle.Render("Analyzing repository with Claude..."))
+			fmt.Println()
+
+			analysis, err = runAnalysis(absPath)
+			if err != nil {
+				return fmt.Errorf("analysis failed: %w", err)
+			}
+		}
+
+		// Display results
+		displayAnalysis(analysis)
+
+		// Check confidence levels
+		if hasLowConfidence(analysis) {
+			fmt.Println()
+			fmt.Println(adoptWarningStyle.Render("⚠️  Some detections have low confidence. Continue? [y/N] "))
+			reader := bufio.NewReader(os.Stdin)
+			response, _ := reader.ReadString('\n')
+			response = strings.TrimSpace(strings.ToLower(response))
+			if response != "y" && response != "yes" {
+				return fmt.Errorf("adoption cancelled")
+			}
+		}
+	}
+
+	// Create project config from analysis
+	fmt.Println()
+	fmt.Println(adoptInfoStyle.Render("Creating .gc/ sidecar..."))
+
+	config := sidecar.CreateConfigFromAnalysis(analysis)
+	if err := mgr.SaveConfig(config); err != nil {
+		return fmt.Errorf("save config: %w", err)
+	}
+
+	// Create initial state
+	state := &sidecar.ProjectState{
+		Session: sidecar.SessionInfo{Status: "idle"},
+	}
+	if err := mgr.SaveState(state); err != nil {
+		return fmt.Errorf("save state: %w", err)
+	}
+
+	// Generate CLAUDE.md
+	if err := generateClaudeMd(absPath, analysis); err != nil {
+		fmt.Printf("%s\n", adoptWarningStyle.Render("Warning: could not generate CLAUDE.md: "+err.Error()))
+	}
+
+	// Register in global registry
+	reg, err := registry.NewRegistry()
+	if err != nil {
+		return fmt.Errorf("init registry: %w", err)
+	}
+	if err := reg.AddProject(absPath, analysis.Name); err != nil {
+		return fmt.Errorf("register project: %w", err)
+	}
+
+	// Success
+	fmt.Println()
+	fmt.Println(adoptSuccessStyle.Render("✓ Successfully adopted: " + analysis.Name))
+	fmt.Printf("  %s\n", adoptDimStyle.Render("Path: "+absPath))
+	fmt.Printf("  %s\n", adoptDimStyle.Render("Sidecar: "+mgr.GCPath()))
+	fmt.Println()
+	fmt.Println(adoptDimStyle.Render("Run 'gc tui' to open Flight Deck"))
+
+	return nil
+}
+
+func runAnalysis(projectPath string) (*sidecar.AnalysisResult, error) {
+	// Ensure .gc directory exists
+	gcPath := filepath.Join(projectPath, ".gc")
+	if err := os.MkdirAll(gcPath, 0755); err != nil {
+		return nil, err
+	}
+
+	analysisPath := filepath.Join(gcPath, "analysis.json")
+
+	// Build the analysis prompt
+	prompt := buildAnalysisPrompt(analysisPath)
+
+	// Run Claude
+	cmd := exec.Command("claude", "--print", prompt)
+	cmd.Dir = projectPath
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Run(); err != nil {
+		return nil, fmt.Errorf("claude analysis failed: %w", err)
+	}
+
+	// Read the analysis result
+	data, err := os.ReadFile(analysisPath)
+	if err != nil {
+		return nil, fmt.Errorf("read analysis: %w", err)
+	}
+
+	var result sidecar.AnalysisResult
+	if err := json.Unmarshal(data, &result); err != nil {
+		return nil, fmt.Errorf("parse analysis: %w", err)
+	}
+
+	return &result, nil
+}
+
+func buildAnalysisPrompt(outputPath string) string {
+	return fmt.Sprintf(`You are part of Flight Deck, an AI development orchestration system.
+
+Analyze this repository and output JSON to %s with this structure:
+
+{
+  "name": "project-name",
+  "description": "Brief description",
+  "languages": [{"name": "TypeScript", "confidence": 0.95, "version": "5.0"}],
+  "frameworks": [{"name": "React Native", "confidence": 0.90}],
+  "test_runner": {"name": "Jest", "confidence": 0.85, "config_file": "jest.config.js"},
+  "package_manager": "npm",
+  "ci_system": "github-actions",
+  "existing_conventions": ["ESLint", "Prettier", "Husky hooks"],
+  "existing_task_management": "None detected",
+  "key_files": [{"path": "src/index.ts", "purpose": "Entry point"}],
+  "suggested_constraints": ["Run lint before commit", "Use existing patterns"],
+  "monorepo": false,
+  "workspaces": []
+}
+
+Check: package.json, requirements.txt, go.mod, tsconfig.json, .eslintrc*, .github/workflows/, Makefile, README.md, and directory structure.
+
+Confidence: 0.9+ = explicit declaration, 0.7-0.9 = strong indicators, 0.5-0.7 = inferred, <0.5 = uncertain.
+
+Output ONLY valid JSON to the file. No other text.`, outputPath)
+}
+
+func displayAnalysis(a *sidecar.AnalysisResult) {
+	fmt.Println(adoptHeaderStyle.Render("Analysis Results"))
+	fmt.Println()
+
+	// Name and description
+	fmt.Printf("  %s %s\n", adoptInfoStyle.Render("Name:"), a.Name)
+	if a.Description != "" {
+		fmt.Printf("  %s %s\n", adoptInfoStyle.Render("Description:"), a.Description)
+	}
+	fmt.Println()
+
+	// Languages
+	if len(a.Languages) > 0 {
+		fmt.Printf("  %s\n", adoptInfoStyle.Render("Languages:"))
+		for _, l := range a.Languages {
+			confidence := formatConfidence(l.Confidence)
+			version := ""
+			if l.Version != "" {
+				version = " (" + l.Version + ")"
+			}
+			fmt.Printf("    • %s%s %s\n", l.Name, version, confidence)
+		}
+	}
+
+	// Frameworks
+	if len(a.Frameworks) > 0 {
+		fmt.Printf("  %s\n", adoptInfoStyle.Render("Frameworks:"))
+		for _, f := range a.Frameworks {
+			confidence := formatConfidence(f.Confidence)
+			fmt.Printf("    • %s %s\n", f.Name, confidence)
+		}
+	}
+
+	// Test runner
+	if a.TestRunner != nil {
+		confidence := formatConfidence(a.TestRunner.Confidence)
+		fmt.Printf("  %s %s %s\n", adoptInfoStyle.Render("Test Runner:"), a.TestRunner.Name, confidence)
+	}
+
+	// Package manager & CI
+	if a.PackageManager != "" {
+		fmt.Printf("  %s %s\n", adoptInfoStyle.Render("Package Manager:"), a.PackageManager)
+	}
+	if a.CISystem != "" {
+		fmt.Printf("  %s %s\n", adoptInfoStyle.Render("CI System:"), a.CISystem)
+	}
+
+	// Conventions
+	if len(a.ExistingConventions) > 0 {
+		fmt.Printf("  %s %s\n", adoptInfoStyle.Render("Conventions:"),
+			strings.Join(a.ExistingConventions, ", "))
+	}
+}
+
+func formatConfidence(c float64) string {
+	if c >= 0.9 {
+		return adoptSuccessStyle.Render(fmt.Sprintf("%.0f%%", c*100))
+	} else if c >= 0.7 {
+		return adoptInfoStyle.Render(fmt.Sprintf("%.0f%%", c*100))
+	} else {
+		return adoptWarningStyle.Render(fmt.Sprintf("%.0f%% ⚠️", c*100))
+	}
+}
+
+func hasLowConfidence(a *sidecar.AnalysisResult) bool {
+	for _, l := range a.Languages {
+		if l.Confidence < 0.7 {
+			return true
+		}
+	}
+	for _, f := range a.Frameworks {
+		if f.Confidence < 0.7 {
+			return true
+		}
+	}
+	if a.TestRunner != nil && a.TestRunner.Confidence < 0.7 {
+		return true
+	}
+	return false
+}
+
+func generateClaudeMd(projectPath string, a *sidecar.AnalysisResult) error {
+	var b strings.Builder
+
+	b.WriteString(fmt.Sprintf("# %s - Flight Deck Project\n\n", a.Name))
+
+	if a.Description != "" {
+		b.WriteString(fmt.Sprintf("%s\n\n", a.Description))
+	}
+
+	b.WriteString("## Tech Stack\n\n")
+	for _, l := range a.Languages {
+		version := ""
+		if l.Version != "" {
+			version = " " + l.Version
+		}
+		b.WriteString(fmt.Sprintf("- %s%s\n", l.Name, version))
+	}
+	for _, f := range a.Frameworks {
+		b.WriteString(fmt.Sprintf("- %s\n", f.Name))
+	}
+	if a.TestRunner != nil {
+		b.WriteString(fmt.Sprintf("- Tests: %s\n", a.TestRunner.Name))
+	}
+	b.WriteString("\n")
+
+	if len(a.ExistingConventions) > 0 {
+		b.WriteString("## Conventions\n\n")
+		for _, c := range a.ExistingConventions {
+			b.WriteString(fmt.Sprintf("- %s\n", c))
+		}
+		b.WriteString("\n")
+	}
+
+	if len(a.SuggestedConstraints) > 0 {
+		b.WriteString("## Constraints\n\n")
+		for _, c := range a.SuggestedConstraints {
+			b.WriteString(fmt.Sprintf("- %s\n", c))
+		}
+		b.WriteString("\n")
+	}
+
+	if len(a.KeyFiles) > 0 {
+		b.WriteString("## Key Files\n\n")
+		for _, f := range a.KeyFiles {
+			b.WriteString(fmt.Sprintf("- `%s` - %s\n", f.Path, f.Purpose))
+		}
+		b.WriteString("\n")
+	}
+
+	claudePath := filepath.Join(projectPath, ".gc", "CLAUDE.md")
+	return os.WriteFile(claudePath, []byte(b.String()), 0644)
+}

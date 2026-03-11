@@ -50,6 +50,10 @@ and humans make decisions at checkpoints.`,
 	rootCmd.AddCommand(cmd.NewIngestCmd(store))
 	rootCmd.AddCommand(newTUICmd(store))
 
+	// Flight Deck commands (v2)
+	rootCmd.AddCommand(cmd.NewAdoptCmd())
+	rootCmd.AddCommand(newFlightDeckCmd())
+
 	// Silence Cobra's automatic error printing - we handle it ourselves
 	rootCmd.SilenceErrors = true
 
@@ -60,14 +64,35 @@ and humans make decisions at checkpoints.`,
 	}
 }
 
-// newTUICmd creates the tui command.
+// newTUICmd creates the tui command (legacy GC v1).
 func newTUICmd(store *data.Store) *cobra.Command {
 	return &cobra.Command{
 		Use:   "tui",
-		Short: "Launch interactive TUI",
-		Long:  "Start the interactive terminal user interface for Ground Control.",
+		Short: "Launch interactive TUI (legacy)",
+		Long:  "Start the interactive terminal user interface for Ground Control v1.",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return tui.Run(store)
+		},
+	}
+}
+
+// newFlightDeckCmd creates the Flight Deck command (v2).
+func newFlightDeckCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:     "fd",
+		Aliases: []string{"flightdeck", "deck"},
+		Short:   "Launch Flight Deck TUI",
+		Long: `Start the Flight Deck terminal user interface.
+
+Flight Deck is the v2 TUI for Ground Control, providing:
+- Project-centric view (Hangar)
+- Active session monitoring (Mission)
+- Approval management (Comms)
+- Cost tracking (Costs)
+
+Use 'gc adopt <path>' to add projects to Flight Deck.`,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return tui.RunFlightDeck()
 		},
 	}
 }

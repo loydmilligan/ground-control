@@ -1,0 +1,134 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Flight Deck Project Analysis",
+  "description": "Analysis output from adopting a project into Flight Deck",
+  "type": "object",
+  "required": ["name", "languages", "frameworks"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Project name (from package.json, go.mod, pyproject.toml, etc.)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of what the project does"
+    },
+    "languages": {
+      "type": "array",
+      "description": "Programming languages detected",
+      "items": {
+        "type": "object",
+        "required": ["name", "confidence"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Language name (e.g., TypeScript, Python, Go)"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Confidence score 0.0-1.0"
+          },
+          "version": {
+            "type": "string",
+            "description": "Version if detectable (e.g., '3.11', 'ES2022')"
+          }
+        }
+      }
+    },
+    "frameworks": {
+      "type": "array",
+      "description": "Frameworks and major libraries detected",
+      "items": {
+        "type": "object",
+        "required": ["name", "confidence"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Framework name (e.g., React Native, FastAPI, Express)"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "test_runner": {
+      "type": "object",
+      "description": "Test framework if detected",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Test runner name (e.g., Jest, pytest, go test)"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "config_file": {
+          "type": "string",
+          "description": "Path to test config if found"
+        }
+      }
+    },
+    "package_manager": {
+      "type": "string",
+      "description": "Package manager (npm, yarn, pnpm, pip, poetry, go mod, cargo)"
+    },
+    "ci_system": {
+      "type": "string",
+      "description": "CI/CD system if detected (github-actions, gitlab-ci, circleci, none)"
+    },
+    "existing_conventions": {
+      "type": "array",
+      "description": "Existing code conventions and tooling",
+      "items": {
+        "type": "string"
+      }
+    },
+    "existing_task_management": {
+      "type": "string",
+      "description": "Any existing task/issue management detected (Linear, Jira, TODO.md, etc.)"
+    },
+    "key_files": {
+      "type": "array",
+      "description": "Important files an AI agent should know about",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "suggested_constraints": {
+      "type": "array",
+      "description": "Suggested constraints for AI agents working on this project",
+      "items": {
+        "type": "string"
+      }
+    },
+    "monorepo": {
+      "type": "boolean",
+      "description": "Whether this appears to be a monorepo"
+    },
+    "workspaces": {
+      "type": "array",
+      "description": "If monorepo, list of workspace paths",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
