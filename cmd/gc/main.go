@@ -52,6 +52,7 @@ and humans make decisions at checkpoints.`,
 
 	// Flight Deck commands (v2)
 	rootCmd.AddCommand(cmd.NewAdoptCmd())
+	rootCmd.AddCommand(cmd.NewSyncCmd())
 	rootCmd.AddCommand(newFlightDeckCmd())
 
 	// Silence Cobra's automatic error printing - we handle it ourselves

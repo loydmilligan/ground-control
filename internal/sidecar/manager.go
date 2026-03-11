@@ -223,3 +223,183 @@ func CreateConfigFromAnalysis(analysis *AnalysisResult) *ProjectConfig {
 	}
 	return cfg
 }
+
+// --- Issues (.gc/issues.json) ---
+
+// LoadIssues reads the project issues file
+func (m *Manager) LoadIssues() (*IssuesFile, error) {
+	path := filepath.Join(m.GCPath(), "issues.json")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return &IssuesFile{Issues: []IssueItem{}}, nil
+		}
+		return nil, fmt.Errorf("load issues: %w", err)
+	}
+	var issues IssuesFile
+	if err := json.Unmarshal(data, &issues); err != nil {
+		return nil, fmt.Errorf("parse issues: %w", err)
+	}
+	return &issues, nil
+}
+
+// SaveIssues writes the project issues file
+func (m *Manager) SaveIssues(issues *IssuesFile) error {
+	if err := m.EnsureDir(); err != nil {
+		return err
+	}
+	path := filepath.Join(m.GCPath(), "issues.json")
+	data, err := json.MarshalIndent(issues, "", "  ")
+	if err != nil {
+		return fmt.Errorf("marshal issues: %w", err)
+	}
+	return os.WriteFile(path, data, 0644)
+}
+
+// --- Roadmap (.gc/roadmap.json) ---
+
+// LoadRoadmap reads the project roadmap file
+func (m *Manager) LoadRoadmap() (*RoadmapFile, error) {
+	path := filepath.Join(m.GCPath(), "roadmap.json")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return &RoadmapFile{Features: []RoadmapFeature{}, Milestones: []RoadmapMilestone{}}, nil
+		}
+		return nil, fmt.Errorf("load roadmap: %w", err)
+	}
+	var roadmap RoadmapFile
+	if err := json.Unmarshal(data, &roadmap); err != nil {
+		return nil, fmt.Errorf("parse roadmap: %w", err)
+	}
+	return &roadmap, nil
+}
+
+// SaveRoadmap writes the project roadmap file
+func (m *Manager) SaveRoadmap(roadmap *RoadmapFile) error {
+	if err := m.EnsureDir(); err != nil {
+		return err
+	}
+	path := filepath.Join(m.GCPath(), "roadmap.json")
+	data, err := json.MarshalIndent(roadmap, "", "  ")
+	if err != nil {
+		return fmt.Errorf("marshal roadmap: %w", err)
+	}
+	return os.WriteFile(path, data, 0644)
+}
+
+// --- Requests (.gc/requests.jsonl) ---
+
+// LoadRequests reads all FD requests from the project
+func (m *Manager) LoadRequests() ([]FDRequest, error) {
+	path := filepath.Join(m.GCPath(), "requests.jsonl")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return []FDRequest{}, nil
+		}
+		return nil, fmt.Errorf("load requests: %w", err)
+	}
+
+	var requests []FDRequest
+	lines := splitLines(string(data))
+	for _, line := range lines {
+		if line == "" {
+			continue
+		}
+		var req FDRequest
+		if err := json.Unmarshal([]byte(line), &req); err != nil {
+			continue // Skip malformed lines
+		}
+		requests = append(requests, req)
+	}
+	return requests, nil
+}
+
+// AppendRequest adds a new request to the requests file
+func (m *Manager) AppendRequest(req *FDRequest) error {
+	if err := m.EnsureDir(); err != nil {
+		return err
+	}
+	path := filepath.Join(m.GCPath(), "requests.jsonl")
+	data, err := json.Marshal(req)
+	if err != nil {
+		return fmt.Errorf("marshal request: %w", err)
+	}
+	f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return fmt.Errorf("open requests: %w", err)
+	}
+	defer f.Close()
+	_, err = f.WriteString(string(data) + "\n")
+	return err
+}
+
+// --- Learning (.gc/learning.jsonl) ---
+
+// LoadLearnings reads all learning entries from the project
+func (m *Manager) LoadLearnings() ([]LearningEntry, error) {
+	path := filepath.Join(m.GCPath(), "learning.jsonl")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return []LearningEntry{}, nil
+		}
+		return nil, fmt.Errorf("load learnings: %w", err)
+	}
+
+	var learnings []LearningEntry
+	lines := splitLines(string(data))
+	for _, line := range lines {
+		if line == "" {
+			continue
+		}
+		var entry LearningEntry
+		if err := json.Unmarshal([]byte(line), &entry); err != nil {
+			continue // Skip malformed lines
+		}
+		learnings = append(learnings, entry)
+	}
+	return learnings, nil
+}
+
+// AppendLearning adds a new learning entry
+func (m *Manager) AppendLearning(entry *LearningEntry) error {
+	if err := m.EnsureDir(); err != nil {
+		return err
+	}
+	path := filepath.Join(m.GCPath(), "learning.jsonl")
+	data, err := json.Marshal(entry)
+	if err != nil {
+		return fmt.Errorf("marshal learning: %w", err)
+	}
+	f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return fmt.Errorf("open learning: %w", err)
+	}
+	defer f.Close()
+	_, err = f.WriteString(string(data) + "\n")
+	return err
+}
+
+// --- Helpers ---
+
+// splitLines splits a string into lines, handling both \n and \r\n
+func splitLines(s string) []string {
+	var lines []string
+	start := 0
+	for i := 0; i < len(s); i++ {
+		if s[i] == '\n' {
+			line := s[start:i]
+			if len(line) > 0 && line[len(line)-1] == '\r' {
+				line = line[:len(line)-1]
+			}
+			lines = append(lines, line)
+			start = i + 1
+		}
+	}
+	if start < len(s) {
+		lines = append(lines, s[start:])
+	}
+	return lines
+}

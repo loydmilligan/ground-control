@@ -14,6 +14,9 @@ type ProjectConfig struct {
 	Altitude  string `json:"altitude"` // low, mid, high
 	CIEnabled bool   `json:"ci_enabled"`
 
+	// Project lifecycle phase (idea, design, mvp, beta, features, maintenance, etc.)
+	Phase string `json:"phase,omitempty"`
+
 	// What requires approval
 	Approvals ApprovalConfig `json:"approvals"`
 
