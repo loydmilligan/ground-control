@@ -376,6 +376,38 @@ func generateClaudeMd(projectPath string, a *sidecar.AnalysisResult) error {
 		b.WriteString("\n")
 	}
 
+	// Flight Deck Integration section
+	b.WriteString("## Flight Deck Integration\n\n")
+	b.WriteString("This project is managed by Flight Deck. See `.gc/fd-onboarding.md` for full details.\n\n")
+
+	b.WriteString("### Slash Commands\n\n")
+	b.WriteString("| Command | Purpose |\n")
+	b.WriteString("|---------|---------||\n")
+	b.WriteString("| `/roadmap-item \"title\"` | Add feature to roadmap |\n")
+	b.WriteString("| `/issue \"description\"` | Report bug or issue |\n")
+	b.WriteString("| `/start-work <id>` | Begin work on item |\n")
+	b.WriteString("| `/progress <pct>` | Update completion % |\n")
+	b.WriteString("| `/commit \"message\"` | Request commit via FD |\n")
+	b.WriteString("| `/complete` | Mark current work done |\n")
+	b.WriteString("| `/learn <type> \"desc\"` | Log process learning |\n")
+	b.WriteString("\n")
+
+	b.WriteString("### Key Files\n\n")
+	b.WriteString("| File | Purpose |\n")
+	b.WriteString("|------|---------||\n")
+	b.WriteString("| `.gc/roadmap.json` | Feature roadmap |\n")
+	b.WriteString("| `.gc/issues.json` | Bugs and issues |\n")
+	b.WriteString("| `.gc/requests.jsonl` | Requests to FD |\n")
+	b.WriteString("| `.gc/state.json` | Session state |\n")
+	b.WriteString("\n")
+
+	b.WriteString("### Important\n\n")
+	b.WriteString("- **Don't commit directly** - Use `/commit` to request FD handle it\n")
+	b.WriteString("- **Check inbox on startup** - Look in `.gc/inbox/` for dispatched work\n")
+	b.WriteString("- **Update progress** - Use `/progress` periodically\n")
+	b.WriteString("- **Log learnings** - Use `/learn friction \"desc\"` for process issues\n")
+	b.WriteString("\n")
+
 	claudePath := filepath.Join(projectPath, ".gc", "CLAUDE.md")
 	return os.WriteFile(claudePath, []byte(b.String()), 0644)
 }
