@@ -1,8 +1,10 @@
 # Flight Deck Design Document
 
+> **Version**: 0.2.0 | **Last Updated**: 2026-03-10
+
 > Ground Control v2 — A TUI-first orchestration layer for AI-assisted development
 
-**Status**: Draft
+**Status**: Implemented (Phase 1-3)
 **Created**: 2026-03-10
 **Author**: Matt + Claude
 

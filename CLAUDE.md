@@ -1,5 +1,7 @@
 # Ground Control — AI Agent Instructions
 
+> **Version**: 0.2.0 | **Last Updated**: 2026-03-10
+
 ## What is Ground Control?
 
 Ground Control is a vibe coding project management system where AI agents orchestrate task flow. The Taskmaster agent manages priorities and routing, specialized agents execute work, and humans make decisions at checkpoints.
@@ -18,6 +20,7 @@ Brain Dump → Ingestion Agent → Taskmaster → Agent Execution → Verificati
 |------|---------|
 | `data/tasks.json` | All tasks with full context |
 | `data/projects.json` | Project definitions |
+| `data/sprints.json` | Sprint definitions (task groupings) |
 | `data/brain-dump.json` | Raw ideas awaiting processing |
 | `data/activity-log.json` | Audit trail + AI-Matt training data |
 | `data/agents.json` | Agent definitions |
@@ -138,6 +141,21 @@ interface ActivityEvent {
   human_feedback: string | null;
 
   timestamp: string;
+}
+```
+
+### Sprint Schema
+```typescript
+interface Sprint {
+  id: string;                    // "sprint_{timestamp}"
+  name: string;
+  description: string;
+  goal: string;
+  project_ids?: string[];        // Optional: associated project IDs (can span multiple projects)
+  task_ids: string[];
+  status: "active" | "paused" | "completed";
+  created_at: string;
+  completed_at?: string;
 }
 ```
 
@@ -300,12 +318,137 @@ AI Matt runs in a restricted Claude environment (`.claude-ai-matt/`):
 
 Setup: `scripts/setup-ai-matt-env.sh`
 
+## Flight Deck
+
+Flight Deck is a TUI-first orchestration dashboard for managing persistent Claude sessions across multiple projects.
+
+### Quick Start
+```bash
+gc fd                      # Launch Flight Deck
+gc adopt /path/to/project  # Add project to Flight Deck
+```
+
+### Key Files (Sidecar Pattern)
+Each adopted project gets a `.gc/` directory:
+| File | Purpose |
+|------|---------|
+| `.gc/state.json` | Session state, costs, recent activity |
+| `.gc/project.json` | Project config, altitude, approvals |
+| `.gc/sessions/*.json` | Session history |
+
+Global registry:
+| File | Purpose |
+|------|---------|
+| `~/.gc/registry.json` | All adopted projects |
+
+### Altitude Levels
+
+Altitude controls automation level per project:
+
+| Level | Description | Approvals |
+|-------|-------------|-----------|
+| **Low** | Human drives, AI assists | All operations |
+| **Mid** | Balanced partnership | Destructive, git push, installs |
+| **High** | AI drives, human monitors | None |
+
+Cycle with `A` key in Flight Deck.
+
+### Session Modes
+
+| Mode | Description |
+|------|-------------|
+| **Window** | New tmux window (default) |
+| **Pane** | Split pane in current window |
+| **Headless** | Detached/hidden window |
+
+Cycle with `S` key in Flight Deck.
+
+### Keybindings (Mission Control)
+
+| Key | Action |
+|-----|--------|
+| `s` | Start Claude session |
+| `t` | Teleport to session |
+| `x` | Stop session |
+| `m` | Send message to session |
+| `A` | Cycle altitude |
+| `S` | Cycle session mode |
+| `F12` | Return to Flight Deck |
+| `tab` | Switch views |
+| `q` | Quit |
+
+### Packages
+| Package | Purpose |
+|---------|---------|
+| `internal/altitude` | Altitude levels and approval requirements |
+| `internal/costs` | Token and cost tracking |
+| `internal/registry` | Project registry management |
+| `internal/sessions` | Session history and stats |
+| `internal/sidecar` | .gc/ directory management |
+| `internal/tmux` | Tmux session/pane control |
+| `internal/tui` | Flight Deck Bubble Tea TUI |
+| `internal/watch` | File watching with fsnotify |
+
 ## Related Documentation
 
 - [Architecture](docs/architecture.md) — Full system design
+- [Flight Deck Design](docs/flight-deck-design-doc.md) — Flight Deck TUI design
 - [Decisions](docs/decisions.md) — Design decision log
 - [AI Matt Delegation](docs/ai-matt-delegation-system.md) — Delegation protocol
 - [Pipeline Architecture](docs/pipeline-architecture.md) — Orchestration details
+
+## Documentation Versioning
+
+Ground Control uses semantic versioning (semver) for releases. Documentation must stay in sync.
+
+### Version Format
+```
+MAJOR.MINOR.PATCH
+```
+- **MAJOR**: Breaking changes to CLI, data schemas, or APIs
+- **MINOR**: New features, non-breaking changes
+- **PATCH**: Bug fixes, documentation updates
+
+### Current Version
+The current version is defined in:
+- `VERSION` file (source of truth)
+- `CLAUDE.md` header
+- `docs/architecture.md` header
+- `CHANGELOG.md` (release history)
+
+### Documentation Update Process
+
+When making significant changes:
+
+1. **Update CHANGELOG.md**
+   - Add changes under `[Unreleased]` section
+   - Follow [Keep a Changelog](https://keepachangelog.com/) format
+   - Categories: Added, Changed, Deprecated, Removed, Fixed, Security
+
+2. **Update affected docs**
+   - Update "Last Updated" date in doc headers
+   - Update version number if releasing
+
+3. **For releases**
+   - Move `[Unreleased]` to `[X.Y.Z] - YYYY-MM-DD`
+   - Update `VERSION` file
+   - Update version headers in CLAUDE.md and architecture.md
+   - Tag the release: `git tag vX.Y.Z`
+
+### Doc Headers
+All major docs should have a version header:
+```markdown
+> **Version**: X.Y.Z | **Last Updated**: YYYY-MM-DD
+```
+
+### Versioned Documentation
+
+| Doc | Tracks |
+|-----|--------|
+| `CLAUDE.md` | AI agent instructions, current features |
+| `docs/architecture.md` | System design, data models |
+| `CHANGELOG.md` | Release history |
+| `README.md` | User-facing docs |
 
 ## Lineage
 

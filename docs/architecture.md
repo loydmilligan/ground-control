@@ -1,5 +1,7 @@
 # Ground Control Architecture
 
+> **Version**: 0.2.0 | **Last Updated**: 2026-03-10
+
 ## System Overview
 
 ```
@@ -382,3 +384,104 @@ AI never sees the time values. Just picks complexity. System tracks actuals to r
 - `full`: AI-Matt makes all decisions
 - `checkpoints`: AI-Matt makes routine decisions, escalates big ones
 - `supervised`: AI-Matt proposes, human approves each step
+
+## Flight Deck
+
+Flight Deck is a TUI-first orchestration dashboard for managing persistent Claude sessions across multiple projects.
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        FLIGHT DECK TUI                          │
+│  ┌─────────────────────────┐  ┌─────────────────────────────┐   │
+│  │     Mission Control     │  │          Comms              │   │
+│  │  • Project list         │  │  • Message active sessions  │   │
+│  │  • Session status       │  │  • Approval flow            │   │
+│  │  • Activity feed        │  │  • Capture output           │   │
+│  └────────────┬────────────┘  └──────────────┬──────────────┘   │
+└───────────────┼──────────────────────────────┼──────────────────┘
+                │                              │
+                ▼                              ▼
+┌───────────────────────────────────────────────────────────────┐
+│                         SIDECAR (.gc/)                         │
+│  Per-project state management                                  │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐ │
+│  │ state.json  │  │project.json │  │ sessions/{id}.json      │ │
+│  │ • session   │  │ • config    │  │ • history               │ │
+│  │ • costs     │  │ • altitude  │  │ • tokens                │ │
+│  │ • activity  │  │ • approvals │  │ • duration              │ │
+│  └─────────────┘  └─────────────┘  └─────────────────────────┘ │
+└───────────────────────────────────────────────────────────────┘
+                │
+                ▼
+┌───────────────────────────────────────────────────────────────┐
+│                      TMUX MANAGER                              │
+│  • Session modes: window, pane, headless                       │
+│  • Teleportation: jump to Claude sessions                      │
+│  • F12 return binding                                          │
+│  • Send/capture pane content                                   │
+└───────────────────────────────────────────────────────────────┘
+                │
+                ▼
+┌───────────────────────────────────────────────────────────────┐
+│                    CLAUDE SESSIONS                             │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐       │
+│  │Project A │  │Project B │  │Project C │  │Project D │       │
+│  │  Claude  │  │  Claude  │  │ (idle)   │  │  Claude  │       │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘       │
+└───────────────────────────────────────────────────────────────┘
+```
+
+### Altitude Levels
+
+Altitude controls the automation level for each project:
+
+| Level | Description | Approvals Required | Monitoring |
+|-------|-------------|-------------------|------------|
+| **Low** | Human drives, AI assists | All operations | Passive |
+| **Mid** | Balanced partnership | Destructive, git push, installs | Active |
+| **High** | AI drives, human monitors | None | Alert only |
+
+### Session Modes
+
+| Mode | Description |
+|------|-------------|
+| **Window** | New tmux window (default) |
+| **Pane** | Split pane in current window |
+| **Headless** | Detached/hidden window |
+
+### File Watcher
+
+Flight Deck uses fsnotify to watch `.gc/state.json` for changes:
+- 100ms debounce to avoid rapid-fire updates
+- Sends `StateUpdate` messages to TUI
+- Enables live dashboard without polling
+
+### Project Registry
+
+Projects are registered in `~/.gc/registry.json`:
+```json
+{
+  "projects": [
+    {
+      "name": "ground-control",
+      "path": "/home/user/Projects/ground-control",
+      "adopted_at": "2026-03-10T12:00:00Z"
+    }
+  ]
+}
+```
+
+### Packages
+
+| Package | Purpose |
+|---------|---------|
+| `internal/altitude` | Altitude levels and approval requirements |
+| `internal/costs` | Token and cost tracking |
+| `internal/registry` | Project registry management |
+| `internal/sessions` | Session history and stats |
+| `internal/sidecar` | .gc/ directory management |
+| `internal/tmux` | Tmux session/pane control |
+| `internal/tui` | Flight Deck Bubble Tea TUI |
+| `internal/watch` | File watching with fsnotify |

@@ -8,6 +8,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Flight Deck TUI** (`gc fd`) - Multi-project Claude session orchestration dashboard
+  - Mission Control view with project list, session status, and activity feed
+  - Comms view for messaging active Claude sessions
+  - Teleportation (`t`) to jump into active Claude sessions
+  - F12 return binding to get back to Flight Deck
+  - Session modes: window, pane, headless
+- **Altitude system** - Configurable automation levels (Low/Mid/High)
+  - Low: Human drives, AI assists (all operations require approval)
+  - Mid: Balanced partnership (destructive ops require approval)
+  - High: AI drives, human monitors (no approvals required)
+- **Sidecar pattern** - `.gc/` directory per project for state management
+  - `state.json` - Session state, costs, activity
+  - `project.json` - Project configuration
+  - `sessions/` - Session history
+- **Project Registry** - Centralized tracking of adopted projects
+- **File Watcher** - Live TUI updates via fsnotify
+- **Cost Tracker** - Token and cost tracking per session
+- **Session History** - Query past sessions with stats
+- `gc adopt` command for adding external projects to Flight Deck
 - `gc self-learn` command for analyzing learning-log.json patterns
 - `gc history` command for viewing past orchestration sessions
 - `gc sessions` command for session management (list, cleanup, cancel)
