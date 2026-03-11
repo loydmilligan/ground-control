@@ -2,8 +2,11 @@
 package tui
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -31,8 +34,9 @@ const (
 
 // FDProjectView combines registry entry with live state
 type FDProjectView struct {
-	Entry registry.ProjectEntry
-	State *sidecar.ProjectState
+	Entry     registry.ProjectEntry
+	State     *sidecar.ProjectState
+	SyncState *sidecar.ProjectSyncState // Aggregated data
 }
 
 // FlightDeckModel is the main Flight Deck TUI model
@@ -140,6 +144,20 @@ type messageInputMsg struct {
 	text string
 }
 
+// loadAggregatedState loads aggregated data from ~/.gc/aggregated.json
+func loadAggregatedState(regPath string) (*sidecar.AggregatedState, error) {
+	path := filepath.Join(regPath, "aggregated.json")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	var state sidecar.AggregatedState
+	if err := json.Unmarshal(data, &state); err != nil {
+		return nil, err
+	}
+	return &state, nil
+}
+
 // loadProjects fetches all projects and their states
 func (m FlightDeckModel) loadProjects() tea.Msg {
 	entries, err := m.registry.ListProjectsSorted()
@@ -147,11 +165,28 @@ func (m FlightDeckModel) loadProjects() tea.Msg {
 		return errMsg{err}
 	}
 
+	// Load aggregated state
+	regPath := filepath.Dir(m.registry.Path())
+	aggregated, aggErr := loadAggregatedState(regPath)
+
 	var views []FDProjectView
 	for _, e := range entries {
 		mgr := sidecar.NewManager(e.Path)
 		state, _ := mgr.LoadState() // Ignore errors, show as inactive
-		views = append(views, FDProjectView{Entry: e, State: state})
+
+		// Merge aggregated data if available
+		var syncState *sidecar.ProjectSyncState
+		if aggErr == nil && aggregated != nil {
+			if ps, ok := aggregated.Projects[e.Path]; ok {
+				syncState = &ps
+			}
+		}
+
+		views = append(views, FDProjectView{
+			Entry:     e,
+			State:     state,
+			SyncState: syncState,
+		})
 	}
 	return projectsLoadedMsg{views}
 }
@@ -749,7 +784,8 @@ func (m FlightDeckModel) renderHangar() string {
 	}
 
 	// Header
-	header := fmt.Sprintf("  %-20s %-12s %-10s %s", "PROJECT", "STATUS", "SESSION", "LAST ACTIVE")
+	header := fmt.Sprintf("  %-20s %-10s %-4s %-4s %-5s %-6s %s",
+		"PROJECT", "PHASE", "ST", "%", "BUGS", "FLAGS", "LAST")
 	b.WriteString(styles.Label.Render(header))
 	b.WriteString("\n")
 	b.WriteString(styles.MutedText.Render("  " + strings.Repeat("─", m.width-6)))
@@ -766,28 +802,63 @@ func (m FlightDeckModel) renderHangar() string {
 
 // renderProjectRow renders a single project row
 func (m FlightDeckModel) renderProjectRow(idx int, p FDProjectView) string {
-	// Status
+	// Status icon
 	status := "idle"
-	sessionStatus := "—"
 	if p.State != nil && p.State.Session.ID != "" {
 		status = p.State.Session.Status
-		sessionStatus = p.State.Session.Status
 	}
-
-	// Format last active
-	lastActive := formatTimeAgo(p.Entry.LastActive)
-
-	// Build row
 	icon := styles.StatusIcon(status)
 	iconStyled := styles.StatusStyle(status).Render(icon)
 
-	row := fmt.Sprintf("%s %-19s %-12s %-10s %s",
+	// Phase - from sync state or empty
+	phase := "—"
+	if p.SyncState != nil && p.SyncState.Phase != "" {
+		phase = truncate(p.SyncState.Phase, 10)
+	}
+
+	// Completion percentage - from sprint or roadmap
+	completionPct := "—"
+	if p.SyncState != nil {
+		if p.SyncState.Sprint != nil && p.SyncState.Sprint.CompletionPct > 0 {
+			completionPct = fmt.Sprintf("%3.0f%%", p.SyncState.Sprint.CompletionPct)
+		} else if p.SyncState.RoadmapPct > 0 {
+			completionPct = fmt.Sprintf("%3.0f%%", p.SyncState.RoadmapPct)
+		}
+	}
+
+	// Bugs count - show in warning color if > 0
+	bugsStr := "—"
+	if p.SyncState != nil && p.SyncState.OpenBugs > 0 {
+		bugsStr = styles.WarningText.Render(fmt.Sprintf("%d", p.SyncState.OpenBugs))
+	}
+
+	// Attention flags - show in error color if > 0
+	flagsStr := "—"
+	if p.SyncState != nil && p.SyncState.AttentionFlags > 0 {
+		flagsStr = styles.Error.Render(fmt.Sprintf("%d", p.SyncState.AttentionFlags))
+	}
+
+	// Last activity time
+	lastActive := "—"
+	if p.SyncState != nil && p.SyncState.LastActivity != nil {
+		lastActive = formatTimeAgo(*p.SyncState.LastActivity)
+	} else if !p.Entry.LastActive.IsZero() {
+		lastActive = formatTimeAgo(p.Entry.LastActive)
+	}
+
+	// Build row
+	row := fmt.Sprintf("%s %-19s %-10s %-4s %-4s %-6s %s",
 		iconStyled,
 		truncate(p.Entry.Name, 19),
-		status,
-		sessionStatus,
-		lastActive,
+		phase,
+		status[:2], // Just first 2 chars for status (ac, id, pa)
+		completionPct,
+		bugsStr,
+		flagsStr,
 	)
+
+	// Add last active at the end
+	row = fmt.Sprintf("%s %s", row, lastActive)
 
 	// Highlight selected
 	if idx == m.cursor {

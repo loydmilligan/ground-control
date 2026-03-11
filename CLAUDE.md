@@ -389,6 +389,43 @@ Cycle with `S` key in Flight Deck.
 | `internal/tui` | Flight Deck Bubble Tea TUI |
 | `internal/watch` | File watching with fsnotify |
 
+## Flight Deck Quick Reference
+
+Flight Deck (FD) is the TUI-first orchestration dashboard for managing Claude sessions across projects.
+
+### Commands
+
+| Command | Purpose |
+|---------|---------|
+| `gc fd` | Launch Flight Deck TUI |
+| `gc adopt <path>` | Add project to Flight Deck |
+| `gc sync` | Aggregate all project states |
+
+### Project Slash Commands
+
+When working in an adopted project, these commands are available:
+
+| Command | Purpose |
+|---------|---------|
+| `/roadmap-item "title"` | Add feature to roadmap |
+| `/issue "desc"` | Report bug or issue |
+| `/start-work <id>` | Begin work on item |
+| `/progress <pct>` | Update completion % |
+| `/commit "msg"` | Request commit via FD |
+| `/complete` | Mark work done |
+| `/learn <type> "desc"` | Log process learning |
+
+### Key Directories
+
+| Path | Purpose |
+|------|---------|
+| `flight-deck/` | FD Claude workspace |
+| `flight-deck/prompts/` | Workflow prompt templates |
+| `~/.gc/` | Global FD state |
+| `project/.gc/` | Per-project sidecar |
+
+See `flight-deck/CLAUDE.md` for FD-specific instructions.
+
 ## Related Documentation
 
 - [Architecture](docs/architecture.md) — Full system design

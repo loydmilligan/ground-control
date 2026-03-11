@@ -13,38 +13,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// AggregatedState holds the synced state from all projects
-type AggregatedState struct {
-	SyncedAt time.Time                      `json:"synced_at"`
-	Projects map[string]ProjectSyncState    `json:"projects"`
-	Totals   AggregatedTotals               `json:"totals"`
-}
-
-// ProjectSyncState holds synced state for a single project
-type ProjectSyncState struct {
-	Name            string             `json:"name"`
-	Path            string             `json:"path"`
-	Status          string             `json:"status"`
-	WorkMode        sidecar.WorkMode   `json:"work_mode,omitempty"`
-	Phase           string             `json:"phase,omitempty"`
-	IssuesCount     int                `json:"issues_count"`
-	OpenBugs        int                `json:"open_bugs"`
-	FeaturesCount   int                `json:"features_count"`
-	RoadmapPct      float64            `json:"roadmap_pct"`
-	PendingRequests int                `json:"pending_requests"`
-	AttentionFlags  int                `json:"attention_flags"`
-	Sprint          *sidecar.SprintInfo `json:"sprint,omitempty"`
-	LastActivity    *time.Time         `json:"last_activity,omitempty"`
-}
-
-// AggregatedTotals holds totals across all projects
-type AggregatedTotals struct {
-	Projects        int `json:"projects"`
-	Issues          int `json:"issues"`
-	OpenBugs        int `json:"open_bugs"`
-	PendingRequests int `json:"pending_requests"`
-	AttentionFlags  int `json:"attention_flags"`
-}
 
 var (
 	syncHeaderStyle = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("6"))
@@ -97,9 +65,9 @@ func runSync(projectFilter string, quiet bool) error {
 		fmt.Println(syncHeaderStyle.Render("Syncing projects for Flight Deck..."))
 	}
 
-	aggregated := AggregatedState{
+	aggregated := sidecar.AggregatedState{
 		SyncedAt: time.Now(),
-		Projects: make(map[string]ProjectSyncState),
+		Projects: make(map[string]sidecar.ProjectSyncState),
 	}
 
 	for _, proj := range projects {
@@ -159,7 +127,7 @@ func runSync(projectFilter string, quiet bool) error {
 	return nil
 }
 
-func syncProject(proj registry.ProjectEntry) (*ProjectSyncState, error) {
+func syncProject(proj registry.ProjectEntry) (*sidecar.ProjectSyncState, error) {
 	mgr := sidecar.NewManager(proj.Path)
 
 	if !mgr.Exists() {
@@ -220,7 +188,7 @@ func syncProject(proj registry.ProjectEntry) (*ProjectSyncState, error) {
 		phase = string(config.Phase)
 	}
 
-	syncState := &ProjectSyncState{
+	syncState := &sidecar.ProjectSyncState{
 		Name:            proj.Name,
 		Path:            proj.Path,
 		Status:          state.Session.Status,
