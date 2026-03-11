@@ -11,6 +11,26 @@ Flight Deck is a central orchestration dashboard that:
 - Provides visibility into all project states
 - Suggests what to work on next (AI Advisor)
 
+## Quick Start Workflow
+
+### Starting a New Feature
+1. `/roadmap-item "Feature title" --start-now`
+2. Work on the implementation
+3. `/progress 50` (update periodically)
+4. `/commit "Add feature X"` (when ready to commit)
+5. `/complete --summary "What was done"`
+
+### Reporting a Bug Found While Working
+1. `/issue "Bug description" --priority high`
+2. Continue with current work or switch: `/start-work issue_xxx`
+
+### Checking for Dispatched Work
+On session start, check `.gc/inbox/` for work items from FD:
+```bash
+ls .gc/inbox/
+```
+If items exist, review and start with `/start-work`
+
 ## Your Responsibilities (Project Claude)
 
 As the Claude Code session for this project, you are responsible for:
@@ -137,6 +157,63 @@ If you're stuck:
 1. Add a request: `{"type":"help","summary":"Blocked on X","detail":"...","at":"...","status":"pending"}`
 2. FD will see it on next sync and respond
 3. Check `.gc/inbox/` for FD's response
+
+## Slash Command Reference
+
+All commands should be treated as conceptual shortcuts. Actual implementation uses `.gc/` files.
+
+### Work Management
+| Command | Description |
+|---------|-------------|
+| `/start-work <id>` | Start working on a task, issue, or roadmap item |
+| `/progress <percent>` | Update progress on current work (0-100) |
+| `/complete --summary "..."` | Mark current work complete with summary |
+| `/pause --reason "..."` | Pause current work with reason |
+
+### Issue Tracking
+| Command | Description |
+|---------|-------------|
+| `/issue "title" [--priority high\|med\|low]` | Create new issue |
+| `/bug "title" [--priority high]` | Create new bug (alias for `/issue --type bug`) |
+| `/close-issue <id> --reason "..."` | Close an issue with resolution notes |
+
+### Roadmap/Features
+| Command | Description |
+|---------|-------------|
+| `/roadmap-item "title" [--start-now]` | Add item to roadmap, optionally start immediately |
+| `/feature "title"` | Alias for `/roadmap-item` |
+
+### Git Operations
+| Command | Description |
+|---------|-------------|
+| `/commit "message"` | Request commit (appends to requests.jsonl) |
+| `/review [--scope files\|pr]` | Request code review |
+
+### Documentation
+| Command | Description |
+|---------|-------------|
+| `/docs "what to document"` | Request documentation from FD |
+
+### Help & Decisions
+| Command | Description |
+|---------|-------------|
+| `/help "what you're stuck on"` | Request help from FD |
+| `/decide "question" --options "A,B,C"` | Request architectural/design decision |
+
+### Learning & Feedback
+| Command | Description |
+|---------|-------------|
+| `/friction "what felt awkward"` | Log process friction (learning.jsonl) |
+| `/idea "improvement suggestion"` | Log improvement idea (learning.jsonl) |
+
+### Status & Inspection
+| Command | Description |
+|---------|-------------|
+| `/status` | Show current work, session state |
+| `/inbox` | Check for dispatched work from FD |
+| `/tasks` | List all tasks for this project |
+
+**Note**: These are conceptual commands. The actual implementation updates `.gc/` files directly. Use these as a mental model for the workflow.
 
 ## Remember
 

@@ -83,6 +83,40 @@ flight-deck/
 └── state/              # FD operational state
 ```
 
+## Slash Commands
+
+### For FD Claude (you)
+| Command | Purpose |
+|---------|---------|
+| `/advisor` | Get work recommendations using `prompts/advisor-recommendation.md` |
+| `/sync` | Run `gc sync` to refresh aggregated state |
+| `/dispatch` | Send work to project using `prompts/dispatch-work.md` |
+| `/review-learning` | Triage learnings using `prompts/learning-review.md` |
+
+### For Project Claudes
+These commands are documented in each project's `.gc/CLAUDE.md`:
+| Command | Purpose |
+|---------|---------|
+| `/roadmap-item` | Add feature to roadmap |
+| `/issue` | Report bug or issue |
+| `/start-work` | Begin work on item |
+| `/progress` | Update completion % |
+| `/commit` | Request commit via FD |
+| `/complete` | Mark work done |
+| `/learn` | Log process learning |
+
+## Processing Project Requests
+
+When you see pending requests in `~/.gc/aggregated.json`:
+1. Check `pending_requests` count per project
+2. Read the project's `.gc/requests.jsonl`
+3. Process each request using appropriate workflow:
+   - `commit` → Use `prompts/fd-commit-workflow.md` (or handle directly)
+   - `review` → Use `prompts/fd-review-workflow.md`
+   - `docs` → Use `prompts/fd-documentation-workflow.md`
+   - `design` → Use `prompts/fd-design-workflow.md`
+4. Update request status to `completed` or `failed`
+
 ## Key Files
 
 | File | Purpose |
