@@ -67,6 +67,13 @@ type FlightDeckModel struct {
 	// Message input mode
 	messageInput   string // current input text
 	messageInputOn bool   // whether we're in message input mode
+
+	// New project mode
+	newProjectMode    bool
+	newProjectPath    string
+	newProjectRefFile string
+	inputBuffer       string
+	inputPrompt       string
 }
 
 // NewFlightDeck creates a new Flight Deck TUI model
@@ -142,6 +149,11 @@ type messageSentMsg struct{}
 
 type messageInputMsg struct {
 	text string
+}
+
+type startSessionMsg struct {
+	projectPath   string
+	initialPrompt string
 }
 
 // loadAggregatedState loads aggregated data from ~/.gc/aggregated.json
@@ -262,6 +274,10 @@ func (m FlightDeckModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		// Message sent successfully
 		return m, nil
 
+	case startSessionMsg:
+		// New project created, start its session
+		return m, m.startSessionWithPrompt(msg.projectPath, msg.initialPrompt)
+
 	case tickMsg:
 		// Periodic refresh
 		return m, tea.Tick(5*time.Second, func(t time.Time) tea.Msg {
@@ -276,7 +292,48 @@ func (m FlightDeckModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m FlightDeckModel) handleKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	key := msg.String()
 
-	// Handle message input mode first
+	// Handle new project input mode first
+	if m.newProjectMode {
+		switch key {
+		case "enter":
+			if strings.Contains(m.inputPrompt, "path") {
+				// Save path, prompt for ref file
+				m.newProjectPath = m.inputBuffer
+				m.inputBuffer = ""
+				m.inputPrompt = "Reference file (optional): "
+				return m, nil
+			} else if strings.Contains(m.inputPrompt, "reference") {
+				// Save ref file and start project creation
+				m.newProjectRefFile = m.inputBuffer
+				cmd := m.startNewProject()
+				m.newProjectMode = false
+				m.inputBuffer = ""
+				m.inputPrompt = ""
+				return m, cmd
+			}
+		case "esc":
+			// Cancel new project mode
+			m.newProjectMode = false
+			m.inputBuffer = ""
+			m.inputPrompt = ""
+			m.newProjectPath = ""
+			m.newProjectRefFile = ""
+			return m, nil
+		case "backspace":
+			if len(m.inputBuffer) > 0 {
+				m.inputBuffer = m.inputBuffer[:len(m.inputBuffer)-1]
+			}
+			return m, nil
+		default:
+			// Add typed character
+			if len(key) == 1 {
+				m.inputBuffer += key
+			}
+			return m, nil
+		}
+	}
+
+	// Handle message input mode
 	if m.messageInputOn {
 		switch key {
 		case "enter":
@@ -378,7 +435,11 @@ func (m FlightDeckModel) handleHangarKey(key string) (tea.Model, tea.Cmd) {
 	case "a":
 		// TODO: Adopt project flow
 	case "n":
-		// TODO: New project flow
+		// Start new project flow
+		m.newProjectMode = true
+		m.inputPrompt = "Project path: "
+		m.inputBuffer = ""
+		return m, nil
 	}
 	return m, nil
 }
@@ -695,6 +756,118 @@ func (m FlightDeckModel) handleCostsKey(key string) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
+// startNewProject creates a new project directory and starts the workflow
+func (m *FlightDeckModel) startNewProject() tea.Cmd {
+	return func() tea.Msg {
+		path := m.newProjectPath
+		refFile := m.newProjectRefFile
+
+		// Create directory
+		if err := os.MkdirAll(path, 0755); err != nil {
+			return errMsg{err: fmt.Errorf("create directory: %w", err)}
+		}
+
+		// Git init
+		cmd := exec.Command("git", "init")
+		cmd.Dir = path
+		if err := cmd.Run(); err != nil {
+			// Non-fatal, continue
+		}
+
+		// Run gc adopt
+		adoptCmd := exec.Command("gc", "adopt", path)
+		if err := adoptCmd.Run(); err != nil {
+			return errMsg{err: fmt.Errorf("adopt failed: %w", err)}
+		}
+
+		// Create workflow state
+		mgr := sidecar.NewManager(path)
+		workflow := sidecar.NewProjectWorkflow(refFile)
+		workflow.CurrentStep = 1
+		workflow.Steps[0].Status = "completed" // Setup done
+		now := time.Now()
+		workflow.Steps[0].CompletedAt = &now
+		workflow.Steps[1].Status = "in_progress"
+		workflow.Steps[1].StartedAt = &now
+		if err := mgr.SaveWorkflow(workflow); err != nil {
+			return errMsg{err: fmt.Errorf("save workflow: %w", err)}
+		}
+
+		// Build prompt for discovery session
+		prompt := "Please read flight-deck/prompts/project-discovery.md and follow it."
+		if refFile != "" {
+			prompt = fmt.Sprintf("Please read flight-deck/prompts/project-discovery.md and follow it. Reference file: %s", refFile)
+		}
+
+		// Return message to start Claude session
+		return startSessionMsg{
+			projectPath:   path,
+			initialPrompt: prompt,
+		}
+	}
+}
+
+// startSessionWithPrompt starts a Claude session with an initial prompt
+func (m FlightDeckModel) startSessionWithPrompt(projectPath, prompt string) tea.Cmd {
+	return func() tea.Msg {
+		// Find the project in our list
+		var projectView *FDProjectView
+		for i := range m.projects {
+			if m.projects[i].Entry.Path == projectPath {
+				projectView = &m.projects[i]
+				break
+			}
+		}
+
+		if projectView == nil {
+			// Need to reload projects first
+			return errMsg{err: fmt.Errorf("project not found in registry")}
+		}
+
+		// Create tmux manager
+		tmuxMgr := tmux.NewManager(projectPath, projectView.Entry.Name)
+		tmuxMgr.SetGCPaneID(m.gcPaneID)
+
+		// Start the session
+		paneID, err := tmuxMgr.StartSessionWithMode(m.sessionMode)
+		if err != nil {
+			return sessionErrorMsg{err: fmt.Errorf("start session: %w", err)}
+		}
+
+		// Send the initial prompt
+		if err := tmuxMgr.Send(prompt); err != nil {
+			return sessionErrorMsg{err: fmt.Errorf("send prompt: %w", err)}
+		}
+
+		// Load or create state
+		mgr := sidecar.NewManager(projectPath)
+		state, err := mgr.LoadState()
+		if err != nil {
+			state = &sidecar.ProjectState{
+				Session: sidecar.SessionInfo{Status: "idle"},
+			}
+		}
+
+		// Update session info
+		sessionID := sidecar.GenerateSessionID()
+		state.Session = sidecar.SessionInfo{
+			ID:           sessionID,
+			TmuxPane:     paneID,
+			Status:       "active",
+			StartedAt:    time.Now(),
+			LastActivity: time.Now(),
+			CurrentFocus: "Project discovery",
+		}
+
+		// Save state
+		if err := mgr.SaveState(state); err != nil {
+			return sessionErrorMsg{err: fmt.Errorf("save state: %w", err)}
+		}
+
+		return sessionStartedMsg{paneID: paneID}
+	}
+}
+
 // View implements tea.Model
 func (m FlightDeckModel) View() string {
 	if m.width == 0 {
@@ -719,6 +892,11 @@ func (m FlightDeckModel) View() string {
 		b.WriteString(m.renderCosts())
 	}
 
+	// New project input overlay
+	if m.newProjectMode {
+		b.WriteString(m.renderNewProjectInput())
+	}
+
 	// Error display
 	if m.err != nil {
 		b.WriteString("\n")
@@ -730,6 +908,13 @@ func (m FlightDeckModel) View() string {
 	b.WriteString(m.renderHelp())
 
 	return b.String()
+}
+
+// renderNewProjectInput renders the new project input overlay
+func (m FlightDeckModel) renderNewProjectInput() string {
+	content := fmt.Sprintf("\n%s%s\n\n(Press Enter to confirm, Esc to cancel)",
+		m.inputPrompt, m.inputBuffer)
+	return styles.Box.Width(m.width - 8).Render(content)
 }
 
 // renderTabs renders the tab bar
@@ -1141,7 +1326,7 @@ func (m FlightDeckModel) renderHelp() string {
 
 	switch m.mode {
 	case fdViewHangar:
-		help = "[↑/k] Up  [↓/j] Down  [enter] Select  [a] Adopt  [r] Refresh  [q] Quit"
+		help = "[↑/k] Up  [↓/j] Down  [enter] Select  [a] Adopt  [n] New Project  [r] Refresh  [q] Quit"
 	case fdViewMission:
 		// Show teleport option only if there's an active session
 		hasActiveSession := m.selectedProject != nil &&

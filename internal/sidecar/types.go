@@ -1,7 +1,10 @@
 // Package sidecar manages project-local .gc/ state files
 package sidecar
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // ProjectConfig lives in .gc/project.json - rarely changes
 type ProjectConfig struct {
@@ -266,4 +269,54 @@ type FDRequest struct {
 	Payload map[string]interface{} `json:"payload,omitempty"`
 	Status  string                 `json:"status"` // pending, processing, completed
 	At      time.Time              `json:"at"`
+}
+
+// ============================================================================
+// Workflow State (.gc/workflow.json)
+// ============================================================================
+
+// WorkflowState tracks multi-step workflow progress
+type WorkflowState struct {
+	WorkflowID   string            `json:"workflow_id"`
+	WorkflowType string            `json:"workflow_type"` // new_project, etc.
+	CurrentStep  int               `json:"current_step"`
+	StartedAt    time.Time         `json:"started_at"`
+	UpdatedAt    time.Time         `json:"updated_at"`
+	Steps        []WorkflowStep    `json:"steps"`
+	Context      map[string]string `json:"context,omitempty"` // reference_file, etc.
+}
+
+// WorkflowStep represents a single step in a workflow
+type WorkflowStep struct {
+	Step        int        `json:"step"`
+	Name        string     `json:"name"`
+	Status      string     `json:"status"` // pending, in_progress, completed, skipped
+	SessionID   string     `json:"session_id,omitempty"`
+	StartedAt   *time.Time `json:"started_at,omitempty"`
+	CompletedAt *time.Time `json:"completed_at,omitempty"`
+	Output      string     `json:"output,omitempty"` // path to output artifact
+}
+
+// NewProjectWorkflow creates a workflow state for new project creation
+func NewProjectWorkflow(refFile string) *WorkflowState {
+	now := time.Now()
+	ctx := make(map[string]string)
+	if refFile != "" {
+		ctx["reference_file"] = refFile
+	}
+	return &WorkflowState{
+		WorkflowID:   fmt.Sprintf("wf_%d", now.Unix()),
+		WorkflowType: "new_project",
+		CurrentStep:  0,
+		StartedAt:    now,
+		UpdatedAt:    now,
+		Context:      ctx,
+		Steps: []WorkflowStep{
+			{Step: 1, Name: "setup", Status: "pending"},
+			{Step: 2, Name: "discovery", Status: "pending", Output: "docs/design.md"},
+			{Step: 3, Name: "features", Status: "pending", Output: "docs/features.md"},
+			{Step: 4, Name: "ui_spec", Status: "pending", Output: "docs/ui-spec.md"},
+			{Step: 5, Name: "scaffold", Status: "pending", Output: "project structure"},
+		},
+	}
 }

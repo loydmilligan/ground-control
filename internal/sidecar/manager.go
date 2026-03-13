@@ -403,3 +403,70 @@ func splitLines(s string) []string {
 	}
 	return lines
 }
+
+// --- Workflow State (.gc/workflow.json) ---
+
+// LoadWorkflow reads the current workflow state
+func (m *Manager) LoadWorkflow() (*WorkflowState, error) {
+	path := filepath.Join(m.GCPath(), "workflow.json")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil, nil // No active workflow
+		}
+		return nil, fmt.Errorf("load workflow: %w", err)
+	}
+	var state WorkflowState
+	if err := json.Unmarshal(data, &state); err != nil {
+		return nil, fmt.Errorf("parse workflow: %w", err)
+	}
+	return &state, nil
+}
+
+// SaveWorkflow writes the workflow state
+func (m *Manager) SaveWorkflow(state *WorkflowState) error {
+	if err := m.EnsureDir(); err != nil {
+		return err
+	}
+	state.UpdatedAt = time.Now()
+	path := filepath.Join(m.GCPath(), "workflow.json")
+	data, err := json.MarshalIndent(state, "", "  ")
+	if err != nil {
+		return fmt.Errorf("marshal workflow: %w", err)
+	}
+	return os.WriteFile(path, data, 0644)
+}
+
+// ClearWorkflow removes the workflow state file
+func (m *Manager) ClearWorkflow() error {
+	path := filepath.Join(m.GCPath(), "workflow.json")
+	if err := os.Remove(path); err != nil && !os.IsNotExist(err) {
+		return fmt.Errorf("remove workflow: %w", err)
+	}
+	return nil
+}
+
+// AdvanceWorkflow marks current step complete and moves to next
+func (m *Manager) AdvanceWorkflow() error {
+	state, err := m.LoadWorkflow()
+	if err != nil {
+		return err
+	}
+	if state == nil {
+		return fmt.Errorf("no active workflow")
+	}
+
+	now := time.Now()
+	if state.CurrentStep > 0 && state.CurrentStep <= len(state.Steps) {
+		state.Steps[state.CurrentStep-1].Status = "completed"
+		state.Steps[state.CurrentStep-1].CompletedAt = &now
+	}
+
+	state.CurrentStep++
+	if state.CurrentStep <= len(state.Steps) {
+		state.Steps[state.CurrentStep-1].Status = "in_progress"
+		state.Steps[state.CurrentStep-1].StartedAt = &now
+	}
+
+	return m.SaveWorkflow(state)
+}
