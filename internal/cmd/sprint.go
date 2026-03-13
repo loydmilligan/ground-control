@@ -87,6 +87,9 @@ func newSprintListCmd(store *data.Store) *cobra.Command {
 					sprintNameStyle.Render(s.Name),
 					dimStyle.Render(fmt.Sprintf("(%d tasks)", len(s.TaskIDs))))
 
+				if len(s.ProjectIDs) > 0 {
+					fmt.Printf("    %s\n", dimStyle.Render("Projects: "+strings.Join(s.ProjectIDs, ", ")))
+				}
 				if s.Goal != "" {
 					fmt.Printf("    %s\n", sprintGoalStyle.Render(s.Goal))
 				}
@@ -103,6 +106,7 @@ func newSprintListCmd(store *data.Store) *cobra.Command {
 
 func newSprintCreateCmd(store *data.Store) *cobra.Command {
 	var description, goal string
+	var projectIDs []string
 
 	cmd := &cobra.Command{
 		Use:   "create <name>",
@@ -111,7 +115,7 @@ func newSprintCreateCmd(store *data.Store) *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			name := args[0]
 
-			sprint, err := store.CreateSprint(name, description, goal)
+			sprint, err := store.CreateSprint(name, description, goal, projectIDs)
 			if err != nil {
 				return err
 			}
@@ -120,6 +124,9 @@ func newSprintCreateCmd(store *data.Store) *cobra.Command {
 			fmt.Printf("  ID: %s\n", sprint.ID)
 			if goal != "" {
 				fmt.Printf("  Goal: %s\n", goal)
+			}
+			if len(projectIDs) > 0 {
+				fmt.Printf("  Projects: %s\n", strings.Join(projectIDs, ", "))
 			}
 			fmt.Println()
 			fmt.Println("Add tasks with: gc sprint add", sprint.Name, "<task#>")
@@ -130,6 +137,7 @@ func newSprintCreateCmd(store *data.Store) *cobra.Command {
 
 	cmd.Flags().StringVarP(&description, "description", "d", "", "Sprint description")
 	cmd.Flags().StringVarP(&goal, "goal", "g", "", "Sprint goal")
+	cmd.Flags().StringArrayVarP(&projectIDs, "project", "p", nil, "Associated project ID(s) (can be specified multiple times)")
 
 	return cmd
 }
@@ -259,6 +267,9 @@ func newSprintStatusCmd(store *data.Store) *cobra.Command {
 			}
 			if sprint.Description != "" {
 				fmt.Printf("Description: %s\n", sprint.Description)
+			}
+			if len(sprint.ProjectIDs) > 0 {
+				fmt.Printf("Projects: %s\n", strings.Join(sprint.ProjectIDs, ", "))
 			}
 			fmt.Println()
 

@@ -195,7 +195,7 @@ func runBrainstorm(store *data.Store, topic string, createTasks, createSprint bo
 		// Create sprint if requested
 		if createSprint && len(taskIDs) > 0 {
 			sprintName := fmt.Sprintf("%s Sprint", topic)
-			sprint, err := store.CreateSprint(sprintName, fmt.Sprintf("Sprint for %s brainstorm", topic), problemStatement)
+			sprint, err := store.CreateSprint(sprintName, fmt.Sprintf("Sprint for %s brainstorm", topic), problemStatement, nil)
 			if err != nil {
 				return fmt.Errorf("creating sprint: %w", err)
 			}

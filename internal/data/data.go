@@ -376,7 +376,7 @@ func (s *Store) SaveSprints(sprints []types.Sprint) error {
 }
 
 // CreateSprint creates a new sprint and saves it.
-func (s *Store) CreateSprint(name, description, goal string) (*types.Sprint, error) {
+func (s *Store) CreateSprint(name, description, goal string, projectIDs []string) (*types.Sprint, error) {
 	sprints, err := s.LoadSprints()
 	if err != nil {
 		return nil, err
@@ -387,6 +387,7 @@ func (s *Store) CreateSprint(name, description, goal string) (*types.Sprint, err
 		Name:        name,
 		Description: description,
 		Goal:        goal,
+		ProjectIDs:  projectIDs,
 		TaskIDs:     []string{},
 		Status:      types.SprintStatusActive,
 		CreatedAt:   time.Now(),
